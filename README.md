@@ -1,0 +1,44 @@
+# Jager
+
+An unofficial Android client for Product Hunt with a heavy focus on material design, made by Jasper van Riet. [Licensed under GPLv3][license]
+
+![](screenshot1.png)
+![](screenshot2.png)
+
+### Libraries
+* [Picasso] - A powerful image downloading and caching library for Android
+* [Ion] - Android Asynchronous Networking and Image Loading
+* [Butterknife] - View "injection" library for Android
+* [LicensesDialog] - LicensesDialog is an open source library to display licenses of third-party libraries in an Android app.
+* [Materialish-Progress] - A material style progress wheel compatible with 2.3
+
+### Thanks to
+* [frogermcs/InstaMaterial] - Fantastic introduction to some of the new animation API's in Android Lollipop
+
+
+License
+----
+    Copyright (C) 2015 Jasper van Riet
+    
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+[Picasso]:http://square.github.io/picasso/
+[Ion]:https://github.com/koush/ion
+[Butterknife]:jakewharton.github.io/butterknife/
+[LicensesDialog]:https://github.com/PSDev/LicensesDialog
+[Materialish-Progress]:https://github.com/pnikosis/materialish-progress
+[frogermcs/InstaMaterial]:https://github.com/frogermcs/InstaMaterial/
+[license]:http://github.com/JaspervanRiet/Jager/blob/master/License
+
