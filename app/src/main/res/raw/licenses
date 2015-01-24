@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) Jasper van Riet 2015.
+  -->
+<notices>
+    <notice>
+        <name>Picasso</name>
+        <url>https://github.com/square/picasso</url>
+        <copyright>Copyright 2013 Square, Inc.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Ion</name>
+        <url>https://github.com/koush/ion</url>
+        <copyright>Copyright (C) 2013 Koushik Dutta (2013)</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>ButterKnife</name>
+        <url>http://jakewharton.github.io/butterknife/</url>
+        <copyright>Copyright (C) 2013 Jake Wharton</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Materialish-Progress</name>
+        <url>https://github.com/pnikosis/materialish-progress</url>
+        <copyright>Copyright (C) 2014 Nico Hormazábal</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>LicensesDialog</name>
+        <url>https://github.com/PSDev/LicensesDialog</url>
+        <copyright>Copyright (C) 2013 Philip Schiffer</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Support libraries</name>
+        <url>android.googlesource.com</url>
+        <copyright>Copyright (C) 2015 The Android Open Source
+            Project
+        </copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+</notices>

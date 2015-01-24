@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="preference_high_quality_images"
+        android:summaryOff="@string/settings_download_network_summary_off"
+        android:summaryOn="@string/settings_download_network_summary_on"
+        android:title="@string/settings_download_network"/>
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="preference_crash_data"
+        android:title="@string/settings_crash_data"/>
+
+    <Preference
+        android:key="preference_open_source_licenses"
+        android:title="@string/settings_open_source_licenses"/>
+
+</PreferenceScreen>

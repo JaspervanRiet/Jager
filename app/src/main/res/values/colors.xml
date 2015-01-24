@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_color">#FF5722</color>
+    <color name="primary_dark">#E64A19</color>
+    <color name="primary_accent">#89694F</color>
+    <color name="primary_light">#FF8A65</color>
+    <color name="card_title_background">#85000000</color>
+
+    <color name="comments_background">#FFFFFF</color>
+</resources>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Jager</string>
+    <string name="screenshot_description">Screenshot previewing the website</string>
+    <string name="votes">votes</string>
+    <string name="comments">comments</string>
+    <string name="view_empty">No comments to be found!</string>
+    <string name="jasper_van_riet">Created by\n Jasper van Riet</string>
+
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_browser">Open in browser</string>
+
+    <string-array name="drawer_items">
+        <item>Today\'s Products</item>
+        <item>Settings</item>
+        <item>About</item>
+    </string-array>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string name="error_connection">Connection error</string>
+
+    <string name="settings_download_network">High quality images</string>
+    <string name="settings_download_network_summary_off">Only download high
+        quality images on wifi</string>
+    <string name="settings_download_network_summary_on">Always
+        download high quality images</string>
+    <string name="settings_crash_data">Automatically submit crash
+        reports</string>
+    <string name="settings_open_source_licenses">Open source licenses</string>
+
+
+</resources>
