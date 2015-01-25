@@ -1,6 +1,6 @@
 # Jager
 
-An unofficial Android client for Product Hunt with a heavy focus on material design, made by Jasper van Riet. [Licensed under GPLv3][license]
+An unofficial Android client for Product Hunt with a heavy focus on material design, made by Jasper van Riet. Jager makes use of the [Product Hunt API][api]. [Licensed under GPLv3][license].
 
 ![](screenshot1.jpg)
 ![](screenshot2.jpg)
@@ -45,3 +45,4 @@ License
 [frogermcs/InstaMaterial]:https://github.com/frogermcs/InstaMaterial/
 [license]:https://github.com/JaspervanRiet/Jager/blob/master/LICENSE.txt
 [applink]:https://play.google.com/store/apps/details?id=com.jaspervanriet.huntingthatproduct
+[api]:https://api.producthunt.com/v1/docs
