@@ -2,8 +2,11 @@
 
 An unofficial Android client for Product Hunt with a heavy focus on material design, made by Jasper van Riet. [Licensed under GPLv3][license]
 
-![](screenshot1.png)
-![](screenshot2.png)
+![](screenshot1.jpg)
+![](screenshot2.jpg)
+
+### Download
+[Find the app on the Google Play Store][applink]
 
 ### Libraries
 * [Picasso] - A powerful image downloading and caching library for Android
@@ -40,5 +43,5 @@ License
 [LicensesDialog]:https://github.com/PSDev/LicensesDialog
 [Materialish-Progress]:https://github.com/pnikosis/materialish-progress
 [frogermcs/InstaMaterial]:https://github.com/frogermcs/InstaMaterial/
-[license]:http://github.com/JaspervanRiet/Jager/blob/master/License
-
+[license]:https://github.com/JaspervanRiet/Jager/blob/master/LICENSE.txt
+[applink]:https://play.google.com/store/apps/details?id=com.jaspervanriet.huntingthatproduct
