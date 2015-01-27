@@ -67,11 +67,6 @@ public class WebActivity extends ActionBarActivity {
 		setupWebView ();
 	}
 
-//	@Override
-//	public void onBackPressed () {
-//		goBack ();
-//	}
-
 	@Override
 	public boolean onCreateOptionsMenu (Menu menu) {
 		getMenuInflater ().inflate (R.menu.web_menu, menu);
@@ -129,12 +124,17 @@ public class WebActivity extends ActionBarActivity {
 		setSupportActionBar (mToolBar);
 		ActionBar actionBar = getSupportActionBar ();
 		actionBar.setDisplayHomeAsUpEnabled (true);
-		actionBar.setTitle (mProduct.title);
+		actionBar.setTitle (getString (R.string.actionbar_loading));
 		actionBar.setElevation (5);
 	}
 
 	private void setupWebView () {
-		mWebView.setWebViewClient (new WebViewClient ());
+		mWebView.setWebViewClient (new WebViewClient () {
+			@Override
+			public void onPageFinished (WebView view, String url) {
+				getSupportActionBar ().setTitle (mProduct.title);
+			}
+		});
 		mWebView.loadUrl (mProduct.productUrl);
 		mWebView.getSettings ().setBuiltInZoomControls (true);
 		mWebView.getSettings ().setDisplayZoomControls (false);

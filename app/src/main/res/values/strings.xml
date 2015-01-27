@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Jager</string>
+
     <string name="screenshot_description">Screenshot previewing the website</string>
     <string name="votes">votes</string>
     <string name="comments">comments</string>
@@ -12,6 +13,8 @@
     <string name="menu_calendar">Pick a day</string>
     <string name="menu_share">Share</string>
     <string name="menu_browser">Open in browser</string>
+
+    <string name="actionbar_loading">Loading...</string>
 
     <string-array name="drawer_items">
         <item>Today\'s Products</item>
