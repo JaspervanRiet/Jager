@@ -79,7 +79,7 @@ public class BaseActivity extends ActionBarActivity {
 	private void setupDrawerList () {
 		String[] mDrawerData = getResources ().getStringArray (R.array.drawer_items);
 		DrawerAdapter drawerAdapter = new DrawerAdapter (this,
-				mDrawerData);
+				mDrawerData, getSelfNavDrawerItem ());
 		mDrawerList.setAdapter (drawerAdapter);
 		mDrawerList.setOnItemClickListener (new AdapterView.OnItemClickListener () {
 			@Override

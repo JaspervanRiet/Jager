@@ -35,10 +35,12 @@ public class DrawerAdapter extends BaseAdapter {
 
 	private String[] mDrawerData;
 	private Context mContext;
+	private int mCurrentActivity;
 
-	public DrawerAdapter (Context context, String[] data) {
+	public DrawerAdapter (Context context, String[] data, int currentActivity) {
 		this.mContext = context;
 		this.mDrawerData = data;
+		this.mCurrentActivity = currentActivity;
 	}
 
 	@Override
@@ -69,9 +71,17 @@ public class DrawerAdapter extends BaseAdapter {
 		}
 		holder.item.setTypeface (Typeface.createFromAsset (
 				mContext.getAssets (),
-				"fonts/Roboto-Light.ttf"));
+				"fonts/Roboto-Medium.ttf"));
 		holder.item.setText (mDrawerData[position]);
+		if (mCurrentActivity == position) {
+			holder.item.setTextColor (getColor (R.color.primary_color));
+			holder.item.setBackgroundColor (getColor (R.color.ripple_color));
+		}
 		return view;
+	}
+
+	private int getColor (int id) {
+		return mContext.getResources ().getColor (id);
 	}
 
 	static class ViewHolder {
