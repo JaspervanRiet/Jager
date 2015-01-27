@@ -13,6 +13,7 @@
 -keep class **$$ViewInjector { *; }
 -keepnames class * { @butterknife.InjectView *;}
 -dontwarn com.squareup.okhttp.**
+-keepattributes SourceFile,LineNumberTable
 
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
