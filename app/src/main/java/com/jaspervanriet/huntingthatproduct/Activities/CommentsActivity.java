@@ -92,11 +92,6 @@ public class CommentsActivity extends ActionBarActivity {
 	}
 
 	@Override
-	public void onBackPressed () {
-		goBack ();
-	}
-
-	@Override
 	public boolean onOptionsItemSelected (MenuItem item) {
 		int itemId = item.getItemId ();
 

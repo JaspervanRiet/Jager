@@ -67,10 +67,10 @@ public class WebActivity extends ActionBarActivity {
 		setupWebView ();
 	}
 
-	@Override
-	public void onBackPressed () {
-		goBack ();
-	}
+//	@Override
+//	public void onBackPressed () {
+//		goBack ();
+//	}
 
 	@Override
 	public boolean onCreateOptionsMenu (Menu menu) {
