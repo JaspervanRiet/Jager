@@ -6,6 +6,7 @@
     <color name="primary_light">#FF8A65</color>
     <color name="card_title_background">#85000000</color>
     <color name="ripple_color">#10000000</color>
+    <color name="drawer_item">#95000000</color>
 
     <color name="comments_background">#FFFFFF</color>
 </resources>

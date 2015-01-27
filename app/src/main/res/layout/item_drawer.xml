@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:textSize="20sp"
-    android:textColor="@drawable/selector_item_drawer"
+    android:textColor="@color/drawer_item"
     android:padding="16dp"
     android:singleLine="true"
     android:layout_gravity="center"
