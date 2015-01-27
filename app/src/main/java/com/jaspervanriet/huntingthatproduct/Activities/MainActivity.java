@@ -17,9 +17,12 @@
 
 package com.jaspervanriet.huntingthatproduct.Activities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +31,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -38,12 +42,16 @@ import com.jaspervanriet.huntingthatproduct.Adapters.ProductListAdapter;
 import com.jaspervanriet.huntingthatproduct.Classes.Product;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.Constants;
+import com.jaspervanriet.huntingthatproduct.Utils.DatePickerFragment;
 import com.jaspervanriet.huntingthatproduct.Utils.Utils;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.TimeoutException;
 
 import butterknife.ButterKnife;
@@ -51,7 +59,8 @@ import butterknife.InjectView;
 import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends BaseActivity
-		implements ProductListAdapter.OnProductClickListener {
+		implements ProductListAdapter.OnProductClickListener,
+		DatePickerDialog.OnDateSetListener {
 
 	private final static int ANIM_TOOLBAR_INTRO_DURATION = 350;
 
@@ -60,6 +69,7 @@ public class MainActivity extends BaseActivity
 	private Handler mHandler = new Handler ();
 	private Boolean mIsRefreshing = false;
 	private Boolean startIntroAnimation = true;
+	private String mDateString;
 
 	@InjectView (R.id.toolbar)
 	Toolbar mToolBar;
@@ -83,8 +93,10 @@ public class MainActivity extends BaseActivity
 		startIntroAnimation = savedInstanceState == null && toolbarAnimation;
 
 		setToolBar ();
-		getSupportActionBar ().setTitle (getResources ().getStringArray (R
+		setActionBarTitle (getResources ().getStringArray (R
 				.array.drawer_items)[0]);
+
+		getTodaysDate ();
 
 		mListAdapter = new ProductListAdapter (this, mProducts);
 		mListAdapter.setOnProductClickListener (this);
@@ -111,6 +123,10 @@ public class MainActivity extends BaseActivity
 			completeRefresh ();
 			return true;
 		}
+		if (itemId == R.id.menu_calendar) {
+			showDatePickerDialog ();
+			return true;
+		}
 		return super.onOptionsItemSelected (item);
 	}
 
@@ -130,6 +146,12 @@ public class MainActivity extends BaseActivity
 	@Override
 	protected int getSelfNavDrawerItem () {
 		return NAVDRAWER_ITEM_TODAYS_PRODUCTS;
+	}
+
+
+	private void showDatePickerDialog () {
+		DialogFragment dialogFragment = new DatePickerFragment ();
+		dialogFragment.show (getSupportFragmentManager (), "dataPicker");
 	}
 
 	private void activityExitAnimation (View v, Product product, Intent i) {
@@ -203,7 +225,7 @@ public class MainActivity extends BaseActivity
 
 	// Retrieves content and adds it to mProducts
 	private void getProducts () {
-		Ion.with (this).load (Constants.API_URL + "posts")
+		Ion.with (this).load (Constants.API_URL + "posts?day=" + mDateString)
 				.setHeader ("Authorization", "Bearer " + Constants.CLIENT_TOKEN)
 				.asJsonObject ()
 				.setCallback (new FutureCallback<JsonObject> () {
@@ -217,8 +239,9 @@ public class MainActivity extends BaseActivity
 							return;
 						}
 						if (result != null && result.has ("posts")) {
+							int i;
 							JsonArray products = result.getAsJsonArray ("posts");
-							for (int i = 0; i < products.size (); i++) {
+							for (i = 0; i < products.size (); i++) {
 								JsonObject obj = products.get (i).getAsJsonObject ();
 								Product product = new Product (obj);
 								mProducts.add (product);
@@ -235,10 +258,30 @@ public class MainActivity extends BaseActivity
 		return settingsActivity.getCrashDataPref (this);
 	}
 
+	private void setActionBarTitle (String title) {
+		ActionBar actionBar = getSupportActionBar ();
+		actionBar.setTitle (title);
+	}
+
 	private LinearLayoutManager getLayoutManager () {
 		LinearLayoutManager layoutManager = new LinearLayoutManager (this);
 		layoutManager.setOrientation (LinearLayoutManager.VERTICAL);
 		return layoutManager;
+	}
+
+	private void getTodaysDate () {
+		Calendar todayCalendar = Calendar.getInstance ();
+		mDateString = getDateFormattedString (todayCalendar);
+	}
+
+	public String getMonth (int month) {
+		return new DateFormatSymbols ().getMonths ()[month];
+	}
+
+	private String getDateFormattedString (Calendar calendar) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat (
+				"yyyy-MM-dd");
+		return simpleDateFormat.format (calendar.getTime ());
 	}
 
 	private final Runnable refreshingContent = new Runnable () {
@@ -252,10 +295,21 @@ public class MainActivity extends BaseActivity
 					progressWheel.stopSpinning ();
 					progressWheel.setVisibility (View.GONE);
 				}
-			} catch (Exception error) {
+			}
+			catch (Exception error) {
 				error.printStackTrace ();
 			}
 		}
 	};
 
+	@Override
+	public void onDateSet (DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+		Calendar chosenCalendar = Calendar.getInstance ();
+		chosenCalendar.set (Calendar.YEAR, year);
+		chosenCalendar.set (Calendar.MONTH, monthOfYear);
+		chosenCalendar.set (Calendar.DAY_OF_MONTH, dayOfMonth);
+		mDateString = getDateFormattedString (chosenCalendar);
+		setActionBarTitle (getMonth (monthOfYear) + " " + dayOfMonth);
+		completeRefresh ();
+	}
 }

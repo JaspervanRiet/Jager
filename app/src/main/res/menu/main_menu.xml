@@ -9,4 +9,11 @@
         app:showAsAction="never"
         />
 
+    <item
+        android:id="@+id/menu_calendar"
+        android:title="@string/menu_calendar"
+        android:icon="@drawable/ic_calendar"
+        app:showAsAction="ifRoom"
+        />
+
 </menu>
