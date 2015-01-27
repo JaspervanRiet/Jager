@@ -33,7 +33,7 @@
             android:scrollbars="vertical"
             />
 
-        <include layout="@layout/view_empty"/>
+        <include layout="@layout/view_empty_comments"/>
 
     </FrameLayout>
 

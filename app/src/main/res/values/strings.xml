@@ -6,7 +6,8 @@
     <string name="screenshot_description">Screenshot previewing the website</string>
     <string name="votes">votes</string>
     <string name="comments">comments</string>
-    <string name="view_empty">No comments. None!</string>
+    <string name="view_empty_comments">No comments. None!</string>
+    <string name="view_empty_products">Can\'t find any products!</string>
     <string name="jasper_van_riet">Created by\n Jasper van Riet</string>
 
     <string name="menu_refresh">Refresh</string>

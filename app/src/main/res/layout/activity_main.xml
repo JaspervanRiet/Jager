@@ -37,6 +37,8 @@
                 android:scrollbars="vertical"
                 />
 
+            <include layout="@layout/view_empty_products"/>
+
         </FrameLayout>
 
     </LinearLayout>

@@ -19,6 +19,7 @@ package com.jaspervanriet.huntingthatproduct.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -32,6 +33,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -77,6 +80,10 @@ public class MainActivity extends BaseActivity
 	RecyclerView mRecyclerView;
 	@InjectView (R.id.list_progress_wheel)
 	ProgressWheel progressWheel;
+	@InjectView (R.id.comments_empty_view)
+	LinearLayout mEmptyView;
+	@InjectView (R.id.comments_empty_text)
+	TextView mEmptyTextView;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -187,6 +194,8 @@ public class MainActivity extends BaseActivity
 		mRecyclerView.setItemAnimator (new DefaultItemAnimator ());
 		mRecyclerView.setLayoutManager (getLayoutManager ());
 		mRecyclerView.setAdapter (mListAdapter);
+		mEmptyTextView.setTypeface (
+				Typeface.createFromAsset (getAssets (), "fonts/Roboto-Light.ttf"));
 	}
 
 	private void getContent () {
@@ -247,6 +256,7 @@ public class MainActivity extends BaseActivity
 								mProducts.add (product);
 							}
 							mListAdapter.notifyDataSetChanged ();
+							checkEmpty ();
 							mIsRefreshing = false;
 						}
 					}
@@ -282,6 +292,14 @@ public class MainActivity extends BaseActivity
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat (
 				"yyyy-MM-dd");
 		return simpleDateFormat.format (calendar.getTime ());
+	}
+
+	private void checkEmpty () {
+		if (mListAdapter.getItemCount () == 0) {
+			mEmptyView.setVisibility (View.VISIBLE);
+		} else {
+			mEmptyView.setVisibility (View.GONE);
+		}
 	}
 
 	private final Runnable refreshingContent = new Runnable () {
