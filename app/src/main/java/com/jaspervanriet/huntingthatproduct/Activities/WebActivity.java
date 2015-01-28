@@ -54,6 +54,7 @@ public class WebActivity extends ActionBarActivity {
 
 	private Product mProduct;
 	private int mDrawingStartLocation;
+	private boolean mBackPressed = false;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -78,11 +79,20 @@ public class WebActivity extends ActionBarActivity {
 	}
 
 	@Override
+	public void onBackPressed () {
+		if (!mBackPressed) {
+			goBack ();
+		}
+	}
+
+	@Override
 	public boolean onOptionsItemSelected (MenuItem item) {
 		int itemId = item.getItemId ();
 		switch (itemId) {
 			case android.R.id.home:
-				goBack ();
+				if (!mBackPressed) {
+					goBack ();
+				}
 				return true;
 			case R.id.menu_browser:
 				openInBrowser ();
@@ -107,6 +117,7 @@ public class WebActivity extends ActionBarActivity {
 	}
 
 	private void goBack () {
+		mBackPressed = true;
 		mWebView.animate ()
 				.translationY (Utils.getScreenHeight (this))
 				.setDuration (200)
@@ -115,6 +126,7 @@ public class WebActivity extends ActionBarActivity {
 					public void onAnimationEnd (Animator animation) {
 						WebActivity.super.onBackPressed ();
 						overridePendingTransition (0, 0);
+						finish ();
 					}
 				})
 				.start ();

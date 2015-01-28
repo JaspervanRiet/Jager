@@ -256,8 +256,8 @@ public class MainActivity extends BaseActivity
 								mProducts.add (product);
 							}
 							mListAdapter.notifyDataSetChanged ();
-							checkEmpty ();
 							mIsRefreshing = false;
+							checkEmpty ();
 						}
 					}
 				});

@@ -75,6 +75,7 @@ public class CommentsActivity extends ActionBarActivity {
 	private int mDrawingStartLocation;
 	private ArrayList<Comment> mComments;
 	private Product mProduct;
+	private boolean mBackPressed = false;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -92,17 +93,27 @@ public class CommentsActivity extends ActionBarActivity {
 	}
 
 	@Override
+	public void onBackPressed () {
+		if (!mBackPressed) {
+			goBack ();
+		}
+	}
+
+	@Override
 	public boolean onOptionsItemSelected (MenuItem item) {
 		int itemId = item.getItemId ();
 
 		if (itemId == android.R.id.home) {
-			goBack ();
+			if (!mBackPressed) {
+				goBack ();
+			}
 			return true;
 		}
 		return false;
 	}
 
 	private void goBack () {
+		mBackPressed = true;
 		mCommentsLayout.animate ()
 				.translationY (Utils.getScreenHeight (this))
 				.setDuration (200)
@@ -111,6 +122,7 @@ public class CommentsActivity extends ActionBarActivity {
 					public void onAnimationEnd (Animator animation) {
 						CommentsActivity.super.onBackPressed ();
 						overridePendingTransition (0, 0);
+						finish ();
 					}
 				})
 				.start ();
@@ -145,9 +157,9 @@ public class CommentsActivity extends ActionBarActivity {
 								processComment (object, 0);
 							}
 							mCommentListAdapter.notifyDataSetChanged ();
-							checkEmpty ();
 							mListProgressWheel.setVisibility (View.GONE);
 							mListProgressWheel.stopSpinning ();
+							checkEmpty ();
 						}
 
 					}
