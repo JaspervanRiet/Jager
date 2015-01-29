@@ -2,7 +2,7 @@
 
 An unofficial Android client for Product Hunt with a heavy focus on material design, made by Jasper van Riet. Jager makes use of the [Product Hunt API][api]. [Licensed under GPLv3][license].
 
-![](screenshot1.jpg)
+![](screenshot1.png)
 ![](screenshot2.jpg)
 
 ### Download
