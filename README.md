@@ -14,6 +14,7 @@ An unofficial Android client for Product Hunt with a heavy focus on material des
 * [Butterknife] - View "injection" library for Android
 * [LicensesDialog] - LicensesDialog is an open source library to display licenses of third-party libraries in an Android app.
 * [Materialish-Progress] - A material style progress wheel compatible with 2.3
+* [Android-RobotoTextView] - Implementation of a TextView and all its direct/indirect subclasses with native support for the Roboto fonts, includes the brand new Roboto Slab fonts.
 
 ### Thanks to
 * [frogermcs/InstaMaterial] - Fantastic introduction to some of the new animation API's in Android Lollipop
@@ -42,6 +43,7 @@ License
 [Butterknife]:jakewharton.github.io/butterknife/
 [LicensesDialog]:https://github.com/PSDev/LicensesDialog
 [Materialish-Progress]:https://github.com/pnikosis/materialish-progress
+[Android-RobotoTextView]:https://github.com/johnkil/Android-RobotoTextView
 [frogermcs/InstaMaterial]:https://github.com/frogermcs/InstaMaterial/
 [license]:https://github.com/JaspervanRiet/Jager/blob/master/LICENSE.txt
 [applink]:https://play.google.com/store/apps/details?id=com.jaspervanriet.huntingthatproduct

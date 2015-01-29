@@ -44,6 +44,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.3'
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'com.koushikdutta.ion:ion:2.0.5'
+    compile 'com.github.johnkil.android-robototextview:robototextview:2.3.0'
     compile('de.psdev.licensesdialog:licensesdialog:1.6.0') {
         exclude module: 'support-v4'
     }

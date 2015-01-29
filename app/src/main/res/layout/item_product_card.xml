@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:wheel="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
@@ -30,7 +31,7 @@
                 android:contentDescription="@string/screenshot_description"
                 />
 
-            <TextView
+            <com.devspark.robototextview.widget.RobotoTextView
                 android:id="@+id/card_product_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +44,7 @@
                 android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textSize="23sp"
-                android:textStyle="bold"/>
+                app:typeface="roboto_light"/>
 
             <com.pnikosis.materialishprogress.ProgressWheel
                 android:id="@+id/card_product_progress_wheel"
@@ -140,7 +141,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
 
-            <TextView
+            <com.devspark.robototextview.widget.RobotoTextView
                 android:id="@+id/card_product_view_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -155,6 +156,7 @@
                 android:text="@string/card_product_comments"
                 android:textColor="@color/primary_dark"
                 android:textSize="15sp"
+                app:typeface="roboto_medium"
                 />
 
             <ImageView

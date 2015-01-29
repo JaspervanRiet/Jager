@@ -18,7 +18,6 @@
 package com.jaspervanriet.huntingthatproduct.Adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +28,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.devspark.robototextview.widget.RobotoTextView;
 import com.jaspervanriet.huntingthatproduct.Activities.Settings.SettingsActivity;
 import com.jaspervanriet.huntingthatproduct.Classes.Product;
 import com.jaspervanriet.huntingthatproduct.R;
@@ -76,14 +76,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
 	private void loadCardText (ProductViewHolder holder) {
 		holder.title.setText (mProducts.get (holder.getPosition ()).title);
-		holder.title.setTypeface (
-				Typeface.createFromAsset (mContext.getAssets (), "fonts/Roboto-Light.ttf"));
 		holder.description.setText (mProducts.get (holder.getPosition ()).tagline);
 		holder.votes.setText (String.valueOf (mProducts.get (holder.getPosition ()).votes));
 		holder.comments.setText (String.valueOf (mProducts.get (holder.getPosition ())
 				.numberOfComments));
-		holder.viewComments.setTypeface (
-				Typeface.createFromAsset (mContext.getAssets (), "fonts/Roboto-Medium.ttf"));
 	}
 
 	private void loadImage (final ProductViewHolder holder) {
@@ -170,7 +166,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 	public static class ProductViewHolder extends RecyclerView.ViewHolder {
 
 		@InjectView (R.id.card_product_title)
-		TextView title;
+		RobotoTextView title;
 		@InjectView (R.id.card_product_description)
 		TextView description;
 		@InjectView (R.id.card_product_image)
@@ -184,7 +180,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		@InjectView (R.id.card_product_progress_wheel)
 		ProgressWheel progressWheel;
 		@InjectView (R.id.card_product_view_comments)
-		TextView viewComments;
+		RobotoTextView viewComments;
 		@InjectView (R.id.card_product_context)
 		ImageView context;
 		@InjectView (R.id.card_product_comments_icon)
