@@ -41,7 +41,6 @@ import com.jaspervanriet.huntingthatproduct.Utils.Utils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-
 public class WebActivity extends ActionBarActivity {
 
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
@@ -111,7 +110,7 @@ public class WebActivity extends ActionBarActivity {
 	private Intent getShareIntent () {
 		Intent i = new Intent (Intent.ACTION_SEND);
 		i.setType ("text/plain");
-		i.putExtra (Intent.EXTRA_SUBJECT, mProduct.productUrl);
+		i.putExtra (Intent.EXTRA_SUBJECT, mProduct.title);
 		i.putExtra (Intent.EXTRA_TEXT, mProduct.productUrl);
 		return i;
 	}

@@ -6,11 +6,10 @@
     xmlns:wheel="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
+    android:layout_marginBottom="8dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
-    android:layout_marginTop="5dp"
-    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_marginTop="8dp"
     card_view:cardCornerRadius="4dp">
 
     <RelativeLayout
@@ -37,8 +36,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="@color/card_title_background"
-                android:padding="10dp"
+                android:background="@color/bg_card_title"
+                android:paddingBottom="10dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="10dp"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textSize="23sp"
@@ -57,82 +59,120 @@
                 android:id="@+id/card_product_image_ripple"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:background="@drawable/ripple_mask">
+                android:background="@drawable/bg_ripple_mask">
             </View>
 
         </FrameLayout>
 
-        <RelativeLayout
-            android:id="@+id/card_product_details_frame"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/card_product_description"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/card_product_image_frame"
-            android:background="@drawable/ripple_mask"
+            android:layout_gravity="start"
+            android:paddingBottom="10dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="10dp"
+            android:singleLine="false"
+            android:textSize="17sp"
+            />
+
+        <View
+            android:id="@+id/card_view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/card_product_description"
+            android:background="@color/divider_color"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_view_line"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
             >
 
             <TextView
-                android:id="@+id/card_product_description"
+                android:id="@+id/card_product_upvotes"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:padding="10dp"
-                android:singleLine="false"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:singleLine="true"
+                android:textColor="@color/primary_dark"
                 android:textSize="17sp"
                 />
 
-            <View
-                android:id="@+id/card_view_line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/card_product_description"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:background="#EDEDED"
+            <ImageView
+                android:id="@+id/card_product_votes_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:src="@drawable/ic_votes"
                 />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/card_product_comments_total"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:singleLine="true"
+                android:textColor="@color/primary_dark"
+                android:textSize="17sp"
+                />
+
+            <ImageView
+                android:id="@+id/card_product_comments_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/card_product_view_comments"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:background="@drawable/bg_ripple_mask"
+                android:gravity="center_vertical"
+                android:paddingBottom="18dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="18dp"
+                android:singleLine="true"
+                android:text="@string/card_product_comments"
+                android:textColor="@color/primary_dark"
+                android:textSize="15sp"
+                />
+
+            <ImageView
+                android:id="@+id/card_product_context"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/card_view_line"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                >
+                android:background="@drawable/bg_ripple_mask"
+                android:gravity="center_vertical"
+                android:paddingBottom="15dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="15dp"
+                android:src="@drawable/ic_dots_vertical"
+                />
 
-                <TextView
-                    android:id="@+id/card_product_upvotes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:textColor="@color/primary_dark"
-                    android:textSize="17sp"
-                    />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_votes"
-                    />
-
-                <TextView
-                    android:id="@+id/card_product_comments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:textColor="@color/primary_dark"
-                    android:textSize="17sp"
-                    />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_comment"
-                    />
-
-            </LinearLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 

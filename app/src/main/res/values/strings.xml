@@ -10,9 +10,12 @@
     <string name="view_empty_products">Can\'t find any products!</string>
     <string name="jasper_van_riet">Created by\n Jasper van Riet</string>
 
+    <string name="card_product_share">SHARE</string>
+    <string name="card_product_comments">VIEW COMMENTS</string>
+
     <string name="menu_refresh">Refresh</string>
     <string name="menu_calendar">Pick a day</string>
-    <string name="menu_share">Share product</string>
+    <string name="menu_share">Share</string>
     <string name="menu_browser">Open in browser</string>
 
     <string name="actionbar_loading">Loading...</string>
@@ -25,6 +28,7 @@
 
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
 
     <string name="error_connection">Connection error</string>
 

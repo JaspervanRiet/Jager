@@ -1,4 +1,4 @@
-package com.jaspervanriet.huntingthatproduct.Utils;
+package com.jaspervanriet.huntingthatproduct.Views;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

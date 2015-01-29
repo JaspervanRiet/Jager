@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jaspervanriet.huntingthatproduct.Activities.Settings.SettingsActivity;
@@ -67,9 +66,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 	public void onBindViewHolder (final ProductViewHolder holder, int position) {
 		runEnterAnimation (holder.itemView, position);
 		holder.screenshotRipple.setTag (position);
-		holder.detailsLayout.setTag (position);
+		holder.viewComments.setTag (position);
+		holder.context.setTag (position);
 		loadCardText (holder);
 		loadImage (holder);
+		Picasso.with (mContext).load (R.drawable.ic_votes).into (holder.votesIcon);
+		Picasso.with (mContext).load (R.drawable.ic_comment).into (holder.commentsIcon);
 	}
 
 	private void loadCardText (ProductViewHolder holder) {
@@ -80,6 +82,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		holder.votes.setText (String.valueOf (mProducts.get (holder.getPosition ()).votes));
 		holder.comments.setText (String.valueOf (mProducts.get (holder.getPosition ())
 				.numberOfComments));
+		holder.viewComments.setTypeface (
+				Typeface.createFromAsset (mContext.getAssets (), "fonts/Roboto-Medium.ttf"));
 	}
 
 	private void loadImage (final ProductViewHolder holder) {
@@ -89,7 +93,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		} else {
 			imgUrl = mProducts.get (holder.getPosition ()).largeImgUrl;
 		}
-
 		holder.progressWheel.setVisibility (View.VISIBLE);
 		holder.progressWheel.spin ();
 		Picasso.with (mContext).load (imgUrl)
@@ -119,10 +122,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		View itemView = LayoutInflater.
 				from (viewGroup.getContext ()).
 				inflate (R.layout.item_product_card, viewGroup, false);
-
 		ProductViewHolder holder = new ProductViewHolder (itemView);
 		holder.screenshotRipple.setOnClickListener (this);
-		holder.detailsLayout.setOnClickListener (this);
+		holder.viewComments.setOnClickListener (this);
+		holder.context.setOnClickListener (this);
 		return holder;
 	}
 
@@ -130,8 +133,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 	public void onClick (View v) {
 		if (v.getId () == R.id.card_product_image_ripple) {
 			mOnProductClickListener.onImageClick (v, (Integer) v.getTag ());
-		} else if (v.getId () == R.id.card_product_details_frame) {
-			mOnProductClickListener.onDetailsClick (v, mProducts.get ((Integer) v.getTag ()));
+		} else if (v.getId () == R.id.card_product_view_comments) {
+			mOnProductClickListener.onCommentsClick (v, mProducts.get ((Integer) v.getTag ()));
+		} else if (v.getId () == R.id.card_product_context) {
+			mOnProductClickListener.onContextClick (v, (Integer) v.getTag ());
 		}
 	}
 
@@ -174,12 +179,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		View screenshotRipple;
 		@InjectView (R.id.card_product_upvotes)
 		TextView votes;
-		@InjectView (R.id.card_product_comments)
+		@InjectView (R.id.card_product_comments_total)
 		TextView comments;
 		@InjectView (R.id.card_product_progress_wheel)
 		ProgressWheel progressWheel;
-		@InjectView (R.id.card_product_details_frame)
-		RelativeLayout detailsLayout;
+		@InjectView (R.id.card_product_view_comments)
+		TextView viewComments;
+		@InjectView (R.id.card_product_context)
+		ImageView context;
+		@InjectView (R.id.card_product_comments_icon)
+		ImageView commentsIcon;
+		@InjectView (R.id.card_product_votes_icon)
+		ImageView votesIcon;
 
 		public ProductViewHolder (View view) {
 			super (view);
@@ -190,6 +201,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 	public interface OnProductClickListener {
 		public void onImageClick (View v, int position);
 
-		public void onDetailsClick (View v, Product product);
+		public void onCommentsClick (View v, Product product);
+
+		public void onContextClick (View v, int position);
 	}
 }

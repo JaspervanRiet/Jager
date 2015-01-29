@@ -45,8 +45,10 @@ import com.jaspervanriet.huntingthatproduct.Adapters.ProductListAdapter;
 import com.jaspervanriet.huntingthatproduct.Classes.Product;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.Constants;
-import com.jaspervanriet.huntingthatproduct.Utils.DatePickerFragment;
 import com.jaspervanriet.huntingthatproduct.Utils.Utils;
+import com.jaspervanriet.huntingthatproduct.Views.DatePickerFragment;
+import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenu;
+import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenuManager;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -63,7 +65,8 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends BaseActivity
 		implements ProductListAdapter.OnProductClickListener,
-		DatePickerDialog.OnDateSetListener {
+				   DatePickerDialog.OnDateSetListener,
+				   FeedContextMenu.OnFeedContextMenuItemClickListener {
 
 	private final static int ANIM_TOOLBAR_INTRO_DURATION = 350;
 
@@ -145,16 +148,20 @@ public class MainActivity extends BaseActivity
 	}
 
 	@Override
-	public void onDetailsClick (View v, Product product) {
+	public void onCommentsClick (View v, Product product) {
 		Intent i = new Intent (this, CommentsActivity.class);
 		activityExitAnimation (v, product, i);
+	}
+
+	@Override
+	public void onContextClick (View v, int position) {
+		FeedContextMenuManager.getInstance ().toggleContextMenuFromView (v, position, this);
 	}
 
 	@Override
 	protected int getSelfNavDrawerItem () {
 		return NAVDRAWER_ITEM_TODAYS_PRODUCTS;
 	}
-
 
 	private void showDatePickerDialog () {
 		DialogFragment dialogFragment = new DatePickerFragment ();
@@ -186,6 +193,7 @@ public class MainActivity extends BaseActivity
 		}
 		progressWheel.setVisibility (View.VISIBLE);
 		progressWheel.spin ();
+		progressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
 		getContent ();
 	}
 
@@ -196,6 +204,12 @@ public class MainActivity extends BaseActivity
 		mRecyclerView.setAdapter (mListAdapter);
 		mEmptyTextView.setTypeface (
 				Typeface.createFromAsset (getAssets (), "fonts/Roboto-Light.ttf"));
+		mRecyclerView.setOnScrollListener (new RecyclerView.OnScrollListener () {
+			@Override
+			public void onScrolled (RecyclerView recyclerView, int dx, int dy) {
+				FeedContextMenuManager.getInstance ().onScrolled (recyclerView, dx, dy);
+			}
+		});
 	}
 
 	private void getContent () {
@@ -329,5 +343,21 @@ public class MainActivity extends BaseActivity
 		mDateString = getDateFormattedString (chosenCalendar);
 		setActionBarTitle (getMonth (monthOfYear) + " " + dayOfMonth);
 		completeRefresh ();
+	}
+
+	@Override
+	public void onShareClick (int feedItem) {
+		Product product = mProducts.get (feedItem);
+		Intent share = new Intent (android.content.Intent.ACTION_SEND);
+		share.setType ("text/plain");
+		share.putExtra (Intent.EXTRA_SUBJECT, product.title);
+		share.putExtra (Intent.EXTRA_TEXT, product.productUrl);
+		startActivity (Intent.createChooser (share, "Share product"));
+		FeedContextMenuManager.getInstance ().hideContextMenu ();
+	}
+
+	@Override
+	public void onCancelClick (int feedItem) {
+		FeedContextMenuManager.getInstance ().hideContextMenu ();
 	}
 }
