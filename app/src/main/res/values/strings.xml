@@ -31,6 +31,7 @@
     <string name="cancel">Cancel</string>
 
     <string name="error_connection">Connection error</string>
+    <string name="error_ssl">SSL error: this website is not safe</string>
 
     <string name="settings_download_network">High quality images</string>
     <string name="settings_download_network_summary_off">Only download high

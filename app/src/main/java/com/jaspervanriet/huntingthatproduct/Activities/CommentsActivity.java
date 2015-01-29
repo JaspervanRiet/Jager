@@ -135,6 +135,7 @@ public class CommentsActivity extends ActionBarActivity {
 		}
 		mListProgressWheel.setVisibility (View.VISIBLE);
 		mListProgressWheel.spin ();
+		mListProgressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
 		getComments ();
 	}
 

@@ -21,7 +21,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -31,8 +33,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.jaspervanriet.huntingthatproduct.Classes.Product;
 import com.jaspervanriet.huntingthatproduct.R;
@@ -144,6 +148,13 @@ public class WebActivity extends ActionBarActivity {
 			@Override
 			public void onPageFinished (WebView view, String url) {
 				getSupportActionBar ().setTitle (mProduct.title);
+			}
+
+			@Override
+			public void onReceivedSslError (WebView view, @NonNull SslErrorHandler handler,
+											SslError error) {
+				Toast.makeText (WebActivity.this, getString (R.string.error_ssl),
+						Toast.LENGTH_LONG).show ();
 			}
 		});
 		mWebView.loadUrl (mProduct.productUrl);
