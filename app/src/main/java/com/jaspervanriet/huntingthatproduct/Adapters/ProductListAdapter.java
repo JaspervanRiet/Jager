@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductViewHolder>
 		implements View.OnClickListener {
 
@@ -78,10 +77,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		holder.title.setTypeface (
 				Typeface.createFromAsset (mContext.getAssets (), "fonts/Roboto-Light.ttf"));
 		holder.description.setText (mProducts.get (holder.getPosition ()).tagline);
-		holder.votes.setText (mProducts.get (holder.getPosition ()).votes
-				+ " " + mContext.getResources ().getString (R.string.votes));
-		holder.comments.setText (mProducts.get (holder.getPosition ()).numberOfComments
-				+ " " + mContext.getResources ().getString (R.string.comments));
+		holder.votes.setText (String.valueOf (mProducts.get (holder.getPosition ()).votes));
+		holder.comments.setText (String.valueOf (mProducts.get (holder.getPosition ())
+				.numberOfComments));
 	}
 
 	private void loadImage (final ProductViewHolder holder) {
@@ -182,7 +180,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		ProgressWheel progressWheel;
 		@InjectView (R.id.card_product_details_frame)
 		RelativeLayout detailsLayout;
-
 
 		public ProductViewHolder (View view) {
 			super (view);

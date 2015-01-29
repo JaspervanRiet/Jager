@@ -85,31 +85,39 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/card_product_description"
                 android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:padding="10dp"
                 >
 
                 <TextView
                     android:id="@+id/card_product_upvotes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:gravity="center"
                     android:singleLine="true"
                     android:textColor="@color/primary_dark"
                     android:textSize="17sp"
                     />
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_votes"
+                    />
+
                 <TextView
                     android:id="@+id/card_product_comments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:gravity="center"
                     android:singleLine="true"
                     android:textColor="@color/primary_dark"
                     android:textSize="17sp"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_comment"
                     />
 
             </LinearLayout>
