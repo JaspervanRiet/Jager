@@ -25,16 +25,19 @@ public class Comment {
 	public String text;
 	public int parentComment;
 	public int childCommentCount;
+	public boolean isMaker;
 	public User user;
 	public int level;
 
 
-	public Comment (int id, String text, int parentComment, int childCommentCount, User user) {
+	public Comment (int id, String text, int parentComment,
+	                int childCommentCount, boolean isMaker, User user) {
 		this.id = id;
 		this.text = text;
 		this.parentComment = parentComment;
 		this.childCommentCount = childCommentCount;
 		this.user = user;
+		this.isMaker = isMaker;
 	}
 
 	public Comment (JsonObject object) {
@@ -44,6 +47,7 @@ public class Comment {
 						? -1 : object.get ("parent_comment_id").getAsInt (),
 				object.get ("child_comments_count").isJsonNull ()
 						? -1 : object.get ("child_comments_count").getAsInt (),
+				object.get ("maker").getAsBoolean (),
 				new User (object.get ("user").getAsJsonObject ()));
 	}
 }

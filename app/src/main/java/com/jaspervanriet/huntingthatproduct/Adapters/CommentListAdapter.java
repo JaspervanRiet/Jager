@@ -69,7 +69,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter
 		Comment comment = mComments.get (position);
 		LinearLayout.MarginLayoutParams params = (LinearLayout.MarginLayoutParams) holder
 				.commentLayout.getLayoutParams ();
-		params.setMargins (comment.level * 50, 0, 0, 0);
+		params.setMargins (comment.level * 30, 0, 0, 0);
 		holder.commentLayout.setLayoutParams (params);
 		loadComment (holder, position);
 
@@ -80,6 +80,14 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter
 		holder.name.setText (
 				Html.fromHtml (mComments.get (position).user.name) + " -  @"
 						+ Html.fromHtml (mComments.get (position).user.username));
+		if (mComments.get (position).isMaker) {
+			holder.name.setTextColor (mContext.getResources ()
+					.getColor (R.color.text_indicator_maker));
+		} else {
+			holder.name.setTextColor (mContext.getResources ().getColor
+					(R.color.text_default));
+		}
+
 		holder.headline.setText (Html.fromHtml (mComments.get (position).user.headline));
 		Picasso.with (mContext).load (mComments.get (position).user.largeImgUrl)
 				.resize (Utils.dpToPx (56), Utils.dpToPx (56))

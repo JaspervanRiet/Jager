@@ -3,10 +3,14 @@
     <color name="primary_color">#FF5722</color>
     <color name="primary_dark">#E64A19</color>
     <color name="primary_accent">#3F51B5</color>
+
     <color name="divider_color">#50B6B6B6</color>
     <color name="bg_card_title">#85000000</color>
     <color name="ripple_color">#10000000</color>
     <color name="drawer_item">#95000000</color>
+
+    <color name="text_indicator_maker">#4DAB7A</color>
+    <color name="text_default">#87000000</color>
 
     <color name="btn_context_menu_normal">#ffffff</color>
     <color name="btn_context_menu_pressed">#40000000</color>
