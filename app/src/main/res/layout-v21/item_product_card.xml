@@ -44,7 +44,7 @@
                 android:paddingTop="10dp"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                android:textSize="23sp"
+                android:textSize="24sp"
                 app:typeface="roboto_light"/>
 
             <com.pnikosis.materialishprogress.ProgressWheel
@@ -71,12 +71,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/card_product_image_frame"
             android:layout_gravity="start"
-            android:paddingBottom="10dp"
+            android:paddingBottom="16dp"
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
-            android:paddingTop="10dp"
+            android:paddingTop="16dp"
             android:singleLine="false"
-            android:textSize="17sp"
+            android:textSize="16sp"
             />
 
         <View
