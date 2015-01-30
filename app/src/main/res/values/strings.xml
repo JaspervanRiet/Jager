@@ -17,6 +17,7 @@
     <string name="menu_calendar">Pick a day</string>
     <string name="menu_share">Share</string>
     <string name="menu_browser">Open in browser</string>
+    <string name="menu_rate">Rate the app</string>
 
     <string name="actionbar_loading">Loading...</string>
 

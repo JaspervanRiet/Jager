@@ -20,6 +20,7 @@ package com.jaspervanriet.huntingthatproduct.Activities;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -69,6 +70,7 @@ public class MainActivity extends BaseActivity
 				   FeedContextMenu.OnFeedContextMenuItemClickListener {
 
 	private final static int ANIM_TOOLBAR_INTRO_DURATION = 350;
+	private final static String URL_PLAY_STORE = "market://details?id=com.jaspervanriet.huntingthatproduct";
 
 	private ArrayList<Product> mProducts = new ArrayList<> ();
 	private ProductListAdapter mListAdapter;
@@ -112,6 +114,11 @@ public class MainActivity extends BaseActivity
 		mListAdapter.setOnProductClickListener (this);
 
 		setupRecyclerView ();
+	}
+
+	@Override
+	public void onStart () {
+		super.onStart ();
 		completeRefresh ();
 	}
 
@@ -137,7 +144,17 @@ public class MainActivity extends BaseActivity
 			showDatePickerDialog ();
 			return true;
 		}
+		if (itemId == R.id.menu_rate) {
+			goToPlayStorePage ();
+			return true;
+		}
 		return super.onOptionsItemSelected (item);
+	}
+
+	private void goToPlayStorePage () {
+		Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
+				.parse (URL_PLAY_STORE));
+		startActivity (intent);
 	}
 
 	@Override
