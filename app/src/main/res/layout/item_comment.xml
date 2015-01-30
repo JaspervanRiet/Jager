@@ -2,13 +2,15 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/divider_color">
 
     <LinearLayout
         android:id="@+id/comment_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@android:color/white">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -56,6 +58,13 @@
             android:paddingBottom="10dp"
             android:autoLink="web"
             android:textColorLink="@color/primary_dark"
+            />
+
+        <View
+            android:id="@+id/card_view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_color"
             />
 
     </LinearLayout>
