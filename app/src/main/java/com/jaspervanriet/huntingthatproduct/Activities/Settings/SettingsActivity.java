@@ -32,6 +32,7 @@ public class SettingsActivity extends BaseActivity {
 	public static final String KEY_CRASH_DATA = "preference_crash_data";
 	public static final String KEY_OPEN_SOURCE_LICENSES =
 			"preference_open_source_licenses";
+	public static final String KEY_SEND_FEEDBACK = "preference_send_feedback";
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {

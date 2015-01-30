@@ -17,7 +17,9 @@
 
 package com.jaspervanriet.huntingthatproduct.Activities.Settings;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -31,15 +33,38 @@ import de.psdev.licensesdialog.LicensesDialog;
 
 public class SettingsFragment extends PreferenceFragment {
 
+	private static final String EMAIL_DEVELOPER = "jaspervanriet@gmail.com";
+
 
 	@Override
 	public void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 		addPreferencesFromResource (R.xml.settings);
-
 		setupHighQualityImagesPref ();
 		setupCrashDataPref ();
 		setupOpenSourceLicenses ();
+		setupFeedbackPref ();
+	}
+
+	private void setupFeedbackPref () {
+		Preference feedback = getPreferenceScreen ()
+				.findPreference (SettingsActivity.KEY_SEND_FEEDBACK);
+		feedback.setOnPreferenceClickListener (new Preference.OnPreferenceClickListener () {
+			@Override
+			public boolean onPreferenceClick (Preference preference) {
+				createEmail ();
+				return true;
+			}
+		});
+	}
+
+	private void createEmail () {
+		Intent send = new Intent (Intent.ACTION_SENDTO);
+		String uriText = "mailto:" + Uri.encode (EMAIL_DEVELOPER) +
+				"?subject=" + Uri.encode ("Feedback for Jager") +
+				"&body=" + Uri.encode ("");
+		send.setData (Uri.parse (uriText));
+		startActivity (Intent.createChooser (send, "Send mail..."));
 	}
 
 	private void setupOpenSourceLicenses () {
