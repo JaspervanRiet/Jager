@@ -146,6 +146,19 @@ public class WebActivity extends ActionBarActivity {
 	private void setupWebView () {
 		mWebView.setWebViewClient (new WebViewClient () {
 			@Override
+			public void onLoadResource (WebView view, String url) {
+				if (url.contains ("https://play.google" +
+						".com/store/apps/details?")) {
+					url.replace ("https://play.google" +
+							".com/store/apps/details?", "market://details?");
+					view.stopLoading ();
+					Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
+							.parse (url));
+					startActivity (intent);
+				}
+			}
+
+			@Override
 			public void onPageFinished (WebView view, String url) {
 				getSupportActionBar ().setTitle (mProduct.title);
 			}
