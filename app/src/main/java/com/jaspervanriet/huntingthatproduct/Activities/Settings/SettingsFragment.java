@@ -40,7 +40,6 @@ public class SettingsFragment extends PreferenceFragment {
 	public void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 		addPreferencesFromResource (R.xml.settings);
-		setupHighQualityImagesPref ();
 		setupCrashDataPref ();
 		setupOpenSourceLicenses ();
 		setupFeedbackPref ();
@@ -101,32 +100,10 @@ public class SettingsFragment extends PreferenceFragment {
 		});
 	}
 
-	private void setupHighQualityImagesPref () {
-		CheckBoxPreference highQualityImages = (CheckBoxPreference)
-				getPreferenceScreen ().findPreference (SettingsActivity.KEY_HIGH_QUALITY_IMAGES);
-		highQualityImages.setOnPreferenceChangeListener (new Preference.OnPreferenceChangeListener () {
-			@Override
-			public boolean onPreferenceChange (Preference preference, Object newValue) {
-				if (newValue instanceof Boolean) {
-					boolean bool = (boolean) newValue;
-					setHighQualityImagesPref (bool);
-				}
-				return true;
-			}
-		});
-	}
-
 	private void setCrashDataPref (boolean bool) {
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences (getActivity ());
 		sharedPrefs.edit ().putBoolean (SettingsActivity.KEY_CRASH_DATA,
-				bool).apply ();
-	}
-
-	private void setHighQualityImagesPref (boolean bool) {
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences (getActivity ());
-		sharedPrefs.edit ().putBoolean (SettingsActivity.KEY_HIGH_QUALITY_IMAGES,
 				bool).apply ();
 	}
 

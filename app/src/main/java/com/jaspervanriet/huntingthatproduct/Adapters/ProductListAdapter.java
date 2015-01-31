@@ -29,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
-import com.jaspervanriet.huntingthatproduct.Activities.Settings.SettingsActivity;
 import com.jaspervanriet.huntingthatproduct.Classes.Product;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.Utils;
@@ -84,12 +83,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 	}
 
 	private void loadImage (final ProductViewHolder holder) {
-		String imgUrl;
-		if (!highQualityImages () && !isUserOnWifi ()) {
-			imgUrl = mProducts.get (holder.getPosition ()).smallImgUrl;
-		} else {
-			imgUrl = mProducts.get (holder.getPosition ()).largeImgUrl;
-		}
+		String imgUrl = mProducts.get (holder.getPosition ()).smallImgUrl;
 		holder.progressWheel.setVisibility (View.VISIBLE);
 		holder.progressWheel.spin ();
 		Picasso.with (mContext).load (imgUrl)
@@ -106,12 +100,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 					public void onError () {
 					}
 				});
-	}
-
-	private boolean highQualityImages () {
-		SettingsActivity settingsActivity = new SettingsActivity ();
-		return settingsActivity.getHighQualityImagesPref
-				(mContext);
 	}
 
 	@Override

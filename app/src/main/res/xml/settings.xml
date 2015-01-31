@@ -7,12 +7,6 @@
         >
 
         <CheckBoxPreference
-            android:key="preference_high_quality_images"
-            android:summaryOff="@string/settings_download_network_summary_off"
-            android:summaryOn="@string/settings_download_network_summary_on"
-            android:title="@string/settings_download_network"/>
-
-        <CheckBoxPreference
             android:defaultValue="true"
             android:key="preference_crash_data"
             android:title="@string/settings_crash_data"/>

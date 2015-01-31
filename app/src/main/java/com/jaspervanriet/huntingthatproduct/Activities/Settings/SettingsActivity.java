@@ -27,8 +27,6 @@ import com.jaspervanriet.huntingthatproduct.R;
 
 public class SettingsActivity extends BaseActivity {
 
-	public static final String KEY_HIGH_QUALITY_IMAGES =
-			"preference_high_quality_images";
 	public static final String KEY_CRASH_DATA = "preference_crash_data";
 	public static final String KEY_OPEN_SOURCE_LICENSES =
 			"preference_open_source_licenses";
@@ -47,12 +45,6 @@ public class SettingsActivity extends BaseActivity {
 	@Override
 	protected int getSelfNavDrawerItem () {
 		return NAVDRAWER_ITEM_SETTINGS;
-	}
-
-	public boolean getHighQualityImagesPref (Context context) {
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences (context);
-		return sharedPrefs.getBoolean (SettingsActivity.KEY_HIGH_QUALITY_IMAGES, false);
 	}
 
 	public boolean getCrashDataPref (Context context) {
