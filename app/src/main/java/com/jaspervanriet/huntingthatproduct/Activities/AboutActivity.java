@@ -39,8 +39,6 @@ public class AboutActivity extends BaseActivity {
 		ButterKnife.inject (this);
 
 		setToolBar ();
-		getSupportActionBar ().setTitle (getResources ().getStringArray (R
-				.array.drawer_items)[2]);
 		name.setTypeface (Typeface
 				.createFromAsset (getAssets (),
 						"fonts/Roboto-Light.ttf"));

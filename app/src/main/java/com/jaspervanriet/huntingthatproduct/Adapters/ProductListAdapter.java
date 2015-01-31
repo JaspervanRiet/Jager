@@ -46,11 +46,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		implements View.OnClickListener {
 
 	private final static int ANIM_LIST_ENTER_DURATION = 700;
+	private static final int ANIMATED_ITEMS_COUNT = 3;
+
 	private ArrayList<Product> mProducts;
 	private Context mContext;
 	private OnProductClickListener mOnProductClickListener;
 	private int lastAnimatedPosition = -1;
-	private static final int ANIMATED_ITEMS_COUNT = 3;
 
 	public ProductListAdapter (Context context, ArrayList<Product> mProducts) {
 		this.mContext = context;

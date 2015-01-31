@@ -66,8 +66,8 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends BaseActivity
 		implements ProductListAdapter.OnProductClickListener,
-				   DatePickerDialog.OnDateSetListener,
-				   FeedContextMenu.OnFeedContextMenuItemClickListener {
+		DatePickerDialog.OnDateSetListener,
+		FeedContextMenu.OnFeedContextMenuItemClickListener {
 
 	private final static int ANIM_TOOLBAR_INTRO_DURATION = 350;
 	private final static String URL_PLAY_STORE = "market://details?id=com.jaspervanriet.huntingthatproduct";
@@ -84,10 +84,10 @@ public class MainActivity extends BaseActivity
 	@InjectView (android.R.id.list)
 	RecyclerView mRecyclerView;
 	@InjectView (R.id.list_progress_wheel)
-	ProgressWheel progressWheel;
-	@InjectView (R.id.comments_empty_view)
+	ProgressWheel mProgressWheel;
+	@InjectView (R.id.products_empty_view)
 	LinearLayout mEmptyView;
-	@InjectView (R.id.comments_empty_text)
+	@InjectView (R.id.products_empty_text)
 	TextView mEmptyTextView;
 
 	@Override
@@ -102,23 +102,21 @@ public class MainActivity extends BaseActivity
 
 		boolean toolbarAnimation = getIntent ().getBooleanExtra
 				("toolbar_animation", true);
-		startIntroAnimation = savedInstanceState == null && toolbarAnimation;
+		startIntroAnimation = (savedInstanceState == null) && toolbarAnimation;
 
 		setToolBar ();
-		setActionBarTitle (getResources ().getStringArray (R
-				.array.drawer_items)[0]);
-
 		getTodaysDate ();
 
+		mProgressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
 		mListAdapter = new ProductListAdapter (this, mProducts);
 		mListAdapter.setOnProductClickListener (this);
-
 		setupRecyclerView ();
+		completeRefresh ();
 	}
 
 	@Override
-	public void onStart () {
-		super.onStart ();
+	public void onRestart () {
+		super.onRestart ();
 		completeRefresh ();
 	}
 
@@ -172,7 +170,8 @@ public class MainActivity extends BaseActivity
 
 	@Override
 	public void onContextClick (View v, int position) {
-		FeedContextMenuManager.getInstance ().toggleContextMenuFromView (v, position, this);
+		FeedContextMenuManager.getInstance ().toggleContextMenuFromView (v,
+				position, this, true);
 	}
 
 	@Override
@@ -208,9 +207,8 @@ public class MainActivity extends BaseActivity
 			mProducts.clear ();
 			mListAdapter.notifyDataSetChanged ();
 		}
-		progressWheel.setVisibility (View.VISIBLE);
-		progressWheel.spin ();
-		progressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
+		mProgressWheel.setVisibility (View.VISIBLE);
+		mProgressWheel.spin ();
 		getContent ();
 	}
 
@@ -341,11 +339,10 @@ public class MainActivity extends BaseActivity
 					mHandler.postDelayed (this, 1000);
 					// else stop animation
 				} else {
-					progressWheel.stopSpinning ();
-					progressWheel.setVisibility (View.GONE);
+					mProgressWheel.stopSpinning ();
+					mProgressWheel.setVisibility (View.GONE);
 				}
-			}
-			catch (Exception error) {
+			} catch (Exception error) {
 				error.printStackTrace ();
 			}
 		}

@@ -52,18 +52,20 @@ public class FeedContextMenuManager extends RecyclerView.OnScrollListener
 	}
 
 	public void toggleContextMenuFromView (View openingView, int feedItem,
-										   FeedContextMenu.OnFeedContextMenuItemClickListener
-												   listener) {
+	                                       FeedContextMenu.OnFeedContextMenuItemClickListener
+			                                       listener,
+	                                       boolean isMainActivity) {
 		if (contextMenuView == null) {
-			showContextMenuFromView (openingView, feedItem, listener);
+			showContextMenuFromView (openingView, feedItem, listener, isMainActivity);
 		} else {
 			hideContextMenu ();
 		}
 	}
 
 	private void showContextMenuFromView (final View openingView, int feedItem,
-										  FeedContextMenu.OnFeedContextMenuItemClickListener
-												  listener) {
+	                                      FeedContextMenu.OnFeedContextMenuItemClickListener
+			                                      listener,
+	                                      boolean isMainActivity) {
 		if (!isContextMenuShowing) {
 			isContextMenuShowing = true;
 			contextMenuView = new FeedContextMenu (openingView.getContext ());
@@ -72,10 +74,15 @@ public class FeedContextMenuManager extends RecyclerView.OnScrollListener
 			contextMenuView.setOnFeedMenuItemClickListener (listener);
 			ViewGroup viewGroup = (ViewGroup) openingView.getRootView ().findViewById (android.R
 					.id.content);
-			DrawerLayout drawerLayout = (DrawerLayout) viewGroup.getChildAt (0);
-			RelativeLayout relativeLayout = (RelativeLayout) drawerLayout.getChildAt (0);
+			RelativeLayout relativeLayout;
+			if (isMainActivity) {
+				DrawerLayout drawerLayout = (DrawerLayout) viewGroup.getChildAt (0);
+				relativeLayout = (RelativeLayout) drawerLayout.getChildAt (0);
+			} else {
+				relativeLayout = (RelativeLayout) viewGroup
+						.getChildAt (0);
+			}
 			relativeLayout.addView (contextMenuView);
-
 			contextMenuView.getViewTreeObserver ().addOnPreDrawListener (new ViewTreeObserver
 					.OnPreDrawListener () {
 				@Override

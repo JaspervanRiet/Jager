@@ -40,10 +40,6 @@ public class SettingsActivity extends BaseActivity {
 		setContentView (R.layout.activity_preferences);
 		super.onCreateDrawer ();
 		setToolBar ();
-		getSupportActionBar ().setTitle (getResources ().getStringArray (R
-				.array.drawer_items)[1]);
-
-
 		getFragmentManager ().beginTransaction ().replace (R.id.content_frame,
 				new SettingsFragment ()).commit ();
 	}

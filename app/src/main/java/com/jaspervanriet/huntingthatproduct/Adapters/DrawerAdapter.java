@@ -45,7 +45,7 @@ public class DrawerAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount () {
-		return 3;
+		return 4;
 	}
 
 	@Override

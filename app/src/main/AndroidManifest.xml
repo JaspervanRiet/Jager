@@ -33,6 +33,14 @@
             android:theme="@style/AppTheme.ChildActivity"
             />
 
+        <activity android:name=".Activities.CollectionsListActivity"
+            />
+
+        <activity
+            android:name=".Activities.CollectionActivity"
+            android:theme="@style/AppTheme.ChildActivity"
+            />
+
         <activity
             android:name=".Activities.Settings.SettingsActivity"
             />

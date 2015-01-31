@@ -43,8 +43,9 @@ import butterknife.InjectView;
 public class BaseActivity extends ActionBarActivity {
 
 	public static final int NAVDRAWER_ITEM_TODAYS_PRODUCTS = 0;
-	public static final int NAVDRAWER_ITEM_SETTINGS = 1;
-	public static final int NAVDRAWER_ITEM_ABOUT = 2;
+	public static final int NAVDRAWER_ITEM_SETTINGS = 2;
+	public static final int NAVDRAWER_ITEM_ABOUT = 3;
+	public static final int NAVDRAWER_ITEM_COLLECTIONS = 1;
 	public static final int NAVDRAWER_ITEM_INVALID = -1;
 
 	private static final int NAVDRAWER_LAUNCH_DELAY = 250;
@@ -112,6 +113,12 @@ public class BaseActivity extends ActionBarActivity {
 				overridePendingTransition (0, 0);
 				finish ();
 				break;
+			case NAVDRAWER_ITEM_COLLECTIONS:
+				intent = new Intent (this, CollectionsListActivity.class);
+				startActivity (intent);
+				overridePendingTransition (0, 0);
+				finish ();
+				break;
 			case NAVDRAWER_ITEM_SETTINGS:
 				intent = new Intent (this, SettingsActivity.class);
 				startActivity (intent);
@@ -138,9 +145,25 @@ public class BaseActivity extends ActionBarActivity {
 	}
 
 	protected void setToolBar () {
+		String[] drawerData = getResources ().getStringArray (R.array
+				.drawer_items);
 		setSupportActionBar (mToolBar);
 		ActionBar actionBar = getSupportActionBar ();
 		actionBar.setElevation (5);
+		switch (getSelfNavDrawerItem ()) {
+			case NAVDRAWER_ITEM_TODAYS_PRODUCTS:
+				actionBar.setTitle (drawerData[0]);
+				break;
+			case NAVDRAWER_ITEM_COLLECTIONS:
+				actionBar.setTitle ("Featured " + drawerData[1]);
+				break;
+			case NAVDRAWER_ITEM_SETTINGS:
+				actionBar.setTitle (drawerData[2]);
+				break;
+			case NAVDRAWER_ITEM_ABOUT:
+				actionBar.setTitle (drawerData[3]);
+				break;
+		}
 	}
 
 	@Override

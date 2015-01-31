@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:id="@+id/card_collection"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
+    card_view:cardCornerRadius="4dp"
+    android:stateListAnimator="@anim/raise"
+    >
+
+    <ImageView
+        android:id="@+id/card_collection_image"
+        android:layout_width="380dp"
+        android:layout_height="150dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="380dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:background="@color/bg_card_collection_text"
+        android:padding="16dp"
+        >
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/card_collection_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:paddingTop="10dp"
+            android:textSize="24sp"
+            android:gravity="center"
+            style="@android:style/TextAppearance.Material.Headline"
+            />
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/card_collection_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_centerVertical="true"
+            android:layout_below="@id/card_collection_name"
+            style="@android:style/TextAppearance.Material.Subhead"
+            />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/card_product_image_ripple"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/bg_ripple_mask">
+    </View>
+
+</android.support.v7.widget.CardView>
