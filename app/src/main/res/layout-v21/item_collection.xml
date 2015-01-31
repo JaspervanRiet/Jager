@@ -34,6 +34,7 @@
             android:paddingTop="10dp"
             android:textSize="24sp"
             android:gravity="center"
+            style="@android:style/TextAppearance.Material.Headline"
             />
 
         <com.devspark.robototextview.widget.RobotoTextView
