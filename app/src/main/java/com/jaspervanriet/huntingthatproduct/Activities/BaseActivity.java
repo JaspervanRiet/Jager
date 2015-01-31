@@ -36,6 +36,8 @@ import android.widget.ListView;
 import com.jaspervanriet.huntingthatproduct.Activities.Settings.SettingsActivity;
 import com.jaspervanriet.huntingthatproduct.Adapters.DrawerAdapter;
 import com.jaspervanriet.huntingthatproduct.R;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.PicassoTools;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -64,6 +66,12 @@ public class BaseActivity extends ActionBarActivity {
 		ButterKnife.inject (this);
 		setupDrawer ();
 		mHandler = new Handler ();
+	}
+
+	@Override
+	public void onDestroy () {
+		super.onDestroy ();
+		PicassoTools.clearCache (Picasso.with (this));
 	}
 
 	private void setupDrawer () {
