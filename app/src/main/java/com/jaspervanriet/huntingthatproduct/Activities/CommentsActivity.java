@@ -19,7 +19,6 @@ package com.jaspervanriet.huntingthatproduct.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -33,7 +32,6 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -52,7 +50,6 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-
 public class CommentsActivity extends ActionBarActivity {
 
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
@@ -68,8 +65,6 @@ public class CommentsActivity extends ActionBarActivity {
 	ProgressWheel mListProgressWheel;
 	@InjectView (R.id.comments_empty_view)
 	LinearLayout mEmptyView;
-	@InjectView (R.id.comments_empty_text)
-	TextView mEmptyTextView;
 
 	private CommentListAdapter mCommentListAdapter;
 	private int mDrawingStartLocation;
@@ -162,7 +157,6 @@ public class CommentsActivity extends ActionBarActivity {
 							mListProgressWheel.stopSpinning ();
 							checkEmpty ();
 						}
-
 					}
 				});
 	}
@@ -181,7 +175,6 @@ public class CommentsActivity extends ActionBarActivity {
 						.getAsJsonObject (), level);
 			}
 		}
-
 	}
 
 	private void expandAnimation (Bundle savedInstanceState) {
@@ -222,8 +215,6 @@ public class CommentsActivity extends ActionBarActivity {
 		mRecyclerView.setItemAnimator (new DefaultItemAnimator ());
 		mRecyclerView.setLayoutManager (getLayoutManager ());
 		mRecyclerView.setAdapter (mCommentListAdapter);
-		mEmptyTextView.setTypeface (
-				Typeface.createFromAsset (getAssets (), "fonts/Roboto-Light.ttf"));
 	}
 
 	private void checkEmpty () {
@@ -239,5 +230,4 @@ public class CommentsActivity extends ActionBarActivity {
 		layoutManager.setOrientation (LinearLayoutManager.VERTICAL);
 		return layoutManager;
 	}
-
 }

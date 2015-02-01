@@ -19,7 +19,6 @@ package com.jaspervanriet.huntingthatproduct.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,7 +34,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -87,8 +85,6 @@ public class MainActivity extends BaseActivity
 	ProgressWheel mProgressWheel;
 	@InjectView (R.id.products_empty_view)
 	LinearLayout mEmptyView;
-	@InjectView (R.id.products_empty_text)
-	TextView mEmptyTextView;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -203,6 +199,7 @@ public class MainActivity extends BaseActivity
 	}
 
 	private void completeRefresh () {
+		mEmptyView.setVisibility (View.GONE);
 		if (mProducts.size () != 0) {
 			mProducts.clear ();
 			mListAdapter.notifyDataSetChanged ();
@@ -217,8 +214,6 @@ public class MainActivity extends BaseActivity
 		mRecyclerView.setItemAnimator (new DefaultItemAnimator ());
 		mRecyclerView.setLayoutManager (getLayoutManager ());
 		mRecyclerView.setAdapter (mListAdapter);
-		mEmptyTextView.setTypeface (
-				Typeface.createFromAsset (getAssets (), "fonts/Roboto-Light.ttf"));
 		mRecyclerView.setOnScrollListener (new RecyclerView.OnScrollListener () {
 			@Override
 			public void onScrolled (RecyclerView recyclerView, int dx, int dy) {
@@ -286,7 +281,6 @@ public class MainActivity extends BaseActivity
 							}
 							mListAdapter.notifyDataSetChanged ();
 							mIsRefreshing = false;
-							checkEmpty ();
 						}
 					}
 				});
@@ -341,6 +335,7 @@ public class MainActivity extends BaseActivity
 				} else {
 					mProgressWheel.stopSpinning ();
 					mProgressWheel.setVisibility (View.GONE);
+					checkEmpty ();
 				}
 			} catch (Exception error) {
 				error.printStackTrace ();

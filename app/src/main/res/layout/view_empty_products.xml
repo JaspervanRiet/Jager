@@ -2,19 +2,21 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/products_empty_view"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="gone">
 
-    <TextView
+    <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/products_empty_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:textSize="25sp"
         android:text="@string/view_empty_products"
+        app:typeface="roboto_light"
         />
 
 </LinearLayout>

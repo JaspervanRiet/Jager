@@ -20,7 +20,6 @@ package com.jaspervanriet.huntingthatproduct.Activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -37,7 +36,6 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -62,7 +60,7 @@ import butterknife.InjectView;
 
 public class CollectionActivity extends ActionBarActivity
 		implements ProductListAdapter.OnProductClickListener,
-		FeedContextMenu.OnFeedContextMenuItemClickListener {
+				   FeedContextMenu.OnFeedContextMenuItemClickListener {
 
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 	private static final int ANIM_LAYOUT_INTRO_DURATION = 250;
@@ -77,8 +75,6 @@ public class CollectionActivity extends ActionBarActivity
 	ProgressWheel mProgressWheel;
 	@InjectView (R.id.products_empty_view)
 	LinearLayout mEmptyView;
-	@InjectView (R.id.products_empty_text)
-	TextView mEmptyTextView;
 
 	private int mDrawingStartLocation;
 	private boolean mBackPressed = false;
@@ -202,8 +198,6 @@ public class CollectionActivity extends ActionBarActivity
 		mRecyclerView.setItemAnimator (new DefaultItemAnimator ());
 		mRecyclerView.setLayoutManager (getLayoutManager ());
 		mRecyclerView.setAdapter (mListAdapter);
-		mEmptyTextView.setTypeface (
-				Typeface.createFromAsset (getAssets (), "fonts/Roboto-Light.ttf"));
 		mRecyclerView.setOnScrollListener (new RecyclerView.OnScrollListener () {
 			@Override
 			public void onScrolled (RecyclerView recyclerView, int dx, int dy) {
