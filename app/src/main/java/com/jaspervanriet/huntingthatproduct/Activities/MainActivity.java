@@ -76,6 +76,7 @@ public class MainActivity extends BaseActivity
 	private Boolean mIsRefreshing = false;
 	private Boolean startIntroAnimation = true;
 	private String mDateString;
+	private boolean mDataSet = false;
 
 	@InjectView (R.id.toolbar)
 	Toolbar mToolBar;
@@ -258,7 +259,13 @@ public class MainActivity extends BaseActivity
 
 	// Retrieves content and adds it to mProducts
 	private void getProducts () {
-		Ion.with (this).load (Constants.API_URL + "posts?day=" + mDateString)
+		String url;
+		if (mDataSet) {
+			url = Constants.API_URL + "posts?day=" + mDateString;
+		} else {
+			url = Constants.API_URL + "posts";
+		}
+		Ion.with (this).load (url)
 				.setHeader ("Authorization", "Bearer " + Constants.CLIENT_TOKEN)
 				.asJsonObject ()
 				.setCallback (new FutureCallback<JsonObject> () {
@@ -345,6 +352,7 @@ public class MainActivity extends BaseActivity
 
 	@Override
 	public void onDateSet (DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+		mDataSet = true;
 		Calendar chosenCalendar = Calendar.getInstance ();
 		chosenCalendar.set (Calendar.YEAR, year);
 		chosenCalendar.set (Calendar.MONTH, monthOfYear);
