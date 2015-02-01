@@ -49,6 +49,9 @@ public class WebActivity extends ActionBarActivity {
 
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 	private static final int ANIM_LAYOUT_INTRO_DURATION = 250;
+	private static final String URL_PLAY_STORE_SCHEME = "https://play.google" +
+			".com/store/apps/details?";
+	private static final String URL_DEVICE_PLAY_STORE_SCHEME = "market://details?";
 
 	@InjectView (R.id.toolbar)
 	Toolbar mToolBar;
@@ -147,10 +150,8 @@ public class WebActivity extends ActionBarActivity {
 		mWebView.setWebViewClient (new WebViewClient () {
 			@Override
 			public void onLoadResource (WebView view, String url) {
-				if (url.contains ("https://play.google" +
-						".com/store/apps/details?")) {
-					url.replace ("https://play.google" +
-							".com/store/apps/details?", "market://details?");
+				if (url.contains (URL_PLAY_STORE_SCHEME)) {
+					url.replace (URL_PLAY_STORE_SCHEME, URL_DEVICE_PLAY_STORE_SCHEME);
 					view.stopLoading ();
 					Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
 							.parse (url));
