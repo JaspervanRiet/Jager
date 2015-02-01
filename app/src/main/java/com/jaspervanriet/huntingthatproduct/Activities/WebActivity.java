@@ -150,18 +150,18 @@ public class WebActivity extends ActionBarActivity {
 		mWebView.setWebViewClient (new WebViewClient () {
 			@Override
 			public void onLoadResource (WebView view, String url) {
-				if (url.contains (URL_PLAY_STORE_SCHEME)) {
-					url.replace (URL_PLAY_STORE_SCHEME, URL_DEVICE_PLAY_STORE_SCHEME);
+				if (isPlayStoreLink (url)) {
+					redirectToPlayStore (url);
 					view.stopLoading ();
-					Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
-							.parse (url));
-					startActivity (intent);
 				}
 			}
 
 			@Override
 			public void onPageFinished (WebView view, String url) {
 				getSupportActionBar ().setTitle (mProduct.title);
+				if (isPlayStoreLink (url)) {
+					redirectToPlayStore (url);
+				}
 			}
 
 			@Override
@@ -175,6 +175,17 @@ public class WebActivity extends ActionBarActivity {
 		mWebView.getSettings ().setBuiltInZoomControls (true);
 		mWebView.getSettings ().setDisplayZoomControls (false);
 		mWebView.getSettings ().getJavaScriptEnabled ();
+	}
+
+	private void redirectToPlayStore (String url) {
+		url.replace (URL_PLAY_STORE_SCHEME, URL_DEVICE_PLAY_STORE_SCHEME);
+		Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
+				.parse (url));
+		startActivity (intent);
+	}
+
+	private boolean isPlayStoreLink (String url) {
+		return url.contains (URL_PLAY_STORE_SCHEME);
 	}
 
 	private void expandAnimation (Bundle savedInstanceState) {
