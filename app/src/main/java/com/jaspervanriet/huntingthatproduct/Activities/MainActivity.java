@@ -64,11 +64,12 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends BaseActivity
 		implements ProductListAdapter.OnProductClickListener,
-		DatePickerDialog.OnDateSetListener,
-		FeedContextMenu.OnFeedContextMenuItemClickListener {
+				   DatePickerDialog.OnDateSetListener,
+				   FeedContextMenu.OnFeedContextMenuItemClickListener {
 
 	private final static int ANIM_TOOLBAR_INTRO_DURATION = 350;
-	private final static String URL_PLAY_STORE = "market://details?id=com.jaspervanriet.huntingthatproduct";
+	private final static String URL_PLAY_STORE = "market://details?id=com.jaspervanriet" +
+			".huntingthatproduct";
 
 	private ArrayList<Product> mProducts = new ArrayList<> ();
 	private ProductListAdapter mListAdapter;
@@ -90,9 +91,13 @@ public class MainActivity extends BaseActivity
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
+
+		// If you do not use Fabric, remove this. Be sure to remove the references in build.gradle
+		// as well.
 		if (sendCrashData ()) {
 			Fabric.with (this, new Crashlytics ());
 		}
+
 		setContentView (R.layout.activity_main);
 		super.onCreateDrawer ();
 		ButterKnife.inject (this);
@@ -257,7 +262,6 @@ public class MainActivity extends BaseActivity
 				});
 	}
 
-	// Retrieves content and adds it to mProducts
 	private void getProducts () {
 		String url;
 		if (mDataSet) {
@@ -335,16 +339,15 @@ public class MainActivity extends BaseActivity
 	private final Runnable refreshingContent = new Runnable () {
 		public void run () {
 			try {
-				// If still refreshing, run again
 				if (mIsRefreshing) {
 					mHandler.postDelayed (this, 1000);
-					// else stop animation
 				} else {
 					mProgressWheel.stopSpinning ();
 					mProgressWheel.setVisibility (View.GONE);
 					checkEmpty ();
 				}
-			} catch (Exception error) {
+			}
+			catch (Exception error) {
 				error.printStackTrace ();
 			}
 		}
