@@ -8,6 +8,16 @@ An unofficial Android client for Product Hunt with a heavy focus on material des
 ### Download
 [Find the app on the Google Play Store][applink]
 
+### API Keys
+
+Please replace the API keys with your own. The Product Hunt Api key doesn't work anyway. Be sure to put your Fabric API keys (if you have them, otherwise remove all references to Fabric) in crashlytics.properties.
+
+_app/crashlytics.properties_
+```ini
+apiSecret=yourapisecret
+apiKey=yourapikey
+```
+
 ### Libraries
 * [Picasso] - A powerful image downloading and caching library for Android
 * [Ion] - Android Asynchronous Networking and Image Loading
