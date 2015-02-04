@@ -44,7 +44,6 @@
         <activity
             android:name=".Activities.AboutActivity"
             />
-
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

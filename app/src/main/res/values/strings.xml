@@ -2,11 +2,9 @@
 <resources>
 
     <string name="app_name">Jager</string>
+    <string name="dev_name">Created by\n Jasper van Riet</string>
 
     <string name="screenshot_description">Screenshot previewing the website</string>
-    <string name="votes">votes</string>
-    <string name="comments">comments</string>
-    <string name="jasper_van_riet">Created by\n Jasper van Riet</string>
 
     <string name="view_empty_comments">No comments. None!</string>
     <string name="view_empty_products">Can\'t find any products!</string>
@@ -23,7 +21,7 @@
     <string name="actionbar_loading">Loading…</string>
 
     <string-array name="drawer_items">
-        <item>Today\'s Products</item>
+        <item>Products</item>
         <item>Collections</item>
         <item>Settings</item>
         <item>About</item>
@@ -33,7 +31,7 @@
     <string name="close">Close</string>
     <string name="cancel">Cancel</string>
 
-    <string name="error_connection">Connection error</string>
+    <string name="error_connection">Error in connecting to Product Hunt</string>
     <string name="error_ssl">SSL error: this website is not safe</string>
 
     <string name="settings_category_general">General</string>

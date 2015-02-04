@@ -160,7 +160,7 @@ public class BaseActivity extends ActionBarActivity {
 		actionBar.setElevation (5);
 		switch (getSelfNavDrawerItem ()) {
 			case NAVDRAWER_ITEM_TODAYS_PRODUCTS:
-				actionBar.setTitle (drawerData[0]);
+				actionBar.setTitle ("Today\'s " + drawerData[0]);
 				break;
 			case NAVDRAWER_ITEM_COLLECTIONS:
 				actionBar.setTitle ("Featured " + drawerData[1]);
