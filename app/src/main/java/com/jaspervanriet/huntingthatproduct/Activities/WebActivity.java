@@ -166,7 +166,7 @@ public class WebActivity extends ActionBarActivity {
 
 			@Override
 			public void onReceivedSslError (WebView view, @NonNull SslErrorHandler handler,
-											SslError error) {
+			                                SslError error) {
 				Toast.makeText (WebActivity.this, getString (R.string.error_ssl),
 						Toast.LENGTH_LONG).show ();
 			}
@@ -174,7 +174,7 @@ public class WebActivity extends ActionBarActivity {
 		mWebView.loadUrl (mProduct.productUrl);
 		mWebView.getSettings ().setBuiltInZoomControls (true);
 		mWebView.getSettings ().setDisplayZoomControls (false);
-		mWebView.getSettings ().getJavaScriptEnabled ();
+		mWebView.getSettings ().setJavaScriptEnabled (true);
 	}
 
 	private void redirectToPlayStore (String url) {
