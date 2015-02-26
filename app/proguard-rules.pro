@@ -14,6 +14,10 @@
 -keepnames class * { @butterknife.InjectView *;}
 -dontwarn com.squareup.okhttp.**
 -keepattributes SourceFile,LineNumberTable
+-keepnames public class * extends io.realm.RealmObject
+-keep class io.realm.** { *; }
+-dontwarn javax.**
+-dontwarn io.realm.**
 
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
