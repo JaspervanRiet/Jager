@@ -55,7 +55,8 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.2.1@aar') {
         transitive = true;
     }
-    compile 'io.realm:realm-android:0.79.0'
+    compile 'io.realm:realm-android:0.79.1'
+    compile 'com.fabiendevos:nanotasks:1.0.0'
 }
 
 afterEvaluate {

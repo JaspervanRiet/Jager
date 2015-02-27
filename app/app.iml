@@ -100,7 +100,8 @@
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="robototextview-2.3.0" level="project" />
     <orderEntry type="library" exported="" name="butterknife-6.0.0" level="project" />
-    <orderEntry type="library" exported="" name="realm-android-0.79.0" level="project" />
+    <orderEntry type="library" exported="" name="realm-android-0.79.1" level="project" />
+    <orderEntry type="library" exported="" name="nanotasks-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3" level="project" />
     <orderEntry type="library" exported="" name="androidasync-2.0.5" level="project" />
