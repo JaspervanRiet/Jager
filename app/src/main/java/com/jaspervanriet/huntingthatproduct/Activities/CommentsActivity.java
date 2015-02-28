@@ -49,6 +49,8 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class CommentsActivity extends ActionBarActivity {
 
@@ -78,13 +80,27 @@ public class CommentsActivity extends ActionBarActivity {
 		setContentView (R.layout.activity_comments);
 		ButterKnife.inject (this);
 
-		mProduct = getIntent ().getParcelableExtra ("product");
+		getProduct ();
+
 		setupToolBar ();
 		mComments = new ArrayList<> ();
 		expandAnimation (savedInstanceState);
 		mCommentListAdapter = new CommentListAdapter (this, mComments);
 		setupRecyclerView ();
 		completeRefresh ();
+	}
+
+	private void getProduct () {
+		int productId = getIntent ().getIntExtra ("productId", 0);
+
+		Realm realm = Realm.getInstance (this);
+		RealmResults<Product> result = realm.where (Product.class)
+				.equalTo ("id", productId)
+				.findAll ();
+
+		if (result.size () != 0) {
+			mProduct = result.get (0);
+		}
 	}
 
 	@Override
@@ -135,7 +151,7 @@ public class CommentsActivity extends ActionBarActivity {
 	}
 
 	private void getComments () {
-		Ion.with (this).load (Constants.API_URL + "posts/" + mProduct.id)
+		Ion.with (this).load (Constants.API_URL + "posts/" + mProduct.getId ())
 				.setHeader ("Authorization", "Bearer " + Constants.CLIENT_TOKEN)
 				.asJsonObject ()
 				.setCallback (new FutureCallback<JsonObject> () {
@@ -205,7 +221,7 @@ public class CommentsActivity extends ActionBarActivity {
 	private void setupToolBar () {
 		setSupportActionBar (mToolBar);
 		ActionBar actionBar = getSupportActionBar ();
-		actionBar.setTitle (mProduct.title);
+		actionBar.setTitle (mProduct.getTitle ());
 		actionBar.setElevation (5);
 		actionBar.setDisplayHomeAsUpEnabled (true);
 	}

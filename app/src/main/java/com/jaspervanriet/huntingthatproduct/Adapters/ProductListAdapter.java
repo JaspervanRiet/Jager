@@ -75,15 +75,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 	}
 
 	private void loadCardText (ProductViewHolder holder) {
-		holder.title.setText (mProducts.get (holder.getPosition ()).title);
-		holder.description.setText (mProducts.get (holder.getPosition ()).tagline);
-		holder.votes.setText (String.valueOf (mProducts.get (holder.getPosition ()).votes));
+		holder.title.setText (mProducts.get (holder.getPosition ()).getTitle ());
+		holder.description.setText (mProducts.get (holder.getPosition ()).getTagline ());
+		holder.votes.setText (String.valueOf (mProducts.get (holder.getPosition ()).getVotes ()));
 		holder.comments.setText (String.valueOf (mProducts.get (holder.getPosition ())
-				.numberOfComments));
+				.getNumberOfComments ()));
 	}
 
 	private void loadImage (final ProductViewHolder holder) {
-		String imgUrl = mProducts.get (holder.getPosition ()).smallImgUrl;
+		String imgUrl = mProducts.get (holder.getPosition ()).getSmallImgUrl ();
 		holder.progressWheel.setVisibility (View.VISIBLE);
 		holder.progressWheel.spin ();
 		Picasso.with (mContext).load (imgUrl)

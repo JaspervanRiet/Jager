@@ -17,22 +17,41 @@
 
 package com.jaspervanriet.huntingthatproduct.Classes;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.JsonObject;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-public class Product implements Parcelable {
-	public int id;
-	public String title;
-	public String tagline;
-	public String discussionUrl;
-	public String productUrl;
-	public int votes;
-	public int numberOfComments;
-	public String smallImgUrl;
-	public String largeImgUrl;
+public class Product extends RealmObject {
+
+	@PrimaryKey
+	private int id;
+
+	private String title;
+	private String tagline;
+	private String discussionUrl;
+	private String productUrl;
+	private int votes;
+	private int numberOfComments;
+	private String smallImgUrl;
+	private String largeImgUrl;
+	private String date;
+	private boolean read;
+
+	// Empty constructor needed for Realm
+	public Product () {
+		this.id = 0;
+		this.title = "";
+		this.tagline = "";
+		this.discussionUrl = "";
+		this.productUrl = "";
+		this.votes = 0;
+		this.numberOfComments = 0;
+		this.smallImgUrl = "";
+		this.largeImgUrl = "";
+		this.date = "";
+		this.read = false;
+	}
 
 	public Product (int id,
 	                String title,
@@ -42,7 +61,8 @@ public class Product implements Parcelable {
 	                int votes,
 	                int numberOfComments,
 	                String smallImgUrl,
-	                String largeImgUrl) {
+	                String largeImgUrl,
+	                String day) {
 		this.id = id;
 		this.title = title;
 		this.tagline = tagline;
@@ -52,6 +72,8 @@ public class Product implements Parcelable {
 		this.numberOfComments = numberOfComments;
 		this.smallImgUrl = smallImgUrl;
 		this.largeImgUrl = largeImgUrl;
+		this.date = day;
+		this.read = false;
 	}
 
 	public Product (JsonObject object) {
@@ -63,48 +85,96 @@ public class Product implements Parcelable {
 				object.get ("votes_count").getAsInt (),
 				object.get ("comments_count").getAsInt (),
 				object.get ("screenshot_url").getAsJsonObject ().get ("300px").getAsString (),
-				object.get ("screenshot_url").getAsJsonObject ().get ("850px").getAsString ());
+				object.get ("screenshot_url").getAsJsonObject ().get ("850px")
+						.getAsString (),
+				object.get ("day").getAsString ());
 	}
 
-
-	@Override
-	public int describeContents () {
-		return 0;
+	public int getId () {
+		return id;
 	}
 
-	@Override
-	public void writeToParcel (Parcel out, int flags) {
-		out.writeInt (id);
-		out.writeString (title);
-		out.writeString (tagline);
-		out.writeString (discussionUrl);
-		out.writeString (productUrl);
-		out.writeInt (votes);
-		out.writeInt (numberOfComments);
-		out.writeString (smallImgUrl);
-		out.writeString (largeImgUrl);
+	public void setId (int id) {
+		this.id = id;
 	}
 
-	public static final Creator<Product> CREATOR = new Parcelable.Creator<Product> () {
-		public Product createFromParcel (Parcel in) {
-			return new Product (in);
-		}
-
-		public Product[] newArray (int size) {
-			return new Product[size];
-		}
-	};
-
-	private Product (Parcel in) {
-		this.id = in.readInt ();
-		this.title = in.readString ();
-		this.tagline = in.readString ();
-		this.discussionUrl = in.readString ();
-		this.productUrl = in.readString ();
-		this.votes = in.readInt ();
-		this.numberOfComments = in.readInt ();
-		this.smallImgUrl = in.readString ();
-		this.largeImgUrl = in.readString ();
+	public String getTitle () {
+		return title;
 	}
 
+	public void setTitle (String title) {
+		this.title = title;
+	}
+
+	public String getTagline () {
+		return tagline;
+	}
+
+	public void setTagline (String tagline) {
+		this.tagline = tagline;
+	}
+
+	public String getDiscussionUrl () {
+		return discussionUrl;
+	}
+
+	public void setDiscussionUrl (String discussionUrl) {
+		this.discussionUrl = discussionUrl;
+	}
+
+	public String getProductUrl () {
+		return productUrl;
+	}
+
+	public void setProductUrl (String productUrl) {
+		this.productUrl = productUrl;
+	}
+
+	public int getVotes () {
+		return votes;
+	}
+
+	public void setVotes (int votes) {
+		this.votes = votes;
+	}
+
+	public int getNumberOfComments () {
+		return numberOfComments;
+	}
+
+	public void setNumberOfComments (int numberOfComments) {
+		this.numberOfComments = numberOfComments;
+	}
+
+	public String getSmallImgUrl () {
+		return smallImgUrl;
+	}
+
+	public void setSmallImgUrl (String smallImgUrl) {
+		this.smallImgUrl = smallImgUrl;
+	}
+
+	public String getLargeImgUrl () {
+		return largeImgUrl;
+	}
+
+	public void setLargeImgUrl (String largeImgUrl) {
+		this.largeImgUrl = largeImgUrl;
+	}
+
+	public String getDate () {
+		return date;
+	}
+
+	public void setDate (String date) {
+		this.date = date;
+	}
+
+	public boolean isRead () {
+		return read;
+	}
+
+	public void setRead (boolean read) {
+		this.read = read;
+	}
 }

@@ -44,6 +44,8 @@ import com.jaspervanriet.huntingthatproduct.Utils.Utils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class WebActivity extends ActionBarActivity {
 
@@ -68,10 +70,24 @@ public class WebActivity extends ActionBarActivity {
 		setContentView (R.layout.activity_web);
 		ButterKnife.inject (this);
 
-		mProduct = getIntent ().getParcelableExtra ("product");
+		getProduct ();
+
 		expandAnimation (savedInstanceState);
 		setupToolbar ();
 		setupWebView ();
+	}
+
+	private void getProduct () {
+		int productId = getIntent ().getIntExtra ("productId", 0);
+
+		Realm realm = Realm.getInstance (this);
+		RealmResults<Product> result = realm.where (Product.class)
+				.equalTo ("id", productId)
+				.findAll ();
+
+		if (result.size () != 0) {
+			mProduct = result.get (0);
+		}
 	}
 
 	@Override
@@ -110,15 +126,15 @@ public class WebActivity extends ActionBarActivity {
 
 	private void openInBrowser () {
 		Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
-				.parse (mProduct.productUrl));
+				.parse (mProduct.getProductUrl ()));
 		startActivity (intent);
 	}
 
 	private Intent getShareIntent () {
 		Intent i = new Intent (Intent.ACTION_SEND);
 		i.setType ("text/plain");
-		i.putExtra (Intent.EXTRA_SUBJECT, mProduct.title);
-		i.putExtra (Intent.EXTRA_TEXT, mProduct.productUrl);
+		i.putExtra (Intent.EXTRA_SUBJECT, mProduct.getTitle ());
+		i.putExtra (Intent.EXTRA_TEXT, mProduct.getProductUrl ());
 		return i;
 	}
 
@@ -158,7 +174,7 @@ public class WebActivity extends ActionBarActivity {
 
 			@Override
 			public void onPageFinished (WebView view, String url) {
-				getSupportActionBar ().setTitle (mProduct.title);
+				getSupportActionBar ().setTitle (mProduct.getTitle ());
 				if (isPlayStoreLink (url)) {
 					redirectToPlayStore (url);
 				}
@@ -171,7 +187,7 @@ public class WebActivity extends ActionBarActivity {
 						Toast.LENGTH_LONG).show ();
 			}
 		});
-		mWebView.loadUrl (mProduct.productUrl);
+		mWebView.loadUrl (mProduct.getProductUrl ());
 		mWebView.getSettings ().setBuiltInZoomControls (true);
 		mWebView.getSettings ().setDisplayZoomControls (false);
 		mWebView.getSettings ().setJavaScriptEnabled (true);

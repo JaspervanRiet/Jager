@@ -60,7 +60,7 @@ import butterknife.InjectView;
 
 public class CollectionActivity extends ActionBarActivity
 		implements ProductListAdapter.OnProductClickListener,
-				   FeedContextMenu.OnFeedContextMenuItemClickListener {
+		FeedContextMenu.OnFeedContextMenuItemClickListener {
 
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 	private static final int ANIM_LAYOUT_INTRO_DURATION = 250;
@@ -287,7 +287,7 @@ public class CollectionActivity extends ActionBarActivity
 		int[] startingLocation = new int[2];
 		v.getLocationOnScreen (startingLocation);
 		i.putExtra (CommentsActivity.ARG_DRAWING_START_LOCATION, startingLocation[1]);
-		i.putExtra ("product", product);
+		i.putExtra ("productId", product.getId ());
 		startActivity (i);
 		overridePendingTransition (0, 0);
 	}
@@ -297,8 +297,8 @@ public class CollectionActivity extends ActionBarActivity
 		Product product = mProducts.get (feedItem);
 		Intent share = new Intent (android.content.Intent.ACTION_SEND);
 		share.setType ("text/plain");
-		share.putExtra (Intent.EXTRA_SUBJECT, product.title);
-		share.putExtra (Intent.EXTRA_TEXT, product.productUrl);
+		share.putExtra (Intent.EXTRA_SUBJECT, product.getTitle ());
+		share.putExtra (Intent.EXTRA_TEXT, product.getProductUrl ());
 		startActivity (Intent.createChooser (share, "Share product"));
 		FeedContextMenuManager.getInstance ().hideContextMenu ();
 	}

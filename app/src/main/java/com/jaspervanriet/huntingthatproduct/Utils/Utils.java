@@ -20,6 +20,8 @@ package com.jaspervanriet.huntingthatproduct.Utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -53,5 +55,15 @@ public class Utils {
 		}
 
 		return screenWidth;
+	}
+
+
+	public static boolean hasInternetAccess (Context c) {
+		ConnectivityManager cm =
+				(ConnectivityManager) c.getSystemService (Context.CONNECTIVITY_SERVICE);
+
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo ();
+		return activeNetwork != null &&
+				activeNetwork.isConnectedOrConnecting ();
 	}
 }

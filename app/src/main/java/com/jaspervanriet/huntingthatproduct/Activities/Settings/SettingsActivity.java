@@ -47,7 +47,7 @@ public class SettingsActivity extends BaseActivity {
 		return NAVDRAWER_ITEM_SETTINGS;
 	}
 
-	public boolean getCrashDataPref (Context context) {
+	public static boolean getCrashDataPref (Context context) {
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences (context);
 		return sharedPrefs.getBoolean (SettingsActivity.KEY_CRASH_DATA, true);

@@ -18,6 +18,7 @@
 package com.jaspervanriet.huntingthatproduct.Activities;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -50,22 +51,28 @@ import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenu;
 import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenuManager;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.nanotasks.BackgroundWork;
+import com.nanotasks.Completion;
+import com.nanotasks.Tasks;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.concurrent.TimeoutException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.fabric.sdk.android.Fabric;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class MainActivity extends BaseActivity
 		implements ProductListAdapter.OnProductClickListener,
-				   DatePickerDialog.OnDateSetListener,
-				   FeedContextMenu.OnFeedContextMenuItemClickListener {
+		DatePickerDialog.OnDateSetListener,
+		FeedContextMenu.OnFeedContextMenuItemClickListener {
 
 	private final static int ANIM_TOOLBAR_INTRO_DURATION = 350;
 	private final static String URL_PLAY_STORE = "market://details?id=com.jaspervanriet" +
@@ -77,7 +84,13 @@ public class MainActivity extends BaseActivity
 	private Boolean mIsRefreshing = false;
 	private Boolean startIntroAnimation = true;
 	private String mDateString;
-	private boolean mDataSet = false;
+	private JsonObject mJsonResult;
+
+	// Date for last time user used the app
+	private String mSavedDate;
+
+	// true if user has picked a day to view products for
+	private boolean mDateSet = false;
 
 	@InjectView (R.id.toolbar)
 	Toolbar mToolBar;
@@ -108,6 +121,7 @@ public class MainActivity extends BaseActivity
 
 		setToolBar ();
 		getTodaysDate ();
+		removeOldCache ();
 
 		mProgressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
 		mListAdapter = new ProductListAdapter (this, mProducts);
@@ -181,6 +195,28 @@ public class MainActivity extends BaseActivity
 		return NAVDRAWER_ITEM_TODAYS_PRODUCTS;
 	}
 
+	private void removeOldCache () {
+		mSavedDate = getSharedPreferences ("PREFERENCE",
+				MODE_PRIVATE).getString ("saved_date", mDateString);
+		if (!mSavedDate.equals (mDateString)) {
+			Toast.makeText (this, "not equal", Toast.LENGTH_SHORT).show ();
+			Realm realm = Realm.getInstance (this);
+			realm.executeTransaction (new Realm.Transaction () {
+				@Override
+				public void execute (Realm realm) {
+					RealmResults<Product> result = realm.where (Product.class)
+							.equalTo ("date", mSavedDate)
+							.findAll ();
+					result.clear ();
+				}
+			});
+			getSharedPreferences ("PREFERENCE", MODE_PRIVATE)
+					.edit ()
+					.putString ("saved_date", mDateString)
+					.apply ();
+		}
+	}
+
 	private void showDatePickerDialog () {
 		DialogFragment dialogFragment = new DatePickerFragment ();
 		dialogFragment.show (getSupportFragmentManager (), "dataPicker");
@@ -190,7 +226,7 @@ public class MainActivity extends BaseActivity
 		int[] startingLocation = new int[2];
 		v.getLocationOnScreen (startingLocation);
 		i.putExtra (CommentsActivity.ARG_DRAWING_START_LOCATION, startingLocation[1]);
-		i.putExtra ("product", product);
+		i.putExtra ("productId", product.getId ());
 		startActivity (i);
 		overridePendingTransition (0, 0);
 	}
@@ -232,10 +268,22 @@ public class MainActivity extends BaseActivity
 		mIsRefreshing = true;
 		mHandler.post (refreshingContent);
 		mProducts.clear ();
-		if (Constants.TOKEN_EXPIRES < System.currentTimeMillis ()) {
-			getAuthToken ();
+
+		if (!(Utils.hasInternetAccess (this))) {
+			if (mSavedDate.equals (mDateString)) {
+				getLocalCache ();
+				showUpdatedList ();
+			} else {
+				showNoConnectionError ();
+				mIsRefreshing = false;
+				checkEmpty ();
+			}
 		} else {
-			getProducts ();
+			if (Constants.TOKEN_EXPIRES < System.currentTimeMillis ()) {
+				getAuthToken ();
+			} else {
+				getProducts ();
+			}
 		}
 	}
 
@@ -264,7 +312,7 @@ public class MainActivity extends BaseActivity
 
 	private void getProducts () {
 		String url;
-		if (mDataSet) {
+		if (mDateSet) {
 			url = Constants.API_URL + "posts?day=" + mDateString;
 		} else {
 			url = Constants.API_URL + "posts";
@@ -276,30 +324,86 @@ public class MainActivity extends BaseActivity
 					@Override
 					public void onCompleted (Exception e, JsonObject result) {
 						if (e != null && e instanceof TimeoutException) {
-							Toast.makeText (MainActivity.this,
-									getResources ().getString
-											(R.string.error_connection),
-									Toast.LENGTH_SHORT).show ();
+							getLocalCache ();
 							return;
 						}
 						if (result != null && result.has ("posts")) {
-							int i;
-							JsonArray products = result.getAsJsonArray ("posts");
-							for (i = 0; i < products.size (); i++) {
-								JsonObject obj = products.get (i).getAsJsonObject ();
-								Product product = new Product (obj);
-								mProducts.add (product);
-							}
-							mListAdapter.notifyDataSetChanged ();
-							mIsRefreshing = false;
+							mJsonResult = result;
+							Tasks.executeInBackground (getApplicationContext (),
+									new BackgroundWork<Void> () {
+										@Override
+										public Void doInBackground () throws Exception {
+											processPosts ();
+											return null;
+
+										}
+									}, new Completion<Void> () {
+										@Override
+										public void onSuccess (Context context, Void result) {
+											queryRealmForProducts ();
+											showUpdatedList ();
+										}
+
+										@Override
+										public void onError (Context context, Exception e) {
+											Crashlytics.logException (e);
+										}
+									});
+
 						}
 					}
 				});
 	}
 
+	private void showUpdatedList () {
+		mListAdapter.notifyDataSetChanged ();
+		mIsRefreshing = false;
+	}
+
+	private void getLocalCache () {
+		showNoConnectionError ();
+		queryRealmForProducts ();
+	}
+
+	private void showNoConnectionError () {
+		Toast.makeText (this, getResources ().getString (R.string.error_connection),
+				Toast.LENGTH_SHORT).show ();
+	}
+
+	private void processPosts () {
+		int i;
+		JsonArray products = mJsonResult.getAsJsonArray ("posts");
+		for (i = 0; i < products.size (); i++) {
+			JsonObject obj = products.get (i).getAsJsonObject ();
+			Product product = new Product (obj);
+			cacheProduct (product);
+		}
+	}
+
+	private void queryRealmForProducts () {
+		Realm realm = Realm.getInstance (this);
+		RealmResults<Product> resultProducts = realm.where (Product.class)
+				.equalTo ("date", mDateString)
+				.findAll ();
+		resultProducts.sort ("votes", RealmResults.SORT_ORDER_DESCENDING);
+		for (Product product : resultProducts) {
+			mProducts.add (product);
+		}
+	}
+
+	// Saves Product to Realm or updates the Realm entry if db contains Product already.
+	private void cacheProduct (final Product product) {
+		Realm realm = Realm.getInstance (this);
+		realm.executeTransaction (new Realm.Transaction () {
+			@Override
+			public void execute (Realm realm) {
+				Product realmProduct = realm.copyToRealmOrUpdate (product);
+			}
+		});
+	}
+
 	private boolean sendCrashData () {
-		SettingsActivity settingsActivity = new SettingsActivity ();
-		return settingsActivity.getCrashDataPref (this);
+		return SettingsActivity.getCrashDataPref (this);
 	}
 
 	private void setActionBarTitle (String title) {
@@ -315,6 +419,7 @@ public class MainActivity extends BaseActivity
 
 	private void getTodaysDate () {
 		Calendar todayCalendar = Calendar.getInstance ();
+		todayCalendar.setTimeZone (TimeZone.getTimeZone ("PST"));
 		mDateString = getDateFormattedString (todayCalendar);
 	}
 
@@ -323,8 +428,7 @@ public class MainActivity extends BaseActivity
 	}
 
 	private String getDateFormattedString (Calendar calendar) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat (
-				"yyyy-MM-dd");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("yyyy-MM-dd");
 		return simpleDateFormat.format (calendar.getTime ());
 	}
 
@@ -346,8 +450,7 @@ public class MainActivity extends BaseActivity
 					mProgressWheel.setVisibility (View.GONE);
 					checkEmpty ();
 				}
-			}
-			catch (Exception error) {
+			} catch (Exception error) {
 				error.printStackTrace ();
 			}
 		}
@@ -355,7 +458,7 @@ public class MainActivity extends BaseActivity
 
 	@Override
 	public void onDateSet (DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-		mDataSet = true;
+		mDateSet = true;
 		Calendar chosenCalendar = Calendar.getInstance ();
 		chosenCalendar.set (Calendar.YEAR, year);
 		chosenCalendar.set (Calendar.MONTH, monthOfYear);
@@ -370,8 +473,8 @@ public class MainActivity extends BaseActivity
 		Product product = mProducts.get (feedItem);
 		Intent share = new Intent (android.content.Intent.ACTION_SEND);
 		share.setType ("text/plain");
-		share.putExtra (Intent.EXTRA_SUBJECT, product.title);
-		share.putExtra (Intent.EXTRA_TEXT, product.productUrl);
+		share.putExtra (Intent.EXTRA_SUBJECT, product.getTitle ());
+		share.putExtra (Intent.EXTRA_TEXT, product.getProductUrl ());
 		startActivity (Intent.createChooser (share, "Share product"));
 		FeedContextMenuManager.getInstance ().hideContextMenu ();
 	}
