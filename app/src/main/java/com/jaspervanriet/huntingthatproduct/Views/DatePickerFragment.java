@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import com.jaspervanriet.huntingthatproduct.Activities.MainActivity;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class DatePickerFragment extends DialogFragment {
 
@@ -17,7 +18,9 @@ public class DatePickerFragment extends DialogFragment {
 		int year = c.get (Calendar.YEAR);
 		int month = c.get (Calendar.MONTH);
 		int day = c.get (Calendar.DAY_OF_MONTH);
-		return new DatePickerDialog (getActivity (), (MainActivity) getActivity (), year, month,
-				day);
+		DatePickerDialog dialog = new DatePickerDialog (getActivity (),
+				(MainActivity) getActivity (), year, month, day);
+		dialog.getDatePicker ().setMaxDate (new Date ().getTime ());
+		return dialog;
 	}
 }
