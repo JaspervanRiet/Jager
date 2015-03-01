@@ -21,6 +21,9 @@ apiKey=yourapikey
 ### Libraries
 * [Picasso] - A powerful image downloading and caching library for Android
 * [Ion] - Android Asynchronous Networking and Image Loading
+* [Realm] - Realm is a mobile database: a replacement for SQLite & ORMs
+* [NanoTasks] - Extremely light way to execute code in the background on Android. Alternative to AsyncTask.
+* [Android-RobotoTextView] - Implementation of a TextView and all its direct/indirect subclasses with native support for the Roboto fonts, includes the brand new Roboto Slab fonts.
 * [Butterknife] - View "injection" library for Android
 * [LicensesDialog] - LicensesDialog is an open source library to display licenses of third-party libraries in an Android app.
 * [Materialish-Progress] - A material style progress wheel compatible with 2.3
@@ -50,6 +53,8 @@ License
 
 [Picasso]:http://square.github.io/picasso/
 [Ion]:https://github.com/koush/ion
+[Realm]:https://github.com/realm/realm-java
+[NanoTasks]:https://github.com/fabiendevos/nanotasks
 [Butterknife]:jakewharton.github.io/butterknife/
 [LicensesDialog]:https://github.com/PSDev/LicensesDialog
 [Materialish-Progress]:https://github.com/pnikosis/materialish-progress
