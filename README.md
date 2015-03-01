@@ -27,7 +27,6 @@ apiKey=yourapikey
 * [Butterknife] - View "injection" library for Android
 * [LicensesDialog] - LicensesDialog is an open source library to display licenses of third-party libraries in an Android app.
 * [Materialish-Progress] - A material style progress wheel compatible with 2.3
-* [Android-RobotoTextView] - Implementation of a TextView and all its direct/indirect subclasses with native support for the Roboto fonts, includes the brand new Roboto Slab fonts.
 
 ### Thanks to
 * [frogermcs/InstaMaterial] - Fantastic introduction to some of the new animation API's in Android Lollipop
