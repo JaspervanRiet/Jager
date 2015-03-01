@@ -48,4 +48,16 @@
         <copyright>Copyright (C) 2014 Evgeny Shishkin</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
+    <notice>
+        <name>Realm Java</name>
+        <url>https://github.com/realm/realm-java</url>
+        <copyright>Copyright (C) 2015 Realm</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>NanoTask</name>
+        <url>https://github.com/fabiendevos/nanotasks</url>
+        <copyright>Copyright (C) 2015 Fabien Devos</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
 </notices>

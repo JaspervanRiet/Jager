@@ -45,7 +45,7 @@
     <string name="settings_crash_data">Automatically submit crash
         reports</string>
     <string name="settings_open_source_licenses">Open source licenses</string>
-    <string name="settings_show_as_read">Show indicator for seen products</string>
+    <string name="settings_show_as_read">Show indicator for viewed products</string>
     <string name="settings_send_feedback">Send feedback</string>
 
 
