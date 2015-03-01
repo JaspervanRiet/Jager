@@ -41,6 +41,7 @@ public class Product extends RealmObject {
 	private String date;
 	private boolean read;
 	private int rank;
+	private boolean seen;
 
 	// Empty constructor needed for Realm
 	public Product () {
@@ -197,5 +198,13 @@ public class Product extends RealmObject {
 
 	public void setRank (int rank) {
 		this.rank = rank;
+	}
+
+	public boolean isSeen () {
+		return seen;
+	}
+
+	public void setSeen (boolean seen) {
+		this.seen = seen;
 	}
 }
