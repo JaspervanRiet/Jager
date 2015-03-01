@@ -38,7 +38,6 @@ public class Product extends RealmObject {
 	private int votes;
 	private int numberOfComments;
 	private String smallImgUrl;
-	private String largeImgUrl;
 	private String date;
 	private boolean read;
 	private int rank;
@@ -53,7 +52,6 @@ public class Product extends RealmObject {
 		this.votes = 0;
 		this.numberOfComments = 0;
 		this.smallImgUrl = "";
-		this.largeImgUrl = "";
 		this.date = "";
 		this.read = false;
 		this.rank = 0;
@@ -67,7 +65,6 @@ public class Product extends RealmObject {
 	                int votes,
 	                int numberOfComments,
 	                String smallImgUrl,
-	                String largeImgUrl,
 	                String day) {
 		this.id = id;
 		this.title = title;
@@ -77,7 +74,6 @@ public class Product extends RealmObject {
 		this.votes = votes;
 		this.numberOfComments = numberOfComments;
 		this.smallImgUrl = smallImgUrl;
-		this.largeImgUrl = largeImgUrl;
 		this.date = day;
 		this.read = false;
 	}
@@ -91,8 +87,6 @@ public class Product extends RealmObject {
 				object.get ("votes_count").getAsInt (),
 				object.get ("comments_count").getAsInt (),
 				object.get ("screenshot_url").getAsJsonObject ().get ("300px").getAsString (),
-				object.get ("screenshot_url").getAsJsonObject ().get ("850px")
-						.getAsString (),
 				object.get ("day").getAsString ());
 	}
 
@@ -179,14 +173,6 @@ public class Product extends RealmObject {
 
 	public void setSmallImgUrl (String smallImgUrl) {
 		this.smallImgUrl = smallImgUrl;
-	}
-
-	public String getLargeImgUrl () {
-		return largeImgUrl;
-	}
-
-	public void setLargeImgUrl (String largeImgUrl) {
-		this.largeImgUrl = largeImgUrl;
 	}
 
 	public String getDate () {

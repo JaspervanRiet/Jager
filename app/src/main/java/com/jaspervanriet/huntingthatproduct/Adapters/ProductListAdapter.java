@@ -18,8 +18,6 @@
 package com.jaspervanriet.huntingthatproduct.Adapters;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -150,14 +148,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 					.setDuration (ANIM_LIST_ENTER_DURATION)
 					.start ();
 		}
-	}
-
-	private boolean isUserOnWifi () {
-		ConnectivityManager connManager = (ConnectivityManager)
-				mContext.getSystemService (Context.CONNECTIVITY_SERVICE);
-		NetworkInfo wifi = connManager.getNetworkInfo (ConnectivityManager
-				.TYPE_WIFI);
-		return wifi.isConnected ();
 	}
 
 	public void setOnProductClickListener (OnProductClickListener onProductClickListener) {

@@ -55,6 +55,8 @@ import com.nanotasks.BackgroundWork;
 import com.nanotasks.Completion;
 import com.nanotasks.Tasks;
 import com.pnikosis.materialishprogress.ProgressWheel;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.PicassoTools;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -140,6 +142,13 @@ public class MainActivity extends BaseActivity
 	public void onRestart () {
 		super.onRestart ();
 		completeRefresh ();
+	}
+
+	@Override
+	public void onDestroy () {
+		super.onDestroy ();
+		PicassoTools.clearCache (Picasso.with (this));
+		mRealm.close ();
 	}
 
 	@Override
