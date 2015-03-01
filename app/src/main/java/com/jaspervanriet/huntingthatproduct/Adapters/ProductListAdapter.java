@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
+import com.jaspervanriet.huntingthatproduct.Activities.Settings.SettingsActivity;
 import com.jaspervanriet.huntingthatproduct.Classes.Product;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.Utils;
@@ -51,6 +52,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 	private Context mContext;
 	private OnProductClickListener mOnProductClickListener;
 	private int lastAnimatedPosition = -1;
+	private boolean showAsRead;
 
 	public ProductListAdapter (Context context, ArrayList<Product> mProducts) {
 		this.mContext = context;
@@ -72,14 +74,22 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		loadImage (holder);
 		Picasso.with (mContext).load (R.drawable.ic_votes).into (holder.votesIcon);
 		Picasso.with (mContext).load (R.drawable.ic_comment).into (holder.commentsIcon);
+
+		if (showAsRead) {
+			if (mProducts.get (position).isRead ()) {
+				holder.itemView.setAlpha (0.6f);
+			} else {
+				holder.itemView.setAlpha (1f);
+			}
+		}
 	}
 
 	private void loadCardText (ProductViewHolder holder) {
-		holder.title.setText (mProducts.get (holder.getPosition ()).getTitle ());
-		holder.description.setText (mProducts.get (holder.getPosition ()).getTagline ());
-		holder.votes.setText (String.valueOf (mProducts.get (holder.getPosition ()).getVotes ()));
-		holder.comments.setText (String.valueOf (mProducts.get (holder.getPosition ())
-				.getNumberOfComments ()));
+		Product product = mProducts.get (holder.getPosition ());
+		holder.title.setText (product.getTitle ());
+		holder.description.setText (product.getTagline ());
+		holder.votes.setText (String.valueOf (product.getVotes ()));
+		holder.comments.setText (String.valueOf (product.getNumberOfComments ()));
 	}
 
 	private void loadImage (final ProductViewHolder holder) {
@@ -107,6 +117,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		View itemView = LayoutInflater.
 				from (viewGroup.getContext ()).
 				inflate (R.layout.item_product_card, viewGroup, false);
+
+		showAsRead = SettingsActivity.getShowAsReadPref (mContext);
 		ProductViewHolder holder = new ProductViewHolder (itemView);
 		holder.screenshotRipple.setOnClickListener (this);
 		holder.viewComments.setOnClickListener (this);

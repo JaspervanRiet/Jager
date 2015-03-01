@@ -35,11 +35,11 @@ public class SettingsFragment extends PreferenceFragment {
 
 	private static final String EMAIL_DEVELOPER = "jaspervanriet@gmail.com";
 
-
 	@Override
 	public void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 		addPreferencesFromResource (R.xml.settings);
+		setupShowAsReadPref ();
 		setupCrashDataPref ();
 		setupOpenSourceLicenses ();
 		setupFeedbackPref ();
@@ -82,6 +82,30 @@ public class SettingsFragment extends PreferenceFragment {
 		new LicensesDialog.Builder (getActivity ()).setNotices (R.raw.licenses)
 				.build ()
 				.show ();
+	}
+
+	private void setupShowAsReadPref () {
+		CheckBoxPreference markAsRead = (CheckBoxPreference)
+				getPreferenceScreen ().findPreference (
+						SettingsActivity.KEY_SHOW_READ);
+		markAsRead.setOnPreferenceChangeListener (new Preference.OnPreferenceChangeListener
+				() {
+			@Override
+			public boolean onPreferenceChange (Preference preference, Object newValue) {
+				if (newValue instanceof Boolean) {
+					boolean bool = (boolean) newValue;
+					setShowAsReadPref (bool);
+				}
+				return true;
+			}
+		});
+	}
+
+	private void setShowAsReadPref (boolean bool) {
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences (getActivity ());
+		sharedPrefs.edit ().putBoolean (SettingsActivity.KEY_SHOW_READ,
+				bool).apply ();
 	}
 
 	private void setupCrashDataPref () {

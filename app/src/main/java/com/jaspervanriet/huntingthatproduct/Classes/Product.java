@@ -19,7 +19,11 @@ package com.jaspervanriet.huntingthatproduct.Classes;
 
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+
+import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
 
 public class Product extends RealmObject {
@@ -37,6 +41,7 @@ public class Product extends RealmObject {
 	private String largeImgUrl;
 	private String date;
 	private boolean read;
+	private int rank;
 
 	// Empty constructor needed for Realm
 	public Product () {
@@ -51,6 +56,7 @@ public class Product extends RealmObject {
 		this.largeImgUrl = "";
 		this.date = "";
 		this.read = false;
+		this.rank = 0;
 	}
 
 	public Product (int id,
@@ -88,6 +94,27 @@ public class Product extends RealmObject {
 				object.get ("screenshot_url").getAsJsonObject ().get ("850px")
 						.getAsString (),
 				object.get ("day").getAsString ());
+	}
+
+	public static Product findProductById (Realm realm, int id) {
+		RealmResults<Product> result = realm.where (Product.class)
+				.equalTo ("id", id)
+				.findAll ();
+
+		if (result.size () != 0) {
+			return result.get (0);
+		}
+		return null;
+	}
+
+	// Populates list with ids of read products retrieved from realm DB
+	public static void getReadProductsIds (Realm realm, ArrayList <Integer> list) {
+		RealmResults<Product> result = realm.where (Product.class)
+				.equalTo ("read", true)
+				.findAll ();
+		for (Product product : result) {
+			list.add (product.getId ());
+		}
 	}
 
 	public int getId () {
@@ -176,5 +203,13 @@ public class Product extends RealmObject {
 
 	public void setRead (boolean read) {
 		this.read = read;
+	}
+
+	public int getRank () {
+		return rank;
+	}
+
+	public void setRank (int rank) {
+		this.rank = rank;
 	}
 }

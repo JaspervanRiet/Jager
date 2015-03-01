@@ -60,6 +60,7 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeoutException;
 
@@ -79,12 +80,14 @@ public class MainActivity extends BaseActivity
 			".huntingthatproduct";
 
 	private ArrayList<Product> mProducts = new ArrayList<> ();
+	private ArrayList<Integer> mReadProductsIds = new ArrayList<> ();
 	private ProductListAdapter mListAdapter;
 	private Handler mHandler = new Handler ();
 	private Boolean mIsRefreshing = false;
 	private Boolean startIntroAnimation = true;
 	private String mDateString;
 	private JsonObject mJsonResult;
+	private Realm mRealm;
 
 	// Date for last time user used the app
 	private String mSavedDate;
@@ -118,6 +121,9 @@ public class MainActivity extends BaseActivity
 		boolean toolbarAnimation = getIntent ().getBooleanExtra
 				("toolbar_animation", true);
 		startIntroAnimation = (savedInstanceState == null) && toolbarAnimation;
+
+		mRealm = Realm.getInstance (this);
+		Product.getReadProductsIds (mRealm, mReadProductsIds);
 
 		setToolBar ();
 		getTodaysDate ();
@@ -174,12 +180,14 @@ public class MainActivity extends BaseActivity
 	@Override
 	public void onImageClick (View v, int position) {
 		Product product = mProducts.get (position);
+		setProductAsRead (product);
 		Intent openUrl = new Intent (this, WebActivity.class);
 		activityExitAnimation (v, product, openUrl);
 	}
 
 	@Override
 	public void onCommentsClick (View v, Product product) {
+		setProductAsRead (product);
 		Intent i = new Intent (this, CommentsActivity.class);
 		activityExitAnimation (v, product, i);
 	}
@@ -193,6 +201,21 @@ public class MainActivity extends BaseActivity
 	@Override
 	protected int getSelfNavDrawerItem () {
 		return NAVDRAWER_ITEM_TODAYS_PRODUCTS;
+	}
+
+	private void setProductAsRead (final Product product) {
+		mRealm.beginTransaction ();
+		int i;
+		RealmResults<Product> result = mRealm.where (Product.class)
+				.equalTo ("id", product.getId ())
+				.findAll ();
+
+		for (i = 0; i < result.size (); i++) {
+			Product resultProduct = result.get (i);
+			resultProduct.setRead (true);
+		}
+		mRealm.commitTransaction ();
+		mListAdapter.notifyDataSetChanged ();
 	}
 
 	private void removeOldCache () {
@@ -349,15 +372,14 @@ public class MainActivity extends BaseActivity
 											Crashlytics.logException (e);
 										}
 									});
-
 						}
 					}
 				});
 	}
 
 	private void showUpdatedList () {
-		mListAdapter.notifyDataSetChanged ();
 		mIsRefreshing = false;
+		mListAdapter.notifyDataSetChanged ();
 	}
 
 	private void getLocalCache () {
@@ -376,16 +398,19 @@ public class MainActivity extends BaseActivity
 		for (i = 0; i < products.size (); i++) {
 			JsonObject obj = products.get (i).getAsJsonObject ();
 			Product product = new Product (obj);
+			if (mReadProductsIds.contains (product.getId ())) {
+				product.setRead (true);
+			}
+			product.setRank (i);
 			cacheProduct (product);
 		}
 	}
 
 	private void queryRealmForProducts () {
-		Realm realm = Realm.getInstance (this);
-		RealmResults<Product> resultProducts = realm.where (Product.class)
+		RealmResults<Product> resultProducts = mRealm.where (Product.class)
 				.equalTo ("date", mDateString)
 				.findAll ();
-		resultProducts.sort ("votes", RealmResults.SORT_ORDER_DESCENDING);
+		resultProducts.sort ("rank");
 		for (Product product : resultProducts) {
 			mProducts.add (product);
 		}
@@ -400,6 +425,7 @@ public class MainActivity extends BaseActivity
 				Product realmProduct = realm.copyToRealmOrUpdate (product);
 			}
 		});
+		realm.close ();
 	}
 
 	private boolean sendCrashData () {
@@ -418,9 +444,9 @@ public class MainActivity extends BaseActivity
 	}
 
 	private void getTodaysDate () {
-		Calendar todayCalendar = Calendar.getInstance ();
-		todayCalendar.setTimeZone (TimeZone.getTimeZone ("PST"));
-		mDateString = getDateFormattedString (todayCalendar);
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("yyyy-MM-dd");
+		simpleDateFormat.setTimeZone (TimeZone.getTimeZone ("America/Los_Angeles"));
+		mDateString = simpleDateFormat.format (new Date ()) + "";
 	}
 
 	public String getMonth (int month) {

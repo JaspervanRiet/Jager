@@ -45,7 +45,6 @@ import com.jaspervanriet.huntingthatproduct.Utils.Utils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class WebActivity extends ActionBarActivity {
 
@@ -70,24 +69,14 @@ public class WebActivity extends ActionBarActivity {
 		setContentView (R.layout.activity_web);
 		ButterKnife.inject (this);
 
-		getProduct ();
+		int productId = getIntent ().getIntExtra ("productId", 0);
+		Realm realm = Realm.getInstance (this);
+		mProduct = Product.findProductById (realm, productId);
+		realm.close ();
 
 		expandAnimation (savedInstanceState);
 		setupToolbar ();
 		setupWebView ();
-	}
-
-	private void getProduct () {
-		int productId = getIntent ().getIntExtra ("productId", 0);
-
-		Realm realm = Realm.getInstance (this);
-		RealmResults<Product> result = realm.where (Product.class)
-				.equalTo ("id", productId)
-				.findAll ();
-
-		if (result.size () != 0) {
-			mProduct = result.get (0);
-		}
 	}
 
 	@Override

@@ -27,6 +27,7 @@ import com.jaspervanriet.huntingthatproduct.R;
 
 public class SettingsActivity extends BaseActivity {
 
+	public static final String KEY_SHOW_READ = "preference_show_as_read";
 	public static final String KEY_CRASH_DATA = "preference_crash_data";
 	public static final String KEY_OPEN_SOURCE_LICENSES =
 			"preference_open_source_licenses";
@@ -45,6 +46,12 @@ public class SettingsActivity extends BaseActivity {
 	@Override
 	protected int getSelfNavDrawerItem () {
 		return NAVDRAWER_ITEM_SETTINGS;
+	}
+
+	public static boolean getShowAsReadPref (Context context) {
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences (context);
+		return sharedPrefs.getBoolean (SettingsActivity.KEY_SHOW_READ, false);
 	}
 
 	public static boolean getCrashDataPref (Context context) {
