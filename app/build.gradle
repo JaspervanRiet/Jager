@@ -27,7 +27,7 @@ android {
         applicationId "com.jaspervanriet.huntingthatproduct"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 8
+        versionCode 9
         versionName "1.2"
     }
     buildTypes {

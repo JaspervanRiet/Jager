@@ -231,7 +231,6 @@ public class MainActivity extends BaseActivity
 		mSavedDate = getSharedPreferences ("PREFERENCE",
 				MODE_PRIVATE).getString ("saved_date", mDateString);
 		if (!mSavedDate.equals (mDateString)) {
-			Toast.makeText (this, "not equal", Toast.LENGTH_SHORT).show ();
 			Realm realm = Realm.getInstance (this);
 			realm.executeTransaction (new Realm.Transaction () {
 				@Override
