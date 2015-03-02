@@ -69,7 +69,7 @@ public class WebActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
-		setContentView (R.layout.activity_comments);
+		setContentView (R.layout.activity_web);
 		ButterKnife.inject (this);
 
 		int mProductId = getIntent ().getIntExtra ("productId", 0);
@@ -125,7 +125,9 @@ public class WebActivity extends ActionBarActivity {
 	@Override
 	public void onDestroy () {
 		super.onDestroy ();
-		mRealm.close ();
+		if (mRealm != null) {
+			mRealm.close ();
+		}
 	}
 
 	private void openInBrowser () {
@@ -178,7 +180,7 @@ public class WebActivity extends ActionBarActivity {
 
 			@Override
 			public void onPageFinished (WebView view, String url) {
-				getSupportActionBar ().setTitle (mProduct.getTitle ());
+				getSupportActionBar ().setTitle (mProductTitle);
 				if (isPlayStoreLink (url)) {
 					redirectToPlayStore (url);
 				}

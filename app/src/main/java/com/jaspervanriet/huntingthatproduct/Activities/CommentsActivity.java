@@ -84,7 +84,7 @@ public class CommentsActivity extends ActionBarActivity {
 
 		mProductId = getIntent ().getIntExtra ("productId", 0);
 		if (getIntent ().getBooleanExtra ("collection", false)) {
-			String mProductTitle = getIntent ().getStringExtra ("productTitle");
+			mProductTitle = getIntent ().getStringExtra ("productTitle");
 		} else {
 			mRealm = Realm.getInstance (this);
 			mProduct = Product.findProductById (mRealm, mProductId);
