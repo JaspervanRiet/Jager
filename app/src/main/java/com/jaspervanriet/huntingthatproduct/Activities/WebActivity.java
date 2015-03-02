@@ -62,6 +62,7 @@ public class WebActivity extends ActionBarActivity {
 	private Product mProduct;
 	private int mDrawingStartLocation;
 	private boolean mBackPressed = false;
+	private Realm mRealm;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -70,9 +71,8 @@ public class WebActivity extends ActionBarActivity {
 		ButterKnife.inject (this);
 
 		int productId = getIntent ().getIntExtra ("productId", 0);
-		Realm realm = Realm.getInstance (this);
-		mProduct = Product.findProductById (realm, productId);
-		realm.close ();
+		mRealm = Realm.getInstance (this);
+		mProduct = Product.findProductById (mRealm, productId);
 
 		expandAnimation (savedInstanceState);
 		setupToolbar ();
@@ -111,6 +111,12 @@ public class WebActivity extends ActionBarActivity {
 			default:
 				return false;
 		}
+	}
+
+	@Override
+	public void onDestroy () {
+		super.onDestroy ();
+		mRealm.close ();
 	}
 
 	private void openInBrowser () {

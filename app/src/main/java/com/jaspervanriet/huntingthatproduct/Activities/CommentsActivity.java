@@ -72,6 +72,7 @@ public class CommentsActivity extends ActionBarActivity {
 	private ArrayList<Comment> mComments;
 	private Product mProduct;
 	private boolean mBackPressed = false;
+	private Realm mRealm;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -80,9 +81,8 @@ public class CommentsActivity extends ActionBarActivity {
 		ButterKnife.inject (this);
 
 		int productId = getIntent ().getIntExtra ("productId", 0);
-		Realm realm = Realm.getInstance (this);
-		mProduct = Product.findProductById (realm, productId);
-		realm.close ();
+		mRealm = Realm.getInstance (this);
+		mProduct = Product.findProductById (mRealm, productId);
 
 		setupToolBar ();
 		mComments = new ArrayList<> ();
@@ -90,6 +90,12 @@ public class CommentsActivity extends ActionBarActivity {
 		mCommentListAdapter = new CommentListAdapter (this, mComments);
 		setupRecyclerView ();
 		completeRefresh ();
+	}
+
+	@Override
+	public void onDestroy () {
+		super.onDestroy ();
+		mRealm.close ();
 	}
 
 	@Override
