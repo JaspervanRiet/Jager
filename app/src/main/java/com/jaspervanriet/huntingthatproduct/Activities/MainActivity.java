@@ -258,6 +258,7 @@ public class MainActivity extends BaseActivity
 		v.getLocationOnScreen (startingLocation);
 		i.putExtra (CommentsActivity.ARG_DRAWING_START_LOCATION, startingLocation[1]);
 		i.putExtra ("productId", product.getId ());
+		i.putExtra ("collection", false);
 		startActivity (i);
 		overridePendingTransition (0, 0);
 	}

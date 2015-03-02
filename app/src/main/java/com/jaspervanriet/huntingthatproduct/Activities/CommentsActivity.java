@@ -73,6 +73,8 @@ public class CommentsActivity extends ActionBarActivity {
 	private Product mProduct;
 	private boolean mBackPressed = false;
 	private Realm mRealm;
+	private int mProductId;
+	private String mProductTitle;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -80,9 +82,14 @@ public class CommentsActivity extends ActionBarActivity {
 		setContentView (R.layout.activity_comments);
 		ButterKnife.inject (this);
 
-		int productId = getIntent ().getIntExtra ("productId", 0);
-		mRealm = Realm.getInstance (this);
-		mProduct = Product.findProductById (mRealm, productId);
+		mProductId = getIntent ().getIntExtra ("productId", 0);
+		if (getIntent ().getBooleanExtra ("collection", false)) {
+			String mProductTitle = getIntent ().getStringExtra ("productTitle");
+		} else {
+			mRealm = Realm.getInstance (this);
+			mProduct = Product.findProductById (mRealm, mProductId);
+			mProductTitle = mProduct.getTitle ();
+		}
 
 		setupToolBar ();
 		mComments = new ArrayList<> ();
@@ -95,7 +102,9 @@ public class CommentsActivity extends ActionBarActivity {
 	@Override
 	public void onDestroy () {
 		super.onDestroy ();
-		mRealm.close ();
+		if (mRealm != null) {
+			mRealm.close ();
+		}
 	}
 
 	@Override
@@ -146,7 +155,7 @@ public class CommentsActivity extends ActionBarActivity {
 	}
 
 	private void getComments () {
-		Ion.with (this).load (Constants.API_URL + "posts/" + mProduct.getId ())
+		Ion.with (this).load (Constants.API_URL + "posts/" + mProductId)
 				.setHeader ("Authorization", "Bearer " + Constants.CLIENT_TOKEN)
 				.asJsonObject ()
 				.setCallback (new FutureCallback<JsonObject> () {
@@ -216,7 +225,7 @@ public class CommentsActivity extends ActionBarActivity {
 	private void setupToolBar () {
 		setSupportActionBar (mToolBar);
 		ActionBar actionBar = getSupportActionBar ();
-		actionBar.setTitle (mProduct.getTitle ());
+		actionBar.setTitle (mProductTitle);
 		actionBar.setElevation (5);
 		actionBar.setDisplayHomeAsUpEnabled (true);
 	}

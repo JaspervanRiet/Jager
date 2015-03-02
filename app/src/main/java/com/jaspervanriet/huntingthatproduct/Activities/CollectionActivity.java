@@ -288,6 +288,9 @@ public class CollectionActivity extends ActionBarActivity
 		v.getLocationOnScreen (startingLocation);
 		i.putExtra (CommentsActivity.ARG_DRAWING_START_LOCATION, startingLocation[1]);
 		i.putExtra ("productId", product.getId ());
+		i.putExtra ("collection", true);
+		i.putExtra ("productTitle", product.getTitle ());
+		i.putExtra ("productUrl", product.getProductUrl ());
 		startActivity (i);
 		overridePendingTransition (0, 0);
 	}

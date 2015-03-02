@@ -63,16 +63,25 @@ public class WebActivity extends ActionBarActivity {
 	private int mDrawingStartLocation;
 	private boolean mBackPressed = false;
 	private Realm mRealm;
+	private String mProductTitle;
+	private String mProductUrl;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
-		setContentView (R.layout.activity_web);
+		setContentView (R.layout.activity_comments);
 		ButterKnife.inject (this);
 
-		int productId = getIntent ().getIntExtra ("productId", 0);
-		mRealm = Realm.getInstance (this);
-		mProduct = Product.findProductById (mRealm, productId);
+		int mProductId = getIntent ().getIntExtra ("productId", 0);
+		if (getIntent ().getBooleanExtra ("collection", false)) {
+			mProductTitle = getIntent ().getStringExtra ("productTitle");
+			mProductUrl = getIntent ().getStringExtra ("productUrl");
+		} else {
+			mRealm = Realm.getInstance (this);
+			mProduct = Product.findProductById (mRealm, mProductId);
+			mProductTitle = mProduct.getTitle ();
+			mProductUrl = mProduct.getProductUrl ();
+		}
 
 		expandAnimation (savedInstanceState);
 		setupToolbar ();
@@ -121,15 +130,15 @@ public class WebActivity extends ActionBarActivity {
 
 	private void openInBrowser () {
 		Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
-				.parse (mProduct.getProductUrl ()));
+				.parse (mProductUrl));
 		startActivity (intent);
 	}
 
 	private Intent getShareIntent () {
 		Intent i = new Intent (Intent.ACTION_SEND);
 		i.setType ("text/plain");
-		i.putExtra (Intent.EXTRA_SUBJECT, mProduct.getTitle ());
-		i.putExtra (Intent.EXTRA_TEXT, mProduct.getProductUrl ());
+		i.putExtra (Intent.EXTRA_SUBJECT, mProductTitle);
+		i.putExtra (Intent.EXTRA_TEXT, mProductUrl);
 		return i;
 	}
 
@@ -182,7 +191,7 @@ public class WebActivity extends ActionBarActivity {
 						Toast.LENGTH_LONG).show ();
 			}
 		});
-		mWebView.loadUrl (mProduct.getProductUrl ());
+		mWebView.loadUrl (mProductUrl);
 		mWebView.getSettings ().setBuiltInZoomControls (true);
 		mWebView.getSettings ().setDisplayZoomControls (false);
 		mWebView.getSettings ().setJavaScriptEnabled (true);
