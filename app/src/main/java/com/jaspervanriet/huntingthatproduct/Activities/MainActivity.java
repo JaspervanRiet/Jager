@@ -404,6 +404,7 @@ public class MainActivity extends BaseActivity
 	private void processPosts () {
 		int i;
 		JsonArray products = mJsonResult.getAsJsonArray ("posts");
+		Realm realm = Realm.getInstance (this);
 		for (i = 0; i < products.size (); i++) {
 			JsonObject obj = products.get (i).getAsJsonObject ();
 			Product product = new Product (obj);
@@ -411,8 +412,9 @@ public class MainActivity extends BaseActivity
 				product.setRead (true);
 			}
 			product.setRank (i);
-			cacheProduct (product);
+			cacheProduct (product, realm);
 		}
+		realm.close ();
 	}
 
 	private void queryRealmForProducts () {
@@ -426,15 +428,13 @@ public class MainActivity extends BaseActivity
 	}
 
 	// Saves Product to Realm or updates the Realm entry if db contains Product already.
-	private void cacheProduct (final Product product) {
-		Realm realm = Realm.getInstance (this);
+	private void cacheProduct (final Product product, Realm realm) {
 		realm.executeTransaction (new Realm.Transaction () {
 			@Override
 			public void execute (Realm realm) {
 				Product realmProduct = realm.copyToRealmOrUpdate (product);
 			}
 		});
-		realm.close ();
 	}
 
 	private boolean sendCrashData () {
