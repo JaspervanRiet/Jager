@@ -74,8 +74,8 @@ import io.realm.RealmResults;
 
 public class MainActivity extends BaseActivity
 		implements ProductListAdapter.OnProductClickListener,
-		DatePickerDialog.OnDateSetListener,
-		FeedContextMenu.OnFeedContextMenuItemClickListener {
+				   DatePickerDialog.OnDateSetListener,
+				   FeedContextMenu.OnFeedContextMenuItemClickListener {
 
 	private final static int ANIM_TOOLBAR_INTRO_DURATION = 350;
 	private final static String URL_PLAY_STORE = "market://details?id=com.jaspervanriet" +
@@ -96,6 +96,9 @@ public class MainActivity extends BaseActivity
 
 	// true if user has picked a day to view products for
 	private boolean mDateSet = false;
+
+	// true if activity no longer exists
+	private boolean mIsDestroyed = false;
 
 	@InjectView (R.id.toolbar)
 	Toolbar mToolBar;
@@ -147,6 +150,7 @@ public class MainActivity extends BaseActivity
 	@Override
 	public void onDestroy () {
 		super.onDestroy ();
+		mIsDestroyed = true;
 		PicassoTools.clearCache (Picasso.with (this));
 		mRealm.close ();
 	}
@@ -367,13 +371,14 @@ public class MainActivity extends BaseActivity
 										public Void doInBackground () throws Exception {
 											processPosts ();
 											return null;
-
 										}
 									}, new Completion<Void> () {
 										@Override
 										public void onSuccess (Context context, Void result) {
-											queryRealmForProducts ();
-											showUpdatedList ();
+											if (!mIsDestroyed) {
+												queryRealmForProducts ();
+												showUpdatedList ();
+											}
 										}
 
 										@Override
@@ -485,7 +490,8 @@ public class MainActivity extends BaseActivity
 					mProgressWheel.setVisibility (View.GONE);
 					checkEmpty ();
 				}
-			} catch (Exception error) {
+			}
+			catch (Exception error) {
 				error.printStackTrace ();
 			}
 		}
