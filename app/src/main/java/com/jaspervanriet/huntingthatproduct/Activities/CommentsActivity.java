@@ -76,57 +76,6 @@ public class CommentsActivity extends ActionBarActivity {
 	private int mProductId;
 	private String mProductTitle;
 
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
-		setContentView (R.layout.activity_comments);
-		ButterKnife.inject (this);
-
-		mProductId = getIntent ().getIntExtra ("productId", 0);
-		if (getIntent ().getBooleanExtra ("collection", false)) {
-			mProductTitle = getIntent ().getStringExtra ("productTitle");
-		} else {
-			mRealm = Realm.getInstance (this);
-			mProduct = Product.findProductById (mRealm, mProductId);
-			mProductTitle = mProduct.getTitle ();
-		}
-
-		setupToolBar ();
-		mComments = new ArrayList<> ();
-		expandAnimation (savedInstanceState);
-		mCommentListAdapter = new CommentListAdapter (this, mComments);
-		setupRecyclerView ();
-		completeRefresh ();
-	}
-
-	@Override
-	public void onDestroy () {
-		super.onDestroy ();
-		if (mRealm != null) {
-			mRealm.close ();
-		}
-	}
-
-	@Override
-	public void onBackPressed () {
-		if (!mBackPressed) {
-			goBack ();
-		}
-	}
-
-	@Override
-	public boolean onOptionsItemSelected (MenuItem item) {
-		int itemId = item.getItemId ();
-
-		if (itemId == android.R.id.home) {
-			if (!mBackPressed) {
-				goBack ();
-			}
-			return true;
-		}
-		return false;
-	}
-
 	private void goBack () {
 		mBackPressed = true;
 		mCommentsLayout.animate ()
@@ -197,31 +146,6 @@ public class CommentsActivity extends ActionBarActivity {
 		}
 	}
 
-	private void expandAnimation (Bundle savedInstanceState) {
-		mDrawingStartLocation = getIntent ().getIntExtra (ARG_DRAWING_START_LOCATION, 0);
-		if (savedInstanceState == null) {
-			mCommentsLayout.getViewTreeObserver ().addOnPreDrawListener (new ViewTreeObserver
-					.OnPreDrawListener () {
-				@Override
-				public boolean onPreDraw () {
-					mCommentsLayout.getViewTreeObserver ().removeOnPreDrawListener (this);
-					startIntroAnimation ();
-					return true;
-				}
-			});
-		}
-	}
-
-	private void startIntroAnimation () {
-		mCommentsLayout.setScaleY (0.1f);
-		mCommentsLayout.setPivotY (mDrawingStartLocation);
-		mCommentsLayout.animate ()
-				.scaleY (1)
-				.setDuration (ANIM_LAYOUT_INTRO_DURATION)
-				.setInterpolator (new AccelerateInterpolator ())
-				.start ();
-	}
-
 	private void setupToolBar () {
 		setSupportActionBar (mToolBar);
 		ActionBar actionBar = getSupportActionBar ();
@@ -249,5 +173,93 @@ public class CommentsActivity extends ActionBarActivity {
 		LinearLayoutManager layoutManager = new LinearLayoutManager (this);
 		layoutManager.setOrientation (LinearLayoutManager.VERTICAL);
 		return layoutManager;
+	}
+
+	/*
+	 * Intro animations
+	 */
+
+	private void expandAnimation (Bundle savedInstanceState) {
+		mDrawingStartLocation = getIntent ().getIntExtra (ARG_DRAWING_START_LOCATION, 0);
+		if (savedInstanceState == null) {
+			mCommentsLayout.getViewTreeObserver ().addOnPreDrawListener (new ViewTreeObserver
+					.OnPreDrawListener () {
+				@Override
+				public boolean onPreDraw () {
+					mCommentsLayout.getViewTreeObserver ().removeOnPreDrawListener (this);
+					startIntroAnimation ();
+					return true;
+				}
+			});
+		}
+	}
+
+	private void startIntroAnimation () {
+		mCommentsLayout.setScaleY (0.1f);
+		mCommentsLayout.setPivotY (mDrawingStartLocation);
+		mCommentsLayout.animate ()
+				.scaleY (1)
+				.setDuration (ANIM_LAYOUT_INTRO_DURATION)
+				.setInterpolator (new AccelerateInterpolator ())
+				.start ();
+	}
+
+	/*
+	 * App lifecycle
+	 */
+
+	@Override
+	protected void onCreate (Bundle savedInstanceState) {
+		super.onCreate (savedInstanceState);
+		setContentView (R.layout.activity_comments);
+		ButterKnife.inject (this);
+
+		mProductId = getIntent ().getIntExtra ("productId", 0);
+		if (getIntent ().getBooleanExtra ("collection", false)) {
+			mProductTitle = getIntent ().getStringExtra ("productTitle");
+		} else {
+			mRealm = Realm.getInstance (this);
+			mProduct = Product.findProductById (mRealm, mProductId);
+			mProductTitle = mProduct.getTitle ();
+		}
+
+		setupToolBar ();
+		mComments = new ArrayList<> ();
+		expandAnimation (savedInstanceState);
+		mCommentListAdapter = new CommentListAdapter (this, mComments);
+		setupRecyclerView ();
+		completeRefresh ();
+	}
+
+	@Override
+	public void onDestroy () {
+		super.onDestroy ();
+		if (mRealm != null) {
+			mRealm.close ();
+		}
+	}
+
+	/*
+	 * UI boilerplate
+	 */
+
+	@Override
+	public void onBackPressed () {
+		if (!mBackPressed) {
+			goBack ();
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected (MenuItem item) {
+		int itemId = item.getItemId ();
+
+		if (itemId == android.R.id.home) {
+			if (!mBackPressed) {
+				goBack ();
+			}
+			return true;
+		}
+		return false;
 	}
 }

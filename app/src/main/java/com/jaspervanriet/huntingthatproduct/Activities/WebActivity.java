@@ -66,70 +66,6 @@ public class WebActivity extends ActionBarActivity {
 	private String mProductTitle;
 	private String mProductUrl;
 
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
-		setContentView (R.layout.activity_web);
-		ButterKnife.inject (this);
-
-		int mProductId = getIntent ().getIntExtra ("productId", 0);
-		if (getIntent ().getBooleanExtra ("collection", false)) {
-			mProductTitle = getIntent ().getStringExtra ("productTitle");
-			mProductUrl = getIntent ().getStringExtra ("productUrl");
-		} else {
-			mRealm = Realm.getInstance (this);
-			mProduct = Product.findProductById (mRealm, mProductId);
-			mProductTitle = mProduct.getTitle ();
-			mProductUrl = mProduct.getProductUrl ();
-		}
-
-		expandAnimation (savedInstanceState);
-		setupToolbar ();
-		setupWebView ();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu (Menu menu) {
-		getMenuInflater ().inflate (R.menu.web_menu, menu);
-		MenuItem item = menu.findItem (R.id.menu_web_share);
-		ShareActionProvider shareActionProvider = new ShareActionProvider (this);
-		shareActionProvider.setShareIntent (getShareIntent ());
-		MenuItemCompat.setActionProvider (item, shareActionProvider);
-		return true;
-	}
-
-	@Override
-	public void onBackPressed () {
-		if (!mBackPressed) {
-			goBack ();
-		}
-	}
-
-	@Override
-	public boolean onOptionsItemSelected (MenuItem item) {
-		int itemId = item.getItemId ();
-		switch (itemId) {
-			case android.R.id.home:
-				if (!mBackPressed) {
-					goBack ();
-				}
-				return true;
-			case R.id.menu_browser:
-				openInBrowser ();
-				return true;
-			default:
-				return false;
-		}
-	}
-
-	@Override
-	public void onDestroy () {
-		super.onDestroy ();
-		if (mRealm != null) {
-			mRealm.close ();
-		}
-	}
-
 	private void openInBrowser () {
 		Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
 				.parse (mProductUrl));
@@ -210,6 +146,10 @@ public class WebActivity extends ActionBarActivity {
 		return url.contains (URL_PLAY_STORE_SCHEME);
 	}
 
+	/*
+	 * Intro animations
+	 */
+
 	private void expandAnimation (Bundle savedInstanceState) {
 		mDrawingStartLocation = getIntent ().getIntExtra (ARG_DRAWING_START_LOCATION, 0);
 		if (savedInstanceState == null) {
@@ -233,5 +173,77 @@ public class WebActivity extends ActionBarActivity {
 				.setDuration (ANIM_LAYOUT_INTRO_DURATION)
 				.setInterpolator (new AccelerateInterpolator ())
 				.start ();
+	}
+
+	/*
+	 * App lifecycle
+	 */
+
+	@Override
+	protected void onCreate (Bundle savedInstanceState) {
+		super.onCreate (savedInstanceState);
+		setContentView (R.layout.activity_web);
+		ButterKnife.inject (this);
+
+		int mProductId = getIntent ().getIntExtra ("productId", 0);
+		if (getIntent ().getBooleanExtra ("collection", false)) {
+			mProductTitle = getIntent ().getStringExtra ("productTitle");
+			mProductUrl = getIntent ().getStringExtra ("productUrl");
+		} else {
+			mRealm = Realm.getInstance (this);
+			mProduct = Product.findProductById (mRealm, mProductId);
+			mProductTitle = mProduct.getTitle ();
+			mProductUrl = mProduct.getProductUrl ();
+		}
+
+		expandAnimation (savedInstanceState);
+		setupToolbar ();
+		setupWebView ();
+	}
+
+	@Override
+	public void onDestroy () {
+		super.onDestroy ();
+		if (mRealm != null) {
+			mRealm.close ();
+		}
+	}
+
+	/*
+	 * UI boilerplate
+	 */
+
+	@Override
+	public boolean onCreateOptionsMenu (Menu menu) {
+		getMenuInflater ().inflate (R.menu.web_menu, menu);
+		MenuItem item = menu.findItem (R.id.menu_web_share);
+		ShareActionProvider shareActionProvider = new ShareActionProvider (this);
+		shareActionProvider.setShareIntent (getShareIntent ());
+		MenuItemCompat.setActionProvider (item, shareActionProvider);
+		return true;
+	}
+
+	@Override
+	public void onBackPressed () {
+		if (!mBackPressed) {
+			goBack ();
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected (MenuItem item) {
+		int itemId = item.getItemId ();
+		switch (itemId) {
+			case android.R.id.home:
+				if (!mBackPressed) {
+					goBack ();
+				}
+				return true;
+			case R.id.menu_browser:
+				openInBrowser ();
+				return true;
+			default:
+				return false;
+		}
 	}
 }

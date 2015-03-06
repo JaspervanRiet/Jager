@@ -60,7 +60,7 @@ import butterknife.InjectView;
 
 public class CollectionActivity extends ActionBarActivity
 		implements ProductListAdapter.OnProductClickListener,
-		FeedContextMenu.OnFeedContextMenuItemClickListener {
+				   FeedContextMenu.OnFeedContextMenuItemClickListener {
 
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 	private static final int ANIM_LAYOUT_INTRO_DURATION = 250;
@@ -81,58 +81,6 @@ public class CollectionActivity extends ActionBarActivity
 	private Collection mCollection;
 	private ArrayList<Product> mProducts = new ArrayList<> ();
 	private ProductListAdapter mListAdapter;
-
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
-		setContentView (R.layout.activity_collection);
-		ButterKnife.inject (this);
-
-		mCollection = getIntent ().getParcelableExtra ("collection");
-		setupToolBar ();
-		expandAnimation (savedInstanceState);
-
-		mProgressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
-		mListAdapter = new ProductListAdapter (this, mProducts);
-		mListAdapter.setOnProductClickListener (this);
-		setupRecyclerView ();
-	}
-
-	@Override
-	public void onStart () {
-		super.onStart ();
-		completeRefresh ();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu (Menu menu) {
-		getMenuInflater ().inflate (R.menu.collection_menu, menu);
-		MenuItem item = menu.findItem (R.id.menu_collection_share);
-		ShareActionProvider shareActionProvider = new ShareActionProvider (this);
-		shareActionProvider.setShareIntent (getShareIntent ());
-		MenuItemCompat.setActionProvider (item, shareActionProvider);
-		return true;
-	}
-
-	@Override
-	public void onBackPressed () {
-		if (!mBackPressed) {
-			goBack ();
-		}
-	}
-
-	@Override
-	public boolean onOptionsItemSelected (MenuItem item) {
-		int itemId = item.getItemId ();
-
-		if (itemId == android.R.id.home) {
-			if (!mBackPressed) {
-				goBack ();
-			}
-			return true;
-		}
-		return false;
-	}
 
 	private Intent getShareIntent () {
 		Intent i = new Intent (Intent.ACTION_SEND);
@@ -264,6 +212,22 @@ public class CollectionActivity extends ActionBarActivity
 		return layoutManager;
 	}
 
+	private void activityExitAnimation (View v, Product product, Intent i) {
+		int[] startingLocation = new int[2];
+		v.getLocationOnScreen (startingLocation);
+		i.putExtra (CommentsActivity.ARG_DRAWING_START_LOCATION, startingLocation[1]);
+		i.putExtra ("productId", product.getId ());
+		i.putExtra ("collection", true);
+		i.putExtra ("productTitle", product.getTitle ());
+		i.putExtra ("productUrl", product.getProductUrl ());
+		startActivity (i);
+		overridePendingTransition (0, 0);
+	}
+
+	/*
+	 * Adapter onClickListeners
+	 */
+
 	@Override
 	public void onImageClick (View v, int position) {
 		Product product = mProducts.get (position);
@@ -283,18 +247,6 @@ public class CollectionActivity extends ActionBarActivity
 				position, this, false);
 	}
 
-	private void activityExitAnimation (View v, Product product, Intent i) {
-		int[] startingLocation = new int[2];
-		v.getLocationOnScreen (startingLocation);
-		i.putExtra (CommentsActivity.ARG_DRAWING_START_LOCATION, startingLocation[1]);
-		i.putExtra ("productId", product.getId ());
-		i.putExtra ("collection", true);
-		i.putExtra ("productTitle", product.getTitle ());
-		i.putExtra ("productUrl", product.getProductUrl ());
-		startActivity (i);
-		overridePendingTransition (0, 0);
-	}
-
 	@Override
 	public void onShareClick (int feedItem) {
 		Product product = mProducts.get (feedItem);
@@ -309,5 +261,65 @@ public class CollectionActivity extends ActionBarActivity
 	@Override
 	public void onCancelClick (int feedItem) {
 		FeedContextMenuManager.getInstance ().hideContextMenu ();
+	}
+
+	/*
+	 * App lifecycle
+	 */
+
+	@Override
+	protected void onCreate (Bundle savedInstanceState) {
+		super.onCreate (savedInstanceState);
+		setContentView (R.layout.activity_collection);
+		ButterKnife.inject (this);
+
+		mCollection = getIntent ().getParcelableExtra ("collection");
+		setupToolBar ();
+		expandAnimation (savedInstanceState);
+
+		mProgressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
+		mListAdapter = new ProductListAdapter (this, mProducts);
+		mListAdapter.setOnProductClickListener (this);
+		setupRecyclerView ();
+	}
+
+	@Override
+	public void onStart () {
+		super.onStart ();
+		completeRefresh ();
+	}
+
+	/*
+	 * UI boilerplate
+	 */
+
+	@Override
+	public boolean onCreateOptionsMenu (Menu menu) {
+		getMenuInflater ().inflate (R.menu.collection_menu, menu);
+		MenuItem item = menu.findItem (R.id.menu_collection_share);
+		ShareActionProvider shareActionProvider = new ShareActionProvider (this);
+		shareActionProvider.setShareIntent (getShareIntent ());
+		MenuItemCompat.setActionProvider (item, shareActionProvider);
+		return true;
+	}
+
+	@Override
+	public void onBackPressed () {
+		if (!mBackPressed) {
+			goBack ();
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected (MenuItem item) {
+		int itemId = item.getItemId ();
+
+		if (itemId == android.R.id.home) {
+			if (!mBackPressed) {
+				goBack ();
+			}
+			return true;
+		}
+		return false;
 	}
 }

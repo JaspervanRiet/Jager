@@ -33,21 +33,6 @@ public class SettingsActivity extends BaseActivity {
 			"preference_open_source_licenses";
 	public static final String KEY_SEND_FEEDBACK = "preference_send_feedback";
 
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
-		setContentView (R.layout.activity_preferences);
-		super.onCreateDrawer ();
-		setToolBar ();
-		getFragmentManager ().beginTransaction ().replace (R.id.content_frame,
-				new SettingsFragment ()).commit ();
-	}
-
-	@Override
-	protected int getSelfNavDrawerItem () {
-		return NAVDRAWER_ITEM_SETTINGS;
-	}
-
 	public static boolean getShowAsReadPref (Context context) {
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences (context);
@@ -58,5 +43,20 @@ public class SettingsActivity extends BaseActivity {
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences (context);
 		return sharedPrefs.getBoolean (SettingsActivity.KEY_CRASH_DATA, true);
+	}
+
+	@Override
+	protected int getSelfNavDrawerItem () {
+		return NAVDRAWER_ITEM_SETTINGS;
+	}
+
+	@Override
+	protected void onCreate (Bundle savedInstanceState) {
+		super.onCreate (savedInstanceState);
+		setContentView (R.layout.activity_preferences);
+		super.onCreateDrawer ();
+		setToolBar ();
+		getFragmentManager ().beginTransaction ().replace (R.id.content_frame,
+				new SettingsFragment ()).commit ();
 	}
 }

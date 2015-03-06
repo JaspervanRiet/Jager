@@ -35,32 +35,6 @@ public class CollectionsListActivity extends BaseActivity implements
 	private CollectionListAdapter mListAdapter;
 	private ArrayList<Collection> mCollections = new ArrayList<> ();
 
-
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
-		setContentView (R.layout.activity_collections_list);
-		super.onCreateDrawer ();
-		ButterKnife.inject (this);
-		setToolBar ();
-
-		mListAdapter = new CollectionListAdapter (this, mCollections);
-		mListAdapter.setOnCollectionClickListener (this);
-		progressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
-		setupRecyclerView ();
-	}
-
-	@Override
-	public void onStart () {
-		super.onStart ();
-		completeRefresh ();
-	}
-
-	@Override
-	protected int getSelfNavDrawerItem () {
-		return NAVDRAWER_ITEM_COLLECTIONS;
-	}
-
 	private void completeRefresh () {
 		if (mCollections.size () != 0) {
 			mCollections.clear ();
@@ -116,13 +90,6 @@ public class CollectionsListActivity extends BaseActivity implements
 		return layoutManager;
 	}
 
-	@Override
-	public void onCollectionClick (View view, int position) {
-		Collection collection = mCollections.get (position);
-		Intent openUrl = new Intent (this, CollectionActivity.class);
-		activityExitAnimation (view, collection, openUrl);
-	}
-
 	private void activityExitAnimation (View v, Collection collection, Intent i) {
 		int[] startingLocation = new int[2];
 		v.getLocationOnScreen (startingLocation);
@@ -130,5 +97,45 @@ public class CollectionsListActivity extends BaseActivity implements
 		i.putExtra ("collection", collection);
 		startActivity (i);
 		overridePendingTransition (0, 0);
+	}
+
+	@Override
+	protected int getSelfNavDrawerItem () {
+		return NAVDRAWER_ITEM_COLLECTIONS;
+	}
+
+	/*
+	 * Adapter onClickListener
+	 */
+
+	@Override
+	public void onCollectionClick (View view, int position) {
+		Collection collection = mCollections.get (position);
+		Intent openUrl = new Intent (this, CollectionActivity.class);
+		activityExitAnimation (view, collection, openUrl);
+	}
+
+	/*
+	 * App lifecycle
+	 */
+
+	@Override
+	protected void onCreate (Bundle savedInstanceState) {
+		super.onCreate (savedInstanceState);
+		setContentView (R.layout.activity_collections_list);
+		super.onCreateDrawer ();
+		ButterKnife.inject (this);
+		setToolBar ();
+
+		mListAdapter = new CollectionListAdapter (this, mCollections);
+		mListAdapter.setOnCollectionClickListener (this);
+		progressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
+		setupRecyclerView ();
+	}
+
+	@Override
+	public void onStart () {
+		super.onStart ();
+		completeRefresh ();
 	}
 }

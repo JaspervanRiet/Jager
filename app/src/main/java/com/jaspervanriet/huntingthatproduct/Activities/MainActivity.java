@@ -109,113 +109,6 @@ public class MainActivity extends BaseActivity
 	@InjectView (R.id.products_empty_view)
 	LinearLayout mEmptyView;
 
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
-
-		// If you do not use Fabric, remove this. Be sure to remove the references in build.gradle
-		// as well.
-		if (sendCrashData ()) {
-			Fabric.with (this, new Crashlytics ());
-		}
-
-		setContentView (R.layout.activity_main);
-		super.onCreateDrawer ();
-		ButterKnife.inject (this);
-
-		boolean toolbarAnimation = getIntent ().getBooleanExtra
-				("toolbar_animation", true);
-		startIntroAnimation = (savedInstanceState == null) && toolbarAnimation;
-
-		mRealm = Realm.getInstance (this);
-		Product.getReadProductsIds (mRealm, mReadProductsIds);
-
-		setToolBar ();
-		getTodaysDate ();
-		removeOldCache ();
-
-		mProgressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
-		mListAdapter = new ProductListAdapter (this, mProducts);
-		mListAdapter.setOnProductClickListener (this);
-		setupRecyclerView ();
-		completeRefresh ();
-	}
-
-	@Override
-	public void onRestart () {
-		super.onRestart ();
-		completeRefresh ();
-	}
-
-	@Override
-	public void onDestroy () {
-		super.onDestroy ();
-		mIsDestroyed = true;
-		PicassoTools.clearCache (Picasso.with (this));
-		mRealm.close ();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu (Menu menu) {
-		MenuInflater inflater = getMenuInflater ();
-		inflater.inflate (R.menu.main_menu, menu);
-		if (startIntroAnimation) {
-			setToolbarIntroAnimation ();
-			startIntroAnimation = false;
-		}
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected (MenuItem item) {
-		int itemId = item.getItemId ();
-		if (itemId == R.id.menu_main_refresh) {
-			completeRefresh ();
-			return true;
-		}
-		if (itemId == R.id.menu_calendar) {
-			showDatePickerDialog ();
-			return true;
-		}
-		if (itemId == R.id.menu_rate) {
-			goToPlayStorePage ();
-			return true;
-		}
-		return super.onOptionsItemSelected (item);
-	}
-
-	private void goToPlayStorePage () {
-		Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
-				.parse (URL_PLAY_STORE));
-		startActivity (intent);
-	}
-
-	@Override
-	public void onImageClick (View v, int position) {
-		Product product = mProducts.get (position);
-		setProductAsRead (product);
-		Intent openUrl = new Intent (this, WebActivity.class);
-		activityExitAnimation (v, product, openUrl);
-	}
-
-	@Override
-	public void onCommentsClick (View v, Product product) {
-		setProductAsRead (product);
-		Intent i = new Intent (this, CommentsActivity.class);
-		activityExitAnimation (v, product, i);
-	}
-
-	@Override
-	public void onContextClick (View v, int position) {
-		FeedContextMenuManager.getInstance ().toggleContextMenuFromView (v,
-				position, this, true);
-	}
-
-	@Override
-	protected int getSelfNavDrawerItem () {
-		return NAVDRAWER_ITEM_TODAYS_PRODUCTS;
-	}
-
 	private void setProductAsRead (final Product product) {
 		mRealm.beginTransaction ();
 		int i;
@@ -480,6 +373,12 @@ public class MainActivity extends BaseActivity
 		}
 	}
 
+	private void goToPlayStorePage () {
+		Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
+				.parse (URL_PLAY_STORE));
+		startActivity (intent);
+	}
+
 	private final Runnable refreshingContent = new Runnable () {
 		public void run () {
 			try {
@@ -497,6 +396,10 @@ public class MainActivity extends BaseActivity
 		}
 	};
 
+	/*
+	 * Datepicker callback
+	 */
+
 	@Override
 	public void onDateSet (DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 		mDateSet = true;
@@ -508,6 +411,10 @@ public class MainActivity extends BaseActivity
 		setActionBarTitle (getMonth (monthOfYear) + " " + dayOfMonth);
 		completeRefresh ();
 	}
+
+	/*
+	 * Adapter onClickListeners
+	 */
 
 	@Override
 	public void onShareClick (int feedItem) {
@@ -523,5 +430,115 @@ public class MainActivity extends BaseActivity
 	@Override
 	public void onCancelClick (int feedItem) {
 		FeedContextMenuManager.getInstance ().hideContextMenu ();
+	}
+
+	@Override
+	public void onImageClick (View v, int position) {
+		Product product = mProducts.get (position);
+		setProductAsRead (product);
+		Intent openUrl = new Intent (this, WebActivity.class);
+		activityExitAnimation (v, product, openUrl);
+	}
+
+	@Override
+	public void onCommentsClick (View v, Product product) {
+		setProductAsRead (product);
+		Intent i = new Intent (this, CommentsActivity.class);
+		activityExitAnimation (v, product, i);
+	}
+
+	@Override
+	public void onContextClick (View v, int position) {
+		FeedContextMenuManager.getInstance ().toggleContextMenuFromView (v,
+				position, this, true);
+	}
+
+	/*
+	 * UI boilerplate
+	 */
+
+	@Override
+	public boolean onCreateOptionsMenu (Menu menu) {
+		MenuInflater inflater = getMenuInflater ();
+		inflater.inflate (R.menu.main_menu, menu);
+		if (startIntroAnimation) {
+			setToolbarIntroAnimation ();
+			startIntroAnimation = false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected (MenuItem item) {
+		int itemId = item.getItemId ();
+		if (itemId == R.id.menu_main_refresh) {
+			completeRefresh ();
+			return true;
+		}
+		if (itemId == R.id.menu_calendar) {
+			showDatePickerDialog ();
+			return true;
+		}
+		if (itemId == R.id.menu_rate) {
+			goToPlayStorePage ();
+			return true;
+		}
+		return super.onOptionsItemSelected (item);
+	}
+
+	@Override
+	protected int getSelfNavDrawerItem () {
+		return NAVDRAWER_ITEM_TODAYS_PRODUCTS;
+	}
+
+
+	/*
+	 * App lifecycle
+	 */
+
+	@Override
+	protected void onCreate (Bundle savedInstanceState) {
+		super.onCreate (savedInstanceState);
+
+		// If you do not use Fabric, remove this. Be sure to remove the references in build.gradle
+		// as well.
+		if (sendCrashData ()) {
+			Fabric.with (this, new Crashlytics ());
+		}
+
+		setContentView (R.layout.activity_main);
+		super.onCreateDrawer ();
+		ButterKnife.inject (this);
+
+		boolean toolbarAnimation = getIntent ().getBooleanExtra
+				("toolbar_animation", true);
+		startIntroAnimation = (savedInstanceState == null) && toolbarAnimation;
+
+		mRealm = Realm.getInstance (this);
+		Product.getReadProductsIds (mRealm, mReadProductsIds);
+
+		setToolBar ();
+		getTodaysDate ();
+		removeOldCache ();
+
+		mProgressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
+		mListAdapter = new ProductListAdapter (this, mProducts);
+		mListAdapter.setOnProductClickListener (this);
+		setupRecyclerView ();
+		completeRefresh ();
+	}
+
+	@Override
+	public void onRestart () {
+		super.onRestart ();
+		completeRefresh ();
+	}
+
+	@Override
+	public void onDestroy () {
+		super.onDestroy ();
+		mIsDestroyed = true;
+		PicassoTools.clearCache (Picasso.with (this));
+		mRealm.close ();
 	}
 }

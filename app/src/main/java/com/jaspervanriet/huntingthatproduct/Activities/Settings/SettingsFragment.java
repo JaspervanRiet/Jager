@@ -35,16 +35,6 @@ public class SettingsFragment extends PreferenceFragment {
 
 	private static final String EMAIL_DEVELOPER = "jaspervanriet@gmail.com";
 
-	@Override
-	public void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
-		addPreferencesFromResource (R.xml.settings);
-		setupShowAsReadPref ();
-		setupCrashDataPref ();
-		setupOpenSourceLicenses ();
-		setupFeedbackPref ();
-	}
-
 	private void setupFeedbackPref () {
 		Preference feedback = getPreferenceScreen ()
 				.findPreference (SettingsActivity.KEY_SEND_FEEDBACK);
@@ -129,6 +119,16 @@ public class SettingsFragment extends PreferenceFragment {
 				.getDefaultSharedPreferences (getActivity ());
 		sharedPrefs.edit ().putBoolean (SettingsActivity.KEY_CRASH_DATA,
 				bool).apply ();
+	}
+
+	@Override
+	public void onCreate (Bundle savedInstanceState) {
+		super.onCreate (savedInstanceState);
+		addPreferencesFromResource (R.xml.settings);
+		setupShowAsReadPref ();
+		setupCrashDataPref ();
+		setupOpenSourceLicenses ();
+		setupFeedbackPref ();
 	}
 
 }
