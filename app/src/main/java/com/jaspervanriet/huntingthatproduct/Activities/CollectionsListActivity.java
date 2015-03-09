@@ -3,7 +3,6 @@ package com.jaspervanriet.huntingthatproduct.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
@@ -11,7 +10,7 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.jaspervanriet.huntingthatproduct.Adapters.CollectionListAdapter;
-import com.jaspervanriet.huntingthatproduct.Classes.Collection;
+import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.Constants;
 import com.koushikdutta.async.future.FutureCallback;
@@ -24,8 +23,9 @@ import java.util.concurrent.TimeoutException;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CollectionsListActivity extends BaseActivity implements
-		CollectionListAdapter.OnCollectionClickListener {
+public class CollectionsListActivity extends DrawerActivity implements
+															CollectionListAdapter
+																	.OnCollectionClickListener {
 
 	@InjectView (android.R.id.list)
 	RecyclerView mRecyclerView;
@@ -34,6 +34,25 @@ public class CollectionsListActivity extends BaseActivity implements
 
 	private CollectionListAdapter mListAdapter;
 	private ArrayList<Collection> mCollections = new ArrayList<> ();
+
+	@Override
+	protected void onCreate (Bundle savedInstanceState) {
+		super.onCreate (savedInstanceState);
+		setContentView (R.layout.activity_collections_list);
+		super.onCreateDrawer ();
+		ButterKnife.inject (this);
+		setToolBar ();
+
+		createListAdapter ();
+		progressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
+		setupRecyclerView ();
+	}
+
+	@Override
+	public void onStart () {
+		super.onStart ();
+		completeRefresh ();
+	}
 
 	private void completeRefresh () {
 		if (mCollections.size () != 0) {
@@ -84,12 +103,6 @@ public class CollectionsListActivity extends BaseActivity implements
 		mRecyclerView.setAdapter (mListAdapter);
 	}
 
-	private LinearLayoutManager getLayoutManager () {
-		LinearLayoutManager layoutManager = new LinearLayoutManager (this);
-		layoutManager.setOrientation (LinearLayoutManager.VERTICAL);
-		return layoutManager;
-	}
-
 	private void activityExitAnimation (View v, Collection collection, Intent i) {
 		int[] startingLocation = new int[2];
 		v.getLocationOnScreen (startingLocation);
@@ -99,43 +112,20 @@ public class CollectionsListActivity extends BaseActivity implements
 		overridePendingTransition (0, 0);
 	}
 
+	private void createListAdapter () {
+		mListAdapter = new CollectionListAdapter (this, mCollections);
+		mListAdapter.setOnCollectionClickListener (this);
+	}
+
 	@Override
 	protected int getSelfNavDrawerItem () {
 		return NAVDRAWER_ITEM_COLLECTIONS;
 	}
-
-	/*
-	 * Adapter onClickListener
-	 */
 
 	@Override
 	public void onCollectionClick (View view, int position) {
 		Collection collection = mCollections.get (position);
 		Intent openUrl = new Intent (this, CollectionActivity.class);
 		activityExitAnimation (view, collection, openUrl);
-	}
-
-	/*
-	 * App lifecycle
-	 */
-
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
-		setContentView (R.layout.activity_collections_list);
-		super.onCreateDrawer ();
-		ButterKnife.inject (this);
-		setToolBar ();
-
-		mListAdapter = new CollectionListAdapter (this, mCollections);
-		mListAdapter.setOnCollectionClickListener (this);
-		progressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
-		setupRecyclerView ();
-	}
-
-	@Override
-	public void onStart () {
-		super.onStart ();
-		completeRefresh ();
 	}
 }

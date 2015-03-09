@@ -28,9 +28,9 @@ import android.widget.TextView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
 import com.jaspervanriet.huntingthatproduct.Activities.Settings.SettingsActivity;
-import com.jaspervanriet.huntingthatproduct.Classes.Product;
+import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.R;
-import com.jaspervanriet.huntingthatproduct.Utils.Utils;
+import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -141,7 +141,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		}
 		if (position > lastAnimatedPosition) {
 			lastAnimatedPosition = position;
-			view.setTranslationY (Utils.getScreenHeight (mContext));
+			view.setTranslationY (ViewUtils.getScreenHeight (mContext));
 			view.animate ()
 					.translationY (0)
 					.setInterpolator (new DecelerateInterpolator (3.f))

@@ -28,7 +28,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.RelativeLayout;
 
-import com.jaspervanriet.huntingthatproduct.Utils.Utils;
+import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 
 public class FeedContextMenuManager extends RecyclerView.OnScrollListener
 		implements View.OnAttachStateChangeListener {
@@ -52,9 +52,9 @@ public class FeedContextMenuManager extends RecyclerView.OnScrollListener
 	}
 
 	public void toggleContextMenuFromView (View openingView, int feedItem,
-	                                       FeedContextMenu.OnFeedContextMenuItemClickListener
-			                                       listener,
-	                                       boolean isMainActivity) {
+										   FeedContextMenu.OnFeedContextMenuItemClickListener
+												   listener,
+										   boolean isMainActivity) {
 		if (contextMenuView == null) {
 			showContextMenuFromView (openingView, feedItem, listener, isMainActivity);
 		} else {
@@ -63,9 +63,9 @@ public class FeedContextMenuManager extends RecyclerView.OnScrollListener
 	}
 
 	private void showContextMenuFromView (final View openingView, int feedItem,
-	                                      FeedContextMenu.OnFeedContextMenuItemClickListener
-			                                      listener,
-	                                      boolean isMainActivity) {
+										  FeedContextMenu.OnFeedContextMenuItemClickListener
+												  listener,
+										  boolean isMainActivity) {
 		if (!isContextMenuShowing) {
 			isContextMenuShowing = true;
 			contextMenuView = new FeedContextMenu (openingView.getContext ());
@@ -99,7 +99,7 @@ public class FeedContextMenuManager extends RecyclerView.OnScrollListener
 	private void setupContextMenuInitialPosition (View openingView) {
 		final int[] openingViewLocation = new int[2];
 		openingView.getLocationOnScreen (openingViewLocation);
-		int additionalBottomMargin = Utils.dpToPx (16);
+		int additionalBottomMargin = ViewUtils.dpToPx (16);
 		contextMenuView.setTranslationX (openingViewLocation[0] - contextMenuView.getWidth () / 3);
 		contextMenuView.setTranslationY (
 				openingViewLocation[1] - contextMenuView.getHeight () - additionalBottomMargin);

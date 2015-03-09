@@ -26,7 +26,7 @@ import com.jaspervanriet.huntingthatproduct.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class AboutActivity extends BaseActivity {
+public class AboutActivity extends DrawerActivity {
 
 	@InjectView (R.id.about_name)
 	TextView name;
@@ -48,5 +48,4 @@ public class AboutActivity extends BaseActivity {
 	protected int getSelfNavDrawerItem () {
 		return NAVDRAWER_ITEM_ABOUT;
 	}
-
 }

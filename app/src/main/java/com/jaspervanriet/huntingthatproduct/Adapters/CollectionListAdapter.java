@@ -27,9 +27,9 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
-import com.jaspervanriet.huntingthatproduct.Classes.Collection;
+import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.R;
-import com.jaspervanriet.huntingthatproduct.Utils.Utils;
+import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,8 +38,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class CollectionListAdapter extends RecyclerView
-		.Adapter<CollectionListAdapter.CollectionsViewHolder> implements
-		View.OnClickListener {
+												   .Adapter<CollectionListAdapter
+		.CollectionsViewHolder> implements
+																										 View.OnClickListener {
 
 	private final static int ANIM_LIST_ENTER_DURATION = 700;
 	private static final int ANIMATED_ITEMS_COUNT = 5;
@@ -50,7 +51,7 @@ public class CollectionListAdapter extends RecyclerView
 	private int lastAnimatedPosition = -1;
 
 	public CollectionListAdapter (Context context,
-	                              ArrayList<Collection> collections) {
+								  ArrayList<Collection> collections) {
 		this.mContext = context;
 		this.mCollections = collections;
 	}
@@ -92,7 +93,7 @@ public class CollectionListAdapter extends RecyclerView
 		}
 		if (position > lastAnimatedPosition) {
 			lastAnimatedPosition = position;
-			view.setTranslationY (Utils.getScreenHeight (mContext));
+			view.setTranslationY (ViewUtils.getScreenHeight (mContext));
 			view.animate ()
 					.translationY (0)
 					.setInterpolator (new DecelerateInterpolator (3.f))
@@ -107,7 +108,7 @@ public class CollectionListAdapter extends RecyclerView
 	}
 
 	public void setOnCollectionClickListener (OnCollectionClickListener
-			                                          onCollectionClickListener) {
+													  onCollectionClickListener) {
 		this.mOnCollectionClickListener = onCollectionClickListener;
 	}
 

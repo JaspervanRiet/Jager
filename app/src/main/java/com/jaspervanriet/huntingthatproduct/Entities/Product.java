@@ -15,15 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Classes;
+package com.jaspervanriet.huntingthatproduct.Entities;
 
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
-
-import io.realm.Realm;
 import io.realm.RealmObject;
-import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
 
 public class Product extends RealmObject {
@@ -43,7 +39,7 @@ public class Product extends RealmObject {
 	private int rank;
 	private boolean seen;
 
-	// Empty constructor needed for Realm
+	// No arguments constructor needed for Realm
 	public Product () {
 		this.id = 0;
 		this.title = "";
@@ -59,14 +55,14 @@ public class Product extends RealmObject {
 	}
 
 	public Product (int id,
-	                String title,
-	                String tagline,
-	                String discussionUrl,
-	                String productUrl,
-	                int votes,
-	                int numberOfComments,
-	                String smallImgUrl,
-	                String day) {
+					String title,
+					String tagline,
+					String discussionUrl,
+					String productUrl,
+					int votes,
+					int numberOfComments,
+					String smallImgUrl,
+					String day) {
 		this.id = id;
 		this.title = title;
 		this.tagline = tagline;
@@ -91,26 +87,7 @@ public class Product extends RealmObject {
 				object.get ("day").getAsString ());
 	}
 
-	public static Product findProductById (Realm realm, int id) {
-		RealmResults<Product> result = realm.where (Product.class)
-				.equalTo ("id", id)
-				.findAll ();
-
-		if (result.size () != 0) {
-			return result.get (0);
-		}
-		return null;
-	}
-
-	// Populates list with ids of read products retrieved from realm DB
-	public static void getReadProductsIds (Realm realm, ArrayList <Integer> list) {
-		RealmResults<Product> result = realm.where (Product.class)
-				.equalTo ("read", true)
-				.findAll ();
-		for (Product product : result) {
-			list.add (product.getId ());
-		}
-	}
+	/* Getters & setters */
 
 	public int getId () {
 		return id;

@@ -6,13 +6,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.jaspervanriet.huntingthatproduct.R;
-import com.jaspervanriet.huntingthatproduct.Utils.Utils;
+import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FeedContextMenu extends LinearLayout {
-	private static final int CONTEXT_MENU_WIDTH = Utils.dpToPx (240);
+	private static final int CONTEXT_MENU_WIDTH = ViewUtils.dpToPx (240);
 
 	private int feedItem = -1;
 

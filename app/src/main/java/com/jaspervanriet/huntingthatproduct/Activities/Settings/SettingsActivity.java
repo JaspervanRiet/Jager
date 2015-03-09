@@ -22,10 +22,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import com.jaspervanriet.huntingthatproduct.Activities.BaseActivity;
+import com.jaspervanriet.huntingthatproduct.Activities.DrawerActivity;
 import com.jaspervanriet.huntingthatproduct.R;
 
-public class SettingsActivity extends BaseActivity {
+public class SettingsActivity extends DrawerActivity {
 
 	public static final String KEY_SHOW_READ = "preference_show_as_read";
 	public static final String KEY_CRASH_DATA = "preference_crash_data";

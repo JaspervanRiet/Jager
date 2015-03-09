@@ -36,11 +36,12 @@ import android.widget.LinearLayout;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.jaspervanriet.huntingthatproduct.Adapters.CommentListAdapter;
-import com.jaspervanriet.huntingthatproduct.Classes.Comment;
-import com.jaspervanriet.huntingthatproduct.Classes.Product;
+import com.jaspervanriet.huntingthatproduct.Entities.Comment;
+import com.jaspervanriet.huntingthatproduct.Entities.Product;
+import com.jaspervanriet.huntingthatproduct.Models.ProductModel;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.Constants;
-import com.jaspervanriet.huntingthatproduct.Utils.Utils;
+import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -70,16 +71,46 @@ public class CommentsActivity extends ActionBarActivity {
 	private CommentListAdapter mCommentListAdapter;
 	private int mDrawingStartLocation;
 	private ArrayList<Comment> mComments;
-	private Product mProduct;
 	private boolean mBackPressed = false;
 	private Realm mRealm;
 	private int mProductId;
 	private String mProductTitle;
 
+	@Override
+	protected void onCreate (Bundle savedInstanceState) {
+		super.onCreate (savedInstanceState);
+		setContentView (R.layout.activity_comments);
+		ButterKnife.inject (this);
+
+		mProductId = getIntent ().getIntExtra ("productId", 0);
+		if (getIntent ().getBooleanExtra ("collection", false)) {
+			mProductTitle = getIntent ().getStringExtra ("productTitle");
+		} else {
+			mRealm = Realm.getInstance (this);
+			Product product = ProductModel.findProductById (mRealm, mProductId);
+			mProductTitle = product.getTitle ();
+		}
+
+		setupToolBar ();
+		mComments = new ArrayList<> ();
+		expandAnimation (savedInstanceState);
+		mCommentListAdapter = new CommentListAdapter (this, mComments);
+		setupRecyclerView ();
+		completeRefresh ();
+	}
+
+	@Override
+	public void onDestroy () {
+		if (mRealm != null) {
+			mRealm.close ();
+		}
+		super.onDestroy ();
+	}
+
 	private void goBack () {
 		mBackPressed = true;
 		mCommentsLayout.animate ()
-				.translationY (Utils.getScreenHeight (this))
+				.translationY (ViewUtils.getScreenHeight (this))
 				.setDuration (200)
 				.setListener (new AnimatorListenerAdapter () {
 					@Override
@@ -202,41 +233,6 @@ public class CommentsActivity extends ActionBarActivity {
 				.setDuration (ANIM_LAYOUT_INTRO_DURATION)
 				.setInterpolator (new AccelerateInterpolator ())
 				.start ();
-	}
-
-	/*
-	 * App lifecycle
-	 */
-
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
-		setContentView (R.layout.activity_comments);
-		ButterKnife.inject (this);
-
-		mProductId = getIntent ().getIntExtra ("productId", 0);
-		if (getIntent ().getBooleanExtra ("collection", false)) {
-			mProductTitle = getIntent ().getStringExtra ("productTitle");
-		} else {
-			mRealm = Realm.getInstance (this);
-			mProduct = Product.findProductById (mRealm, mProductId);
-			mProductTitle = mProduct.getTitle ();
-		}
-
-		setupToolBar ();
-		mComments = new ArrayList<> ();
-		expandAnimation (savedInstanceState);
-		mCommentListAdapter = new CommentListAdapter (this, mComments);
-		setupRecyclerView ();
-		completeRefresh ();
-	}
-
-	@Override
-	public void onDestroy () {
-		super.onDestroy ();
-		if (mRealm != null) {
-			mRealm.close ();
-		}
 	}
 
 	/*

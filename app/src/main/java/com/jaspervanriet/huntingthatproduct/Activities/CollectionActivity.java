@@ -41,11 +41,11 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.jaspervanriet.huntingthatproduct.Adapters.ProductListAdapter;
-import com.jaspervanriet.huntingthatproduct.Classes.Collection;
-import com.jaspervanriet.huntingthatproduct.Classes.Product;
+import com.jaspervanriet.huntingthatproduct.Entities.Collection;
+import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.Constants;
-import com.jaspervanriet.huntingthatproduct.Utils.Utils;
+import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenu;
 import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenuManager;
 import com.koushikdutta.async.future.FutureCallback;
@@ -82,6 +82,28 @@ public class CollectionActivity extends ActionBarActivity
 	private ArrayList<Product> mProducts = new ArrayList<> ();
 	private ProductListAdapter mListAdapter;
 
+	@Override
+	protected void onCreate (Bundle savedInstanceState) {
+		super.onCreate (savedInstanceState);
+		setContentView (R.layout.activity_collection);
+		ButterKnife.inject (this);
+
+		mCollection = getIntent ().getParcelableExtra ("collection");
+		setupToolBar ();
+		expandAnimation (savedInstanceState);
+
+		mProgressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
+		mListAdapter = new ProductListAdapter (this, mProducts);
+		mListAdapter.setOnProductClickListener (this);
+		setupRecyclerView ();
+	}
+
+	@Override
+	public void onStart () {
+		super.onStart ();
+		completeRefresh ();
+	}
+
 	private Intent getShareIntent () {
 		Intent i = new Intent (Intent.ACTION_SEND);
 		i.setType ("text/plain");
@@ -93,7 +115,7 @@ public class CollectionActivity extends ActionBarActivity
 	private void goBack () {
 		mBackPressed = true;
 		mCollectionLayout.animate ()
-				.translationY (Utils.getScreenHeight (this))
+				.translationY (ViewUtils.getScreenHeight (this))
 				.setDuration (200)
 				.setListener (new AnimatorListenerAdapter () {
 					@Override
@@ -261,32 +283,6 @@ public class CollectionActivity extends ActionBarActivity
 	@Override
 	public void onCancelClick (int feedItem) {
 		FeedContextMenuManager.getInstance ().hideContextMenu ();
-	}
-
-	/*
-	 * App lifecycle
-	 */
-
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
-		setContentView (R.layout.activity_collection);
-		ButterKnife.inject (this);
-
-		mCollection = getIntent ().getParcelableExtra ("collection");
-		setupToolBar ();
-		expandAnimation (savedInstanceState);
-
-		mProgressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
-		mListAdapter = new ProductListAdapter (this, mProducts);
-		mListAdapter.setOnProductClickListener (this);
-		setupRecyclerView ();
-	}
-
-	@Override
-	public void onStart () {
-		super.onStart ();
-		completeRefresh ();
 	}
 
 	/*

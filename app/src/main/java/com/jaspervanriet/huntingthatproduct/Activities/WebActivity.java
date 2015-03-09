@@ -38,9 +38,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.jaspervanriet.huntingthatproduct.Classes.Product;
+import com.jaspervanriet.huntingthatproduct.Entities.Product;
+import com.jaspervanriet.huntingthatproduct.Models.ProductModel;
 import com.jaspervanriet.huntingthatproduct.R;
-import com.jaspervanriet.huntingthatproduct.Utils.Utils;
+import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -59,12 +60,41 @@ public class WebActivity extends ActionBarActivity {
 	@InjectView (R.id.web_webview)
 	WebView mWebView;
 
-	private Product mProduct;
 	private int mDrawingStartLocation;
 	private boolean mBackPressed = false;
 	private Realm mRealm;
 	private String mProductTitle;
 	private String mProductUrl;
+
+	@Override
+	protected void onCreate (Bundle savedInstanceState) {
+		super.onCreate (savedInstanceState);
+		setContentView (R.layout.activity_web);
+		ButterKnife.inject (this);
+
+		int mProductId = getIntent ().getIntExtra ("productId", 0);
+		if (getIntent ().getBooleanExtra ("collection", false)) {
+			mProductTitle = getIntent ().getStringExtra ("productTitle");
+			mProductUrl = getIntent ().getStringExtra ("productUrl");
+		} else {
+			mRealm = Realm.getInstance (this);
+			Product product = ProductModel.findProductById (mRealm, mProductId);
+			mProductTitle = product.getTitle ();
+			mProductUrl = product.getProductUrl ();
+		}
+
+		expandAnimation (savedInstanceState);
+		setupToolbar ();
+		setupWebView ();
+	}
+
+	@Override
+	public void onDestroy () {
+		if (mRealm != null) {
+			mRealm.close ();
+		}
+		super.onDestroy ();
+	}
 
 	private void openInBrowser () {
 		Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
@@ -83,7 +113,7 @@ public class WebActivity extends ActionBarActivity {
 	private void goBack () {
 		mBackPressed = true;
 		mWebView.animate ()
-				.translationY (Utils.getScreenHeight (this))
+				.translationY (ViewUtils.getScreenHeight (this))
 				.setDuration (200)
 				.setListener (new AnimatorListenerAdapter () {
 					@Override
@@ -124,7 +154,7 @@ public class WebActivity extends ActionBarActivity {
 
 			@Override
 			public void onReceivedSslError (WebView view, @NonNull SslErrorHandler handler,
-			                                SslError error) {
+											SslError error) {
 				Toast.makeText (WebActivity.this, getString (R.string.error_ssl),
 						Toast.LENGTH_LONG).show ();
 			}
@@ -173,40 +203,6 @@ public class WebActivity extends ActionBarActivity {
 				.setDuration (ANIM_LAYOUT_INTRO_DURATION)
 				.setInterpolator (new AccelerateInterpolator ())
 				.start ();
-	}
-
-	/*
-	 * App lifecycle
-	 */
-
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
-		setContentView (R.layout.activity_web);
-		ButterKnife.inject (this);
-
-		int mProductId = getIntent ().getIntExtra ("productId", 0);
-		if (getIntent ().getBooleanExtra ("collection", false)) {
-			mProductTitle = getIntent ().getStringExtra ("productTitle");
-			mProductUrl = getIntent ().getStringExtra ("productUrl");
-		} else {
-			mRealm = Realm.getInstance (this);
-			mProduct = Product.findProductById (mRealm, mProductId);
-			mProductTitle = mProduct.getTitle ();
-			mProductUrl = mProduct.getProductUrl ();
-		}
-
-		expandAnimation (savedInstanceState);
-		setupToolbar ();
-		setupWebView ();
-	}
-
-	@Override
-	public void onDestroy () {
-		super.onDestroy ();
-		if (mRealm != null) {
-			mRealm.close ();
-		}
 	}
 
 	/*

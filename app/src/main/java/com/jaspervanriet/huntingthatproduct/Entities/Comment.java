@@ -15,10 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Classes;
+package com.jaspervanriet.huntingthatproduct.Entities;
 
 import com.google.gson.JsonObject;
-
 
 public class Comment {
 	public int id;
@@ -29,9 +28,8 @@ public class Comment {
 	public User user;
 	public int level;
 
-
 	public Comment (int id, String text, int parentComment,
-	                int childCommentCount, boolean isMaker, User user) {
+					int childCommentCount, boolean isMaker, User user) {
 		this.id = id;
 		this.text = text;
 		this.parentComment = parentComment;

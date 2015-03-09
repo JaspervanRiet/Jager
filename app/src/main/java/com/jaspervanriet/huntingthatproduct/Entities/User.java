@@ -15,10 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Classes;
+package com.jaspervanriet.huntingthatproduct.Entities;
 
 import com.google.gson.JsonObject;
-
 
 public class User {
 
@@ -30,7 +29,7 @@ public class User {
 	public String largeImgUrl;
 
 	public User (int id, String name, String headline,
-	             String username, String smallImgUrl, String largeImgUrl) {
+				 String username, String smallImgUrl, String largeImgUrl) {
 		this.id = id;
 		this.name = name;
 		this.headline = headline;
@@ -49,5 +48,4 @@ public class User {
 				object.get ("image_url").getAsJsonObject ().get ("48px").getAsString (),
 				object.get ("image_url").getAsJsonObject ().get ("73px").getAsString ());
 	}
-
 }

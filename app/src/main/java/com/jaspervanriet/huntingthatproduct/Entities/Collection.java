@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Classes;
+package com.jaspervanriet.huntingthatproduct.Entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -30,7 +30,7 @@ public class Collection implements Parcelable {
 	public String collectionUrl;
 
 	public Collection (int id, String name, String title,
-	                   String backgroundImageUrl, String collectionUrl) {
+					   String backgroundImageUrl, String collectionUrl) {
 		this.id = id;
 		this.name = name;
 		this.title = title;

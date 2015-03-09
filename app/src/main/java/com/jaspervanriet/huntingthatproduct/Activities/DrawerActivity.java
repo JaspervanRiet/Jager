@@ -26,6 +26,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -42,7 +43,10 @@ import com.squareup.picasso.PicassoTools;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class BaseActivity extends ActionBarActivity {
+/**
+ * Activity that handles common tasks for activities in the drawer
+ */
+public class DrawerActivity extends ActionBarActivity {
 
 	public static final int NAVDRAWER_ITEM_TODAYS_PRODUCTS = 0;
 	public static final int NAVDRAWER_ITEM_SETTINGS = 2;
@@ -70,8 +74,8 @@ public class BaseActivity extends ActionBarActivity {
 
 	@Override
 	public void onDestroy () {
-		super.onDestroy ();
 		PicassoTools.clearCache (Picasso.with (this));
+		super.onDestroy ();
 	}
 
 	private void setupDrawer () {
@@ -172,6 +176,21 @@ public class BaseActivity extends ActionBarActivity {
 				actionBar.setTitle (drawerData[3]);
 				break;
 		}
+	}
+
+	protected boolean sendCrashData () {
+		return SettingsActivity.getCrashDataPref (this);
+	}
+
+	protected void setActionBarTitle (String title) {
+		ActionBar actionBar = getSupportActionBar ();
+		actionBar.setTitle (title);
+	}
+
+	protected LinearLayoutManager getLayoutManager () {
+		LinearLayoutManager layoutManager = new LinearLayoutManager (this);
+		layoutManager.setOrientation (LinearLayoutManager.VERTICAL);
+		return layoutManager;
 	}
 
 	@Override

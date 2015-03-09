@@ -30,10 +30,19 @@ import com.jaspervanriet.huntingthatproduct.R;
 
 import de.psdev.licensesdialog.LicensesDialog;
 
-
 public class SettingsFragment extends PreferenceFragment {
 
 	private static final String EMAIL_DEVELOPER = "jaspervanriet@gmail.com";
+
+	@Override
+	public void onCreate (Bundle savedInstanceState) {
+		super.onCreate (savedInstanceState);
+		addPreferencesFromResource (R.xml.settings);
+		setupShowAsReadPref ();
+		setupCrashDataPref ();
+		setupOpenSourceLicenses ();
+		setupFeedbackPref ();
+	}
 
 	private void setupFeedbackPref () {
 		Preference feedback = getPreferenceScreen ()
@@ -120,15 +129,4 @@ public class SettingsFragment extends PreferenceFragment {
 		sharedPrefs.edit ().putBoolean (SettingsActivity.KEY_CRASH_DATA,
 				bool).apply ();
 	}
-
-	@Override
-	public void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
-		addPreferencesFromResource (R.xml.settings);
-		setupShowAsReadPref ();
-		setupCrashDataPref ();
-		setupOpenSourceLicenses ();
-		setupFeedbackPref ();
-	}
-
 }

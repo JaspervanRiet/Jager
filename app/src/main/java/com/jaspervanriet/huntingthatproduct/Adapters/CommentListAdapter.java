@@ -27,17 +27,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jaspervanriet.huntingthatproduct.Classes.Comment;
+import com.jaspervanriet.huntingthatproduct.Entities.Comment;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.CircleTransform;
-import com.jaspervanriet.huntingthatproduct.Utils.Utils;
+import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
 
 public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter
 		.CommentsViewHolder> {
@@ -48,7 +47,6 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter
 	public CommentListAdapter (Context context, ArrayList<Comment> comments) {
 		this.mContext = context;
 		this.mComments = comments;
-
 	}
 
 	@Override
@@ -72,7 +70,6 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter
 		params.setMargins (comment.level * 30, 0, 0, 0);
 		holder.commentLayout.setLayoutParams (params);
 		loadComment (holder, position);
-
 	}
 
 	private void loadComment (CommentsViewHolder holder, int position) {
@@ -90,7 +87,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter
 
 		holder.headline.setText (Html.fromHtml (mComments.get (position).user.headline));
 		Picasso.with (mContext).load (mComments.get (position).user.largeImgUrl)
-				.resize (Utils.dpToPx (56), Utils.dpToPx (56))
+				.resize (ViewUtils.dpToPx (56), ViewUtils.dpToPx (56))
 				.centerCrop ()
 				.transform (new CircleTransform ())
 				.into (holder.avatar);
