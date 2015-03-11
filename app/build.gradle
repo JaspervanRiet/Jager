@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'io.fabric.tools:gradle:1.15.2'
     }
 }
 apply plugin: 'com.android.application'
@@ -26,7 +26,7 @@ android {
     defaultConfig {
         applicationId "com.jaspervanriet.huntingthatproduct"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 13
         versionName "1.2.1"
     }
@@ -40,8 +40,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:appcompat-v7:22+'
+    compile 'com.android.support:support-v4:22+'
     compile 'com.jakewharton:butterknife:6.0.0'
     compile 'com.pnikosis:materialish-progress:1.3'
     compile 'com.android.support:cardview-v7:21.0.3'
