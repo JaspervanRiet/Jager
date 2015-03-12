@@ -37,6 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.jaspervanriet.huntingthatproduct.Activities.Settings.SettingsActivity;
 import com.jaspervanriet.huntingthatproduct.Adapters.ProductListAdapter;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.Models.ProductDatabase;
@@ -253,8 +254,14 @@ implements ProductListAdapter.OnProductClickListener,
 		Product product = mProducts.get (position);
 		ProductDatabase.setProductAsRead (product, mRealm);
 		refreshAdapter ();
-		Intent openUrl = new Intent (this, WebActivity.class);
-		activityExitAnimation (v, product, openUrl);
+		if (SettingsActivity.getOpenInBrowserPref (this)) {
+			Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
+					.parse (product.getProductUrl ()));
+			startActivity (intent);
+		} else {
+			Intent openUrl = new Intent (this, WebActivity.class);
+			activityExitAnimation (v, product, openUrl);
+		}
 	}
 
 	@Override

@@ -39,6 +39,7 @@ public class SettingsFragment extends PreferenceFragment {
 		super.onCreate (savedInstanceState);
 		addPreferencesFromResource (R.xml.settings);
 		setupShowAsReadPref ();
+		setupOpenInBrowserPref ();
 		setupCrashDataPref ();
 		setupOpenSourceLicenses ();
 		setupFeedbackPref ();
@@ -104,6 +105,30 @@ public class SettingsFragment extends PreferenceFragment {
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences (getActivity ());
 		sharedPrefs.edit ().putBoolean (SettingsActivity.KEY_SHOW_READ,
+				bool).apply ();
+	}
+
+	private void setupOpenInBrowserPref () {
+		CheckBoxPreference markAsRead = (CheckBoxPreference)
+				getPreferenceScreen ().findPreference (
+						SettingsActivity.KEY_OPEN_SYSTEM_BROWSER);
+		markAsRead.setOnPreferenceChangeListener (new Preference.OnPreferenceChangeListener
+				() {
+			@Override
+			public boolean onPreferenceChange (Preference preference, Object newValue) {
+				if (newValue instanceof Boolean) {
+					boolean bool = (boolean) newValue;
+					setOpenInBrowserPref (bool);
+				}
+				return true;
+			}
+		});
+	}
+
+	private void setOpenInBrowserPref (boolean bool) {
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences (getActivity ());
+		sharedPrefs.edit ().putBoolean (SettingsActivity.KEY_OPEN_SYSTEM_BROWSER,
 				bool).apply ();
 	}
 

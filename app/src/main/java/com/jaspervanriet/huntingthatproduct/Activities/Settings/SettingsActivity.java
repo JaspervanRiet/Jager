@@ -28,22 +28,12 @@ import com.jaspervanriet.huntingthatproduct.R;
 public class SettingsActivity extends DrawerActivity {
 
 	public static final String KEY_SHOW_READ = "preference_show_as_read";
+	public static final String KEY_OPEN_SYSTEM_BROWSER =
+			"preference_open_link_in_browser";
 	public static final String KEY_CRASH_DATA = "preference_crash_data";
 	public static final String KEY_OPEN_SOURCE_LICENSES =
 			"preference_open_source_licenses";
 	public static final String KEY_SEND_FEEDBACK = "preference_send_feedback";
-
-	public static boolean getShowAsReadPref (Context context) {
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences (context);
-		return sharedPrefs.getBoolean (SettingsActivity.KEY_SHOW_READ, false);
-	}
-
-	public static boolean getCrashDataPref (Context context) {
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences (context);
-		return sharedPrefs.getBoolean (SettingsActivity.KEY_CRASH_DATA, true);
-	}
 
 	@Override
 	protected int getSelfNavDrawerItem () {
@@ -58,5 +48,23 @@ public class SettingsActivity extends DrawerActivity {
 		setToolBar ();
 		getFragmentManager ().beginTransaction ().replace (R.id.content_frame,
 				new SettingsFragment ()).commit ();
+	}
+
+	public static boolean getShowAsReadPref (Context context) {
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences (context);
+		return sharedPrefs.getBoolean (SettingsActivity.KEY_SHOW_READ, false);
+	}
+
+	public static boolean getOpenInBrowserPref (Context context) {
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences (context);
+		return sharedPrefs.getBoolean (SettingsActivity.KEY_OPEN_SYSTEM_BROWSER, false);
+	}
+
+	public static boolean getCrashDataPref (Context context) {
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences (context);
+		return sharedPrefs.getBoolean (SettingsActivity.KEY_CRASH_DATA, true);
 	}
 }

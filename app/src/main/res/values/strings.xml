@@ -37,13 +37,8 @@
     <string name="settings_category_general">General</string>
     <string name="settings_category_misc">Other</string>
 
-    <string name="settings_download_network">High quality images</string>
-    <string name="settings_download_network_summary_off">Only download high
-        quality images on wifi</string>
-    <string name="settings_download_network_summary_on">Always
-        download high quality images</string>
-    <string name="settings_crash_data">Automatically submit crash
-        reports</string>
+    <string name="settings_open_link_in_browser">Open links in system browser</string>
+    <string name="settings_crash_data">Automatically submit crash reports</string>
     <string name="settings_open_source_licenses">Open source licenses</string>
     <string name="settings_show_as_read">Show indicator for viewed products</string>
     <string name="settings_send_feedback">Send feedback</string>
