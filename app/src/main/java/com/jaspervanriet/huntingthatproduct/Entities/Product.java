@@ -37,9 +37,11 @@ public class Product extends RealmObject {
 	private String date;
 	private boolean read;
 	private int rank;
+
+	/* Not currently in use */
 	private boolean seen;
 
-	// No arguments constructor needed for Realm
+	/* No arguments constructor needed for Realm */
 	public Product () {
 		this.id = 0;
 		this.title = "";
@@ -55,14 +57,14 @@ public class Product extends RealmObject {
 	}
 
 	public Product (int id,
-					String title,
-					String tagline,
-					String discussionUrl,
-					String productUrl,
-					int votes,
-					int numberOfComments,
-					String smallImgUrl,
-					String day) {
+	                String title,
+	                String tagline,
+	                String discussionUrl,
+	                String productUrl,
+	                int votes,
+	                int numberOfComments,
+	                String smallImgUrl,
+	                String day) {
 		this.id = id;
 		this.title = title;
 		this.tagline = tagline;

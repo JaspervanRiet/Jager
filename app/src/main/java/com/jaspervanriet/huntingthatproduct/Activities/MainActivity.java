@@ -169,6 +169,7 @@ implements ProductListAdapter.OnProductClickListener,
 		}
 	}
 
+	/* Retrieves products from Product Hunt API and saves them to Realm */
 	private void getProducts () {
 		Callback callback = new Callback () {
 			public boolean handleMessage (Message msg) {
@@ -179,6 +180,7 @@ implements ProductListAdapter.OnProductClickListener,
 		ProductModel.getData (this, callback, getPostsUrl ());
 	}
 
+	/* Retrieves products from Realm and populates mProducts */
 	public void onApiCallDone () {
 		getProductsFromRealm ();
 		showUpdatedList ();
