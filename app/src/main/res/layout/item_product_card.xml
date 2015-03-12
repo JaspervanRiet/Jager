@@ -156,6 +156,7 @@
                 android:text="@string/card_product_comments"
                 android:textColor="@color/primary_dark"
                 android:textSize="15sp"
+                android:textAllCaps="true"
                 app:typeface="roboto_medium"
                 />
 

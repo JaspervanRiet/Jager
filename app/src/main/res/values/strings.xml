@@ -9,12 +9,12 @@
     <string name="view_empty_comments">No comments. None!</string>
     <string name="view_empty_products">Can\'t find any products!</string>
 
-    <string name="card_product_share">SHARE</string>
-    <string name="card_product_comments">VIEW COMMENTS</string>
+    <string name="card_product_comments">View comments</string>
 
     <string name="menu_refresh">Refresh</string>
     <string name="menu_calendar">Pick a day</string>
     <string name="menu_share">Share</string>
+    <string name="menu_share_title">Share product</string>
     <string name="menu_browser">Open in browser</string>
     <string name="menu_rate">Rate the app</string>
 
