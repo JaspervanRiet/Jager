@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2015 Jasper van Riet
  *
- * This program is free software you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -12,7 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http//www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.jaspervanriet.huntingthatproduct.Models;
@@ -71,7 +71,7 @@ public class ProductDatabase {
 	 * @param todayString today's date
 	 */
 	public static void removeOldCache (Context context, final String savedDate,
-									   String todayString) {
+	                                   String todayString) {
 		if (!savedDate.equals (todayString)) {
 			Realm realm = Realm.getInstance (context);
 			realm.executeTransaction (new Realm.Transaction () {
