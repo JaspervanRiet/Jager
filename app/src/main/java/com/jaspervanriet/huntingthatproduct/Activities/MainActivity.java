@@ -106,7 +106,7 @@ implements ProductListAdapter.OnProductClickListener,
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
-//		initFabric ();
+		initFabric ();
 		setContentView (R.layout.activity_main);
 		super.onCreateDrawer ();
 		ButterKnife.inject (this);
