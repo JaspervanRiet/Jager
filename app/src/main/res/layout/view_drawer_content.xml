@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_gravity="start"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@android:color/white"
     android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@android:color/white"
+    android:orientation="vertical"
     >
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/drawer_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:paddingLeft="16dp"
+        android:paddingRight="10dp"
+        android:paddingTop="40dp"
+        android:paddingBottom="40dp"
+        android:textSize="25sp"
+        android:textColor="@android:color/white"
+        android:background="@color/primary_color"
+        app:typeface="roboto_light"
+        />
 
     <ListView
         android:id="@+id/drawer_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#eee"
         android:background="@android:color/white"
+        android:divider="#eee"
         android:dividerHeight="1dp"/>
 
-</FrameLayout>
+</LinearLayout>
