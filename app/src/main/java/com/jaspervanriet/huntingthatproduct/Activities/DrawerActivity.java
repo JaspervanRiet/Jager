@@ -66,8 +66,11 @@ public class DrawerActivity extends ActionBarActivity {
 	@InjectView (R.id.drawer_list)
 	ListView mDrawerList;
 
-	protected void onCreateDrawer () {
+	@Override
+	public void setContentView (int layoutResID) {
+		super.setContentView (layoutResID);
 		ButterKnife.inject (this);
+		setToolBar ();
 		setupDrawer ();
 		mHandler = new Handler ();
 	}
@@ -113,6 +116,10 @@ public class DrawerActivity extends ActionBarActivity {
 			}, NAVDRAWER_LAUNCH_DELAY);
 		}
 		closeNavDrawer ();
+	}
+
+	public Toolbar getToolbar () {
+		return mToolBar;
 	}
 
 	private void goToNavDrawerItem (int item) {

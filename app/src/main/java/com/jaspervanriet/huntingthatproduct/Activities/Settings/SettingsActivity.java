@@ -44,7 +44,6 @@ public class SettingsActivity extends DrawerActivity {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 		setContentView (R.layout.activity_preferences);
-		super.onCreateDrawer ();
 		setToolBar ();
 		getFragmentManager ().beginTransaction ().replace (R.id.content_frame,
 				new SettingsFragment ()).commit ();

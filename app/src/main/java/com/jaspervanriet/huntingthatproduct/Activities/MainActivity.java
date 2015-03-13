@@ -27,7 +27,6 @@ import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -94,8 +93,6 @@ implements ProductListAdapter.OnProductClickListener,
 	 */
 	private static boolean mIsDestroyed;
 
-	@InjectView (R.id.toolbar)
-	Toolbar mToolBar;
 	@InjectView (android.R.id.list)
 	RecyclerView mRecyclerView;
 	@InjectView (R.id.list_progress_wheel)
@@ -108,7 +105,6 @@ implements ProductListAdapter.OnProductClickListener,
 		super.onCreate (savedInstanceState);
 		initFabric ();
 		setContentView (R.layout.activity_main);
-		super.onCreateDrawer ();
 		ButterKnife.inject (this);
 		mIsDestroyed = false;
 
@@ -117,7 +113,6 @@ implements ProductListAdapter.OnProductClickListener,
 		boolean toolbarAnimation = getIntent ().getBooleanExtra
 				("toolbar_animation", true);
 		startIntroAnimation = (savedInstanceState == null) && toolbarAnimation;
-		setToolBar ();
 		mDateString = DateUtils.getTodaysDate ();
 		mSavedDate = DateUtils.getLastUsedDate (this, mDateString);
 		ProductDatabase.removeOldCache (this, mSavedDate, mDateString);
@@ -324,8 +319,8 @@ implements ProductListAdapter.OnProductClickListener,
 
 	private void setToolbarIntroAnimation () {
 		int toolBarSize = ViewUtils.dpToPx (56);
-		mToolBar.setTranslationY (-toolBarSize);
-		mToolBar.animate ()
+		getToolbar ().setTranslationY (-toolBarSize);
+		getToolbar ().animate ()
 				.translationY (0)
 				.setDuration (ANIM_TOOLBAR_INTRO_DURATION)
 				.setStartDelay (300);

@@ -35,7 +35,6 @@ public class AboutActivity extends DrawerActivity {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 		setContentView (R.layout.activity_about);
-		super.onCreateDrawer ();
 		ButterKnife.inject (this);
 
 		setToolBar ();

@@ -41,8 +41,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class CollectionsListActivity extends DrawerActivity implements
-															CollectionListAdapter
-																	.OnCollectionClickListener {
+		CollectionListAdapter.OnCollectionClickListener {
 
 	@InjectView (android.R.id.list)
 	RecyclerView mRecyclerView;
@@ -56,7 +55,6 @@ public class CollectionsListActivity extends DrawerActivity implements
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 		setContentView (R.layout.activity_collections_list);
-		super.onCreateDrawer ();
 		ButterKnife.inject (this);
 		setToolBar ();
 
