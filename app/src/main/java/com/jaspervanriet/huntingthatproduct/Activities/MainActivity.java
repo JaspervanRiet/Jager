@@ -403,7 +403,7 @@ implements ProductListAdapter.OnProductClickListener,
 
 	private void showDatePickerDialog () {
 		DialogFragment dialogFragment = new DatePickerFragment ();
-		dialogFragment.show (getSupportFragmentManager (), "dataPicker");
+		dialogFragment.show (getSupportFragmentManager (), "datePicker");
 	}
 
 	private final Runnable refreshingContent = new Runnable () {
