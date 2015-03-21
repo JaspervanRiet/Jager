@@ -18,6 +18,7 @@
 package com.jaspervanriet.huntingthatproduct.Entities;
 
 import com.google.gson.JsonObject;
+import com.jaspervanriet.huntingthatproduct.Utils.DateUtils;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -86,7 +87,8 @@ public class Product extends RealmObject {
 				object.get ("votes_count").getAsInt (),
 				object.get ("comments_count").getAsInt (),
 				object.get ("screenshot_url").getAsJsonObject ().get ("300px").getAsString (),
-				object.get ("day").getAsString ());
+				object.get ("day").isJsonNull () ?
+						DateUtils.getTodaysDate () : object.get ("day").getAsString ());
 	}
 
 	/* Getters & setters */

@@ -38,6 +38,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.jaspervanriet.huntingthatproduct.Adapters.ProductListAdapter;
@@ -200,8 +201,13 @@ public class CollectionActivity extends ActionBarActivity
 									.getAsJsonArray ("posts");
 							for (i = 0; i < products.size (); i++) {
 								JsonObject obj = products.get (i).getAsJsonObject ();
-								Product product = new Product (obj);
-								mProducts.add (product);
+								try {
+									Product product = new Product (obj);
+									mProducts.add (product);
+								} catch (UnsupportedOperationException
+										unsupportedException) {
+									Crashlytics.logException (unsupportedException);
+								}
 							}
 							mListAdapter.notifyDataSetChanged ();
 							mProgressWheel.stopSpinning ();
