@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -120,7 +119,6 @@ public class WebActivity extends ActionBarActivity {
 					public void onAnimationEnd (Animator animation) {
 						WebActivity.super.onBackPressed ();
 						overridePendingTransition (0, 0);
-						finish ();
 					}
 				})
 				.start ();
@@ -153,7 +151,7 @@ public class WebActivity extends ActionBarActivity {
 			}
 
 			@Override
-			public void onReceivedSslError (WebView view, @NonNull SslErrorHandler handler,
+			public void onReceivedSslError (WebView view, SslErrorHandler handler,
 											SslError error) {
 				Toast.makeText (WebActivity.this, getString (R.string.error_ssl),
 						Toast.LENGTH_LONG).show ();

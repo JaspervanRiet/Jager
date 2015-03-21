@@ -117,7 +117,6 @@ public class CommentsActivity extends ActionBarActivity {
 					public void onAnimationEnd (Animator animation) {
 						CommentsActivity.super.onBackPressed ();
 						overridePendingTransition (0, 0);
-						finish ();
 					}
 				})
 				.start ();
