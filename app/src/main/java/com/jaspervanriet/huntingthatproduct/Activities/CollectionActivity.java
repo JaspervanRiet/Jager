@@ -97,11 +97,6 @@ public class CollectionActivity extends ActionBarActivity
 		mListAdapter = new ProductListAdapter (this, mProducts);
 		mListAdapter.setOnProductClickListener (this);
 		setupRecyclerView ();
-	}
-
-	@Override
-	public void onStart () {
-		super.onStart ();
 		completeRefresh ();
 	}
 
@@ -204,7 +199,8 @@ public class CollectionActivity extends ActionBarActivity
 								try {
 									Product product = new Product (obj);
 									mProducts.add (product);
-								} catch (UnsupportedOperationException
+								}
+								catch (UnsupportedOperationException
 										unsupportedException) {
 									Crashlytics.logException (unsupportedException);
 								}

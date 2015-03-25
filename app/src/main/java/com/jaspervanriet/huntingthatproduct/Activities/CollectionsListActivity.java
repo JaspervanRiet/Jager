@@ -41,7 +41,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class CollectionsListActivity extends DrawerActivity implements
-		CollectionListAdapter.OnCollectionClickListener {
+															CollectionListAdapter
+																	.OnCollectionClickListener {
 
 	@InjectView (android.R.id.list)
 	RecyclerView mRecyclerView;
@@ -61,11 +62,6 @@ public class CollectionsListActivity extends DrawerActivity implements
 		createListAdapter ();
 		progressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
 		setupRecyclerView ();
-	}
-
-	@Override
-	public void onStart () {
-		super.onStart ();
 		completeRefresh ();
 	}
 

@@ -62,7 +62,7 @@ import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 
 public class MainActivity extends DrawerActivity
-implements ProductListAdapter.OnProductClickListener,
+		implements ProductListAdapter.OnProductClickListener,
 				   DatePickerDialog.OnDateSetListener,
 				   FeedContextMenu.OnFeedContextMenuItemClickListener {
 
@@ -119,12 +119,6 @@ implements ProductListAdapter.OnProductClickListener,
 
 		setProgressWheelColor ();
 		createProductList ();
-	}
-
-	@Override
-	public void onRestart () {
-		super.onRestart ();
-		completeRefresh ();
 	}
 
 	@Override
