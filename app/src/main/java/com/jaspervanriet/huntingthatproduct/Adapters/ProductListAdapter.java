@@ -83,7 +83,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 	}
 
 	private void loadCardText (ProductViewHolder holder) {
-		Product product = mProducts.get (holder.getPosition ());
+		Product product = mProducts.get (holder.getLayoutPosition ());
 		holder.title.setText (product.getTitle ());
 		holder.description.setText (product.getTagline ());
 		holder.votes.setText (String.valueOf (product.getVotes ()));
@@ -91,7 +91,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 	}
 
 	private void loadImage (final ProductViewHolder holder) {
-		String imgUrl = mProducts.get (holder.getPosition ()).getSmallImgUrl ();
+		String imgUrl = mProducts.get (holder.getLayoutPosition ()).getSmallImgUrl ();
 		holder.progressWheel.setVisibility (View.VISIBLE);
 		holder.progressWheel.spin ();
 		Picasso.with (mContext).load (imgUrl)
