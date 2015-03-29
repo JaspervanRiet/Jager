@@ -55,6 +55,8 @@
                 android:layout_height="match_parent"
                 android:divider="@null"
                 android:scrollbars="vertical"
+                android:clipToPadding="false"
+                android:paddingBottom="8dp"
                 />
 
             <include layout="@layout/view_empty_products"/>
