@@ -103,7 +103,7 @@ public class MainActivity extends DrawerActivity
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
-		initFabric ();
+		//		initFabric ();
 		setContentView (R.layout.activity_main);
 		ButterKnife.inject (this);
 		mIsDestroyed = false;

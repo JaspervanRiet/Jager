@@ -43,7 +43,7 @@
 
             <ImageView
                 android:id="@+id/card_product_image"
-                android:layout_width="380dp"
+                android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/screenshot_description"

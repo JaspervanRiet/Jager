@@ -68,10 +68,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		holder.screenshotRipple.setTag (position);
 		holder.viewComments.setTag (position);
 		holder.context.setTag (position);
-		loadCardText (holder);
-		loadImage (holder);
 		Picasso.with (mContext).load (R.drawable.ic_votes).into (holder.votesIcon);
 		Picasso.with (mContext).load (R.drawable.ic_comment).into (holder.commentsIcon);
+		loadCardText (holder);
+		loadImage (holder);
 
 		if (showAsRead) {
 			if (mProducts.get (position).isRead ()) {
@@ -95,8 +95,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		holder.progressWheel.setVisibility (View.VISIBLE);
 		holder.progressWheel.spin ();
 		Picasso.with (mContext).load (imgUrl)
-				.resize (380, 250)
-				.centerCrop ()
 				.into (holder.screenshot, new Callback () {
 					@Override
 					public void onSuccess () {
