@@ -73,4 +73,10 @@
         <copyright>Copyright (C) 2015 Fabien Devos</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
+    <notice>
+        <name>SwipeBackLayout</name>
+        <url>https://github.com/ikew0ng/SwipeBackLayout</url>
+        <copyright>Copyright (C) 2013 Issac Wong</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
 </notices>
