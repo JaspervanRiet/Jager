@@ -25,7 +25,6 @@ import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -40,13 +39,15 @@ import android.widget.Toast;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.Models.ProductModel;
 import com.jaspervanriet.huntingthatproduct.R;
+import com.jaspervanriet.huntingthatproduct.Utils.CustomSwipeBackActivity;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.realm.Realm;
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
 
-public class WebActivity extends ActionBarActivity {
+public class WebActivity extends CustomSwipeBackActivity {
 
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 	private static final int ANIM_LAYOUT_INTRO_DURATION = 250;
@@ -70,6 +71,9 @@ public class WebActivity extends ActionBarActivity {
 		super.onCreate (savedInstanceState);
 		setContentView (R.layout.activity_web);
 		ButterKnife.inject (this);
+
+		SwipeBackLayout swipeBackLayout = getSwipeBackLayout ();
+		swipeBackLayout.setEdgeTrackingEnabled (SwipeBackLayout.EDGE_LEFT);
 
 		int mProductId = getIntent ().getIntExtra ("productId", 0);
 		if (getIntent ().getBooleanExtra ("collection", false)) {

@@ -21,7 +21,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +40,7 @@ import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.Models.ProductModel;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.Constants;
+import com.jaspervanriet.huntingthatproduct.Utils.CustomSwipeBackActivity;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -51,8 +51,9 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.realm.Realm;
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
 
-public class CommentsActivity extends ActionBarActivity {
+public class CommentsActivity extends CustomSwipeBackActivity {
 
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 	private static final int ANIM_LAYOUT_INTRO_DURATION = 250;
@@ -81,6 +82,9 @@ public class CommentsActivity extends ActionBarActivity {
 		super.onCreate (savedInstanceState);
 		setContentView (R.layout.activity_comments);
 		ButterKnife.inject (this);
+
+		SwipeBackLayout swipeBackLayout = getSwipeBackLayout ();
+		swipeBackLayout.setEdgeTrackingEnabled (SwipeBackLayout.EDGE_LEFT);
 
 		mProductId = getIntent ().getIntExtra ("productId", 0);
 		if (getIntent ().getBooleanExtra ("collection", false)) {
