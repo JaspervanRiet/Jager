@@ -74,6 +74,7 @@ dependencies {
     }
     compile 'io.realm:realm-android:0.80.0'
     compile 'com.fabiendevos:nanotasks:1.1.0'
+    compile 'me.imid.swipebacklayout.lib:library:1.0.0'
 }
 
 afterEvaluate {
