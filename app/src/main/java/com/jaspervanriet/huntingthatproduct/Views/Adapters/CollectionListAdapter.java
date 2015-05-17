@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Adapters;
+package com.jaspervanriet.huntingthatproduct.Views.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -28,32 +28,30 @@ import android.widget.ImageView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
+import com.jaspervanriet.huntingthatproduct.Entities.Collections;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CollectionListAdapter extends RecyclerView
-												   .Adapter<CollectionListAdapter
-		.CollectionsViewHolder> implements
-																										 View.OnClickListener {
+public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAdapter
+		.CollectionsViewHolder> implements View.OnClickListener {
 
 	private final static int ANIM_LIST_ENTER_DURATION = 700;
 	private static final int ANIMATED_ITEMS_COUNT = 5;
 
 	private Context mContext;
-	private ArrayList<Collection> mCollections;
+	private List<Collection> mCollections;
 	private OnCollectionClickListener mOnCollectionClickListener;
 	private int lastAnimatedPosition = -1;
 
-	public CollectionListAdapter (Context context,
-								  ArrayList<Collection> collections) {
+	public CollectionListAdapter (Context context, Collections collections) {
 		this.mContext = context;
-		this.mCollections = collections;
+		this.mCollections = collections.getCollections ();
 	}
 
 	@Override
@@ -69,13 +67,13 @@ public class CollectionListAdapter extends RecyclerView
 	public void onBindViewHolder (CollectionsViewHolder holder, int position) {
 		runEnterAnimation (holder.itemView, position);
 		holder.card.setTag (position);
-		holder.name.setText (mCollections.get (position).name);
-		holder.title.setText (mCollections.get (position).title);
+		holder.name.setText (mCollections.get (position).getName ());
+		holder.title.setText (mCollections.get (position).getTitle ());
 		String backgroundImageUrl = mCollections.get (position)
-				.backgroundImageUrl;
+				.getBackgroundImageUrl ();
 		if (!backgroundImageUrl.equals ("")) {
 			Picasso.with (mContext)
-					.load (mCollections.get (position).backgroundImageUrl)
+					.load (backgroundImageUrl)
 					.resize (380, 150)
 					.centerCrop ()
 					.into (holder.image);
@@ -108,7 +106,7 @@ public class CollectionListAdapter extends RecyclerView
 	}
 
 	public void setOnCollectionClickListener (OnCollectionClickListener
-													  onCollectionClickListener) {
+			                                          onCollectionClickListener) {
 		this.mOnCollectionClickListener = onCollectionClickListener;
 	}
 
@@ -130,6 +128,6 @@ public class CollectionListAdapter extends RecyclerView
 	}
 
 	public interface OnCollectionClickListener {
-		public void onCollectionClick (View view, int position);
+		void onCollectionClick (View view, int position);
 	}
 }

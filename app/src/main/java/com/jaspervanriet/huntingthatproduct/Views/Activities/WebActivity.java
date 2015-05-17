@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Activities;
+package com.jaspervanriet.huntingthatproduct.Views.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -37,14 +37,12 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
-import com.jaspervanriet.huntingthatproduct.Models.ProductModel;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.CustomSwipeBackActivity;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.realm.Realm;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 
 public class WebActivity extends CustomSwipeBackActivity {
@@ -62,9 +60,7 @@ public class WebActivity extends CustomSwipeBackActivity {
 
 	private int mDrawingStartLocation;
 	private boolean mBackPressed = false;
-	private Realm mRealm;
-	private String mProductTitle;
-	private String mProductUrl;
+	private Product mProduct;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -75,16 +71,7 @@ public class WebActivity extends CustomSwipeBackActivity {
 		SwipeBackLayout swipeBackLayout = getSwipeBackLayout ();
 		swipeBackLayout.setEdgeTrackingEnabled (SwipeBackLayout.EDGE_LEFT);
 
-		int mProductId = getIntent ().getIntExtra ("productId", 0);
-		if (getIntent ().getBooleanExtra ("collection", false)) {
-			mProductTitle = getIntent ().getStringExtra ("productTitle");
-			mProductUrl = getIntent ().getStringExtra ("productUrl");
-		} else {
-			mRealm = Realm.getInstance (this);
-			Product product = ProductModel.findProductById (mRealm, mProductId);
-			mProductTitle = product.getTitle ();
-			mProductUrl = product.getProductUrl ();
-		}
+		mProduct = getIntent ().getParcelableExtra ("product");
 
 		expandAnimation (savedInstanceState);
 		setupToolbar ();
@@ -93,23 +80,20 @@ public class WebActivity extends CustomSwipeBackActivity {
 
 	@Override
 	public void onDestroy () {
-		if (mRealm != null) {
-			mRealm.close ();
-		}
 		super.onDestroy ();
 	}
 
 	private void openInBrowser () {
 		Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
-				.parse (mProductUrl));
+				.parse (mProduct.getProductUrl ()));
 		startActivity (intent);
 	}
 
 	private Intent getShareIntent () {
 		Intent i = new Intent (Intent.ACTION_SEND);
 		i.setType ("text/plain");
-		i.putExtra (Intent.EXTRA_SUBJECT, mProductTitle);
-		i.putExtra (Intent.EXTRA_TEXT, mProductUrl);
+		i.putExtra (Intent.EXTRA_SUBJECT, mProduct.getName ());
+		i.putExtra (Intent.EXTRA_TEXT, mProduct.getProductUrl ());
 		return i;
 	}
 
@@ -148,7 +132,7 @@ public class WebActivity extends CustomSwipeBackActivity {
 
 			@Override
 			public void onPageFinished (WebView view, String url) {
-				getSupportActionBar ().setTitle (mProductTitle);
+				getSupportActionBar ().setTitle (mProduct.getName ());
 				if (isPlayStoreLink (url)) {
 					redirectToPlayStore (url);
 				}
@@ -161,16 +145,16 @@ public class WebActivity extends CustomSwipeBackActivity {
 						Toast.LENGTH_LONG).show ();
 			}
 		});
-		mWebView.loadUrl (mProductUrl);
+		mWebView.loadUrl (mProduct.getProductUrl ());
 		mWebView.getSettings ().setBuiltInZoomControls (true);
 		mWebView.getSettings ().setDisplayZoomControls (false);
 		mWebView.getSettings ().setJavaScriptEnabled (true);
 	}
 
 	private void redirectToPlayStore (String url) {
-		url.replace (URL_PLAY_STORE_SCHEME, URL_DEVICE_PLAY_STORE_SCHEME);
+		String link = url.replace (URL_PLAY_STORE_SCHEME, URL_DEVICE_PLAY_STORE_SCHEME);
 		Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
-				.parse (url));
+				.parse (link));
 		startActivity (intent);
 	}
 
@@ -206,10 +190,6 @@ public class WebActivity extends CustomSwipeBackActivity {
 				.setInterpolator (new AccelerateInterpolator ())
 				.start ();
 	}
-
-	/*
-	 * UI boilerplate
-	 */
 
 	@Override
 	public boolean onCreateOptionsMenu (Menu menu) {

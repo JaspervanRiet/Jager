@@ -22,7 +22,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-import com.jaspervanriet.huntingthatproduct.Activities.MainActivity;
+import com.jaspervanriet.huntingthatproduct.Views.Activities.MainActivity;
 
 import java.util.Calendar;
 import java.util.Date;

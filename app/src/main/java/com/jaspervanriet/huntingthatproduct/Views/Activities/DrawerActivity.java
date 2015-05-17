@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Activities;
+package com.jaspervanriet.huntingthatproduct.Views.Activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -34,9 +34,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.jaspervanriet.huntingthatproduct.Activities.Settings.SettingsActivity;
-import com.jaspervanriet.huntingthatproduct.Adapters.DrawerAdapter;
+import com.jaspervanriet.huntingthatproduct.Data.Settings.AppSettings;
 import com.jaspervanriet.huntingthatproduct.R;
+import com.jaspervanriet.huntingthatproduct.Views.Activities.Settings.SettingsActivity;
+import com.jaspervanriet.huntingthatproduct.Views.Adapters.DrawerAdapter;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.PicassoTools;
 
@@ -186,7 +187,7 @@ public class DrawerActivity extends ActionBarActivity {
 	}
 
 	protected boolean sendCrashData () {
-		return SettingsActivity.getCrashDataPref (this);
+		return AppSettings.getCrashDataPref (this);
 	}
 
 	protected void setActionBarTitle (String title) {

@@ -15,36 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Activities;
+package com.jaspervanriet.huntingthatproduct.Presenters;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-import com.jaspervanriet.huntingthatproduct.R;
+public interface CommentPresenter {
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+	void onActivityCreated (Bundle savedInstanceState);
 
-public class AboutActivity extends DrawerActivity {
+	void onResume ();
 
-	@InjectView (R.id.about_name)
-	TextView name;
+	void onPause ();
 
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
-		setContentView (R.layout.activity_about);
-		ButterKnife.inject (this);
+	void onSaveInstanceState (Bundle outState);
 
-		setToolBar ();
-		name.setTypeface (Typeface
-				.createFromAsset (getAssets (),
-						"fonts/Roboto-Light.ttf"));
-	}
+	void onDestroy ();
 
-	@Override
-	protected int getSelfNavDrawerItem () {
-		return NAVDRAWER_ITEM_ABOUT;
-	}
+	void onCreateOptionsMenu (Menu menu, MenuInflater inflater);
+
+	boolean onOptionsItemSelected (MenuItem item);
+
+	void onBackPressed ();
 }

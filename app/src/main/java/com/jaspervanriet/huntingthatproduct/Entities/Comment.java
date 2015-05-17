@@ -17,35 +17,89 @@
 
 package com.jaspervanriet.huntingthatproduct.Entities;
 
-import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class Comment {
-	public int id;
-	public String text;
-	public int parentComment;
-	public int childCommentCount;
-	public boolean isMaker;
-	public User user;
-	public int level;
+	private int id;
+	private String body;
+	@SerializedName ("parent_comment_id")
+	private int parentComment;
+	@SerializedName ("child_comments_count")
+	private int childCommentCount;
+	@SerializedName ("maker")
+	private boolean isMaker;
+	private User user;
+	private int level;
+	@SerializedName ("child_comments")
+	private List<Comment> childComments;
 
-	public Comment (int id, String text, int parentComment,
-					int childCommentCount, boolean isMaker, User user) {
+	public int getId () {
+		return id;
+	}
+
+	public void setId (int id) {
 		this.id = id;
-		this.text = text;
+	}
+
+	public String getBody () {
+		return body;
+	}
+
+	public void setBody (String body) {
+		this.body = body;
+	}
+
+	public int getParentComment () {
+		return parentComment;
+	}
+
+	public void setParentComment (int parentComment) {
 		this.parentComment = parentComment;
+	}
+
+	public int getChildCommentCount () {
+		return childCommentCount;
+	}
+
+	public void setChildCommentCount (int childCommentCount) {
 		this.childCommentCount = childCommentCount;
-		this.user = user;
+	}
+
+	public boolean isMaker () {
+		return isMaker;
+	}
+
+	public void setIsMaker (boolean isMaker) {
 		this.isMaker = isMaker;
 	}
 
-	public Comment (JsonObject object) {
-		this (object.get ("id").getAsInt (),
-				object.get ("body").getAsString (),
-				object.get ("parent_comment_id").isJsonNull ()
-						? -1 : object.get ("parent_comment_id").getAsInt (),
-				object.get ("child_comments_count").isJsonNull ()
-						? -1 : object.get ("child_comments_count").getAsInt (),
-				object.get ("maker").getAsBoolean (),
-				new User (object.get ("user").getAsJsonObject ()));
+	public User getUser () {
+		return user;
+	}
+
+	public void setUser (User user) {
+		this.user = user;
+	}
+
+	public int getLevel () {
+		return level;
+	}
+
+	public void setLevel (int level) {
+		this.level = level;
+	}
+
+	public List<Comment> getChildComments () {
+		return childComments;
+	}
+
+	public void setChildComments (List<Comment> childComments) {
+		this.childComments = childComments;
+	}
+
+	public int getChildCommentsCount () {
+		return childComments.size ();
 	}
 }
