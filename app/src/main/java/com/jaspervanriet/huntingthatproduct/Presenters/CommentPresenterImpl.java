@@ -38,7 +38,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class CommentPresenterImplementation implements CommentPresenter {
+public class CommentPresenterImpl implements CommentPresenter {
 
 	private PHService mPHService;
 	private CommentsView mCommentsView;
@@ -48,7 +48,7 @@ public class CommentPresenterImplementation implements CommentPresenter {
 	private Product mProduct;
 	private Subscription mSubscription;
 
-	public CommentPresenterImplementation (CommentsView commentsView, Product product) {
+	public CommentPresenterImpl (CommentsView commentsView, Product product) {
 		mCommentsView = commentsView;
 		mProduct = product;
 	}

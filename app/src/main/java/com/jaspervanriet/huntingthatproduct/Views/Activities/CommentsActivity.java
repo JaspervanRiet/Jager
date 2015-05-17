@@ -34,7 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
-import com.jaspervanriet.huntingthatproduct.Presenters.CommentPresenterImplementation;
+import com.jaspervanriet.huntingthatproduct.Presenters.CommentPresenterImpl;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.CustomSwipeBackActivity;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
@@ -63,7 +63,7 @@ public class CommentsActivity extends CustomSwipeBackActivity implements Comment
 	LinearLayout mEmptyView;
 
 	private int mDrawingStartLocation;
-	private CommentPresenterImplementation mPresenter;
+	private CommentPresenterImpl mPresenter;
 	private ActionBar mActionBar;
 
 	@Override
@@ -73,7 +73,7 @@ public class CommentsActivity extends CustomSwipeBackActivity implements Comment
 		ButterKnife.inject (this);
 		expandAnimation (savedInstanceState);
 		Product product = getIntent ().getParcelableExtra ("product");
-		mPresenter = new CommentPresenterImplementation (this, product);
+		mPresenter = new CommentPresenterImpl (this, product);
 		mPresenter.onActivityCreated (savedInstanceState);
 
 	}
