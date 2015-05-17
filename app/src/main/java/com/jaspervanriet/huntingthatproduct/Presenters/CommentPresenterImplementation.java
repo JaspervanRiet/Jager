@@ -26,7 +26,6 @@ import android.view.MenuItem;
 import com.jaspervanriet.huntingthatproduct.Data.Http.PHService;
 import com.jaspervanriet.huntingthatproduct.Entities.Authentication;
 import com.jaspervanriet.huntingthatproduct.Entities.Comment;
-import com.jaspervanriet.huntingthatproduct.Entities.Comments;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.Utils.Constants;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.CommentListAdapter;
@@ -35,7 +34,6 @@ import com.jaspervanriet.huntingthatproduct.Views.CommentsView;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -76,32 +74,19 @@ public class CommentPresenterImplementation implements CommentPresenter {
 						productId)
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn (AndroidSchedulers.mainThread ()))
-				.subscribe (new Observer<Comments> () {
-					@Override
-					public void onCompleted () {
-
-					}
-
-					@Override
-					public void onError (Throwable e) {
-						e.printStackTrace ();
-					}
-
-					@Override
-					public void onNext (Comments comments) {
-						if (comments.getCount () == 0) {
+				.subscribe (comments -> {
+					if (comments.getCount () == 0) {
+						mCommentsView.showEmptyView ();
+					} else {
+						for (int i = 0; i < comments.getCount (); i++) {
+							processComment (comments.getComments ().get (i), 0);
+						}
+						mAdapter = new CommentListAdapter (mCommentsView.getContext (),
+								mComments);
+						mCommentsView.setAdapterForRecyclerView (mAdapter);
+						mCommentsView.hideRefreshIndicator ();
+						if (mComments.isEmpty ()) {
 							mCommentsView.showEmptyView ();
-						} else {
-							for (int i = 0; i < comments.getCount (); i++) {
-								processComment (comments.getComments ().get (i), 0);
-							}
-							mAdapter = new CommentListAdapter (mCommentsView.getContext (),
-									mComments);
-							mCommentsView.setAdapterForRecyclerView (mAdapter);
-							mCommentsView.hideRefreshIndicator ();
-							if (mComments.isEmpty ()) {
-								mCommentsView.showEmptyView ();
-							}
 						}
 					}
 				});

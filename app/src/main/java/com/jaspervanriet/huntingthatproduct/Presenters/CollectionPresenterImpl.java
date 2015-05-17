@@ -22,7 +22,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
-import com.crashlytics.android.Crashlytics;
 import com.jaspervanriet.huntingthatproduct.Data.Http.PHService;
 import com.jaspervanriet.huntingthatproduct.Entities.Authentication;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
@@ -33,9 +32,9 @@ import com.jaspervanriet.huntingthatproduct.Views.Adapters.CollectionListAdapter
 import com.jaspervanriet.huntingthatproduct.Views.CollectionView;
 
 import rx.Observable;
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class CollectionPresenterImpl implements
@@ -47,26 +46,16 @@ public class CollectionPresenterImpl implements
 	private Collections mCollections;
 	private Subscription mSubscription;
 	private Observable<Collections> mCollectionsObservable;
-	private Observer<Collections> mCollectionsObserver = new Observer<Collections> () {
+	private Action1<Collections> mCollectionsAction = new Action1<Collections> () {
 		@Override
-		public void onCompleted () {
-			mCollectionView.hideRefreshIndicator ();
-		}
-
-		@Override
-		public void onError (Throwable e) {
-			Crashlytics.logException (e);
-		}
-
-		@Override
-		public void onNext (Collections collections) {
+		public void call (Collections collections) {
 			mCollections = collections;
 			mAdapter = new CollectionListAdapter (mCollectionView
 					.getContext (), mCollections);
 			mAdapter.setOnCollectionClickListener (
 					mCollectionView.getCollectionClickListener ());
 			mCollectionView.setAdapterForRecyclerView (mAdapter);
-
+			mCollectionView.hideRefreshIndicator ();
 		}
 	};
 
@@ -95,7 +84,7 @@ public class CollectionPresenterImpl implements
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn (AndroidSchedulers.mainThread ())
 				.cache ());
-		mSubscription = mCollectionsObservable.subscribe (mCollectionsObserver);
+		mSubscription = mCollectionsObservable.subscribe (mCollectionsAction);
 	}
 
 	private void getCache () {
@@ -105,7 +94,7 @@ public class CollectionPresenterImpl implements
 		}
 		if (mCollectionsObservable != null) {
 			mCollectionView.showRefreshIndicator ();
-			mSubscription = mCollectionsObservable.subscribe (mCollectionsObserver);
+			mSubscription = mCollectionsObservable.subscribe (mCollectionsAction);
 		}
 	}
 
