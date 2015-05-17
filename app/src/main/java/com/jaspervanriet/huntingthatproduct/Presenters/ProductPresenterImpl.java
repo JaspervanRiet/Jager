@@ -70,7 +70,8 @@ public class ProductPresenterImpl implements ProductPresenter {
 		@Override
 		public void onError (Throwable e) {
 			Crashlytics.logException (e);
-			e.printStackTrace ();
+			mProductView.showNoNetworkError ();
+			mProductView.hideRefreshingIndicator ();
 		}
 
 		@Override

@@ -17,16 +17,19 @@
 
 package com.jaspervanriet.huntingthatproduct.Presenters;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.jaspervanriet.huntingthatproduct.Data.Http.PHService;
 import com.jaspervanriet.huntingthatproduct.Entities.Authentication;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.Entities.Collections;
+import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.Constants;
 import com.jaspervanriet.huntingthatproduct.Views.Activities.CollectionActivity;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.CollectionListAdapter;
@@ -39,7 +42,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class CollectionPresenterImpl implements
-		CollectionPresenter {
+									 CollectionPresenter {
 
 	private CollectionView mCollectionView;
 	private CollectionListAdapter mAdapter;
@@ -56,6 +59,9 @@ public class CollectionPresenterImpl implements
 		@Override
 		public void onError (Throwable e) {
 			Crashlytics.logException (e);
+			Context context = mCollectionView.getContext ();
+			Toast.makeText (context, context.getString (R.string.error_connection), Toast
+					.LENGTH_LONG).show ();
 		}
 
 		@Override
