@@ -106,16 +106,6 @@ public class CollectionPresenterImpl implements
 	}
 
 	@Override
-	public void onResume () {
-
-	}
-
-	@Override
-	public void onPause () {
-
-	}
-
-	@Override
 	public void onSaveInstanceState (Bundle outState) {
 		Collections.putParcelable (outState, mCollections);
 	}

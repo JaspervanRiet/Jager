@@ -24,10 +24,6 @@ public interface CollectionPresenter {
 
 	void onActivityCreated (Bundle savedInstanceState);
 
-	void onResume ();
-
-	void onPause ();
-
 	void onSaveInstanceState (Bundle outState);
 
 	void onDestroy ();

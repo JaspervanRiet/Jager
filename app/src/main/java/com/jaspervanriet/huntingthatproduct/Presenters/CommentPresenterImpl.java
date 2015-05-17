@@ -19,8 +19,6 @@ package com.jaspervanriet.huntingthatproduct.Presenters;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.jaspervanriet.huntingthatproduct.Data.Http.PHService;
@@ -106,16 +104,6 @@ public class CommentPresenterImpl implements CommentPresenter {
 	}
 
 	@Override
-	public void onResume () {
-
-	}
-
-	@Override
-	public void onPause () {
-
-	}
-
-	@Override
 	public void onSaveInstanceState (Bundle outState) {
 
 	}
@@ -126,11 +114,6 @@ public class CommentPresenterImpl implements CommentPresenter {
 			mSubscription.unsubscribe ();
 			mSubscription = null;
 		}
-	}
-
-	@Override
-	public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
-
 	}
 
 	@Override

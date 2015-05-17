@@ -18,23 +18,15 @@
 package com.jaspervanriet.huntingthatproduct.Presenters;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 public interface CommentPresenter {
 
 	void onActivityCreated (Bundle savedInstanceState);
 
-	void onResume ();
-
-	void onPause ();
-
 	void onSaveInstanceState (Bundle outState);
 
 	void onDestroy ();
-
-	void onCreateOptionsMenu (Menu menu, MenuInflater inflater);
 
 	boolean onOptionsItemSelected (MenuItem item);
 

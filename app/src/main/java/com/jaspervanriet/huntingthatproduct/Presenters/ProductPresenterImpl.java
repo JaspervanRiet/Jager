@@ -159,16 +159,6 @@ public class ProductPresenterImpl implements ProductPresenter {
 	}
 
 	@Override
-	public void onResume () {
-
-	}
-
-	@Override
-	public void onPause () {
-
-	}
-
-	@Override
 	public void onSaveInstanceState (Bundle outState) {
 		Posts.putParcelable (outState, mPosts);
 	}
