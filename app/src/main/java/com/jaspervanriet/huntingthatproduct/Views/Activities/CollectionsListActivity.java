@@ -61,6 +61,12 @@ public class CollectionsListActivity extends DrawerActivity implements
 	}
 
 	@Override
+	public void onDestroy () {
+		mPresenter.onDestroy ();
+		super.onDestroy ();
+	}
+
+	@Override
 	protected int getSelfNavDrawerItem () {
 		return NAVDRAWER_ITEM_COLLECTIONS;
 	}
