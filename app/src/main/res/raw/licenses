@@ -18,15 +18,33 @@
   -->
 <notices>
     <notice>
-        <name>Picasso</name>
-        <url>https://github.com/square/picasso</url>
+        <name>RxJava</name>
+        <url>https://github.com/ReactiveX/RxJava</url>
+        <copyright>Copyright 2013 Netflix, Inc.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Retrofit</name>
+        <url>https://github.com/square/retrofit</url>
         <copyright>Copyright 2013 Square, Inc.</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
-        <name>Ion</name>
-        <url>https://github.com/koush/ion</url>
-        <copyright>Copyright (C) 2013 Koushik Dutta (2013)</copyright>
+        <name>RxAndroid</name>
+        <url>https://github.com/ReactiveX/RxAndroid</url>
+        <copyright/>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Retrolambda</name>
+        <url>https://github.com/evant/gradle-retrolambda</url>
+        <copyright>Copyright 2014 Evan Tatarka</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Picasso</name>
+        <url>https://github.com/square/picasso</url>
+        <copyright>Copyright 2013 Square, Inc.</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
@@ -65,12 +83,6 @@
         <name>Realm Java</name>
         <url>https://github.com/realm/realm-java</url>
         <copyright>Copyright (C) 2015 Realm</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-    <notice>
-        <name>NanoTask</name>
-        <url>https://github.com/fabiendevos/nanotasks</url>
-        <copyright>Copyright (C) 2015 Fabien Devos</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
