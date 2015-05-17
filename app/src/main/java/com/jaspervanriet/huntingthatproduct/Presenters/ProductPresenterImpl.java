@@ -162,10 +162,9 @@ public class ProductPresenterImpl implements ProductPresenter {
 	private void showPosts (Posts posts) {
 		mPosts = posts;
 		mAdapter = new ProductListAdapter (mProductView.getContext (),
-				mPosts.getPosts ());
+				posts.getPosts ());
 		mAdapter.setOnProductClickListener (mProductView.getProductClickListener ());
 		mProductView.setAdapterForRecyclerView (mAdapter);
-//		mAdapter.notifyDataSetChanged ();
 		mProductView.hideRefreshingIndicator ();
 		if (mAdapter.getItemCount () == 0) {
 			mProductView.showEmptyView ();

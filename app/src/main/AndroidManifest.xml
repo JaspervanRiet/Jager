@@ -19,7 +19,7 @@
 <manifest
     package="com.jaspervanriet.huntingthatproduct"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    >
 
     <application
         android:allowBackup="true"
@@ -29,9 +29,9 @@
 
         <activity
             android:name=".Views.Activities.MainActivity"
-            android:label="@string/app_name"
-            android:configChanges="orientation|keyboardHidden">
-        <intent-filter>
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -67,7 +67,5 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
-    <uses-sdk tools:overrideLibrary="com.nanotasks"/>
 
 </manifest>
