@@ -104,7 +104,6 @@
     <orderEntry type="library" exported="" name="crashlytics-2.2.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="beta-1.1.1" level="project" />
-    <orderEntry type="library" exported="" name="nanotasks-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="fabric-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="butterknife-6.1.0" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-22.1.1" level="project" />
