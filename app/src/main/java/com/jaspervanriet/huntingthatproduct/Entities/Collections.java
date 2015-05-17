@@ -17,11 +17,25 @@
 
 package com.jaspervanriet.huntingthatproduct.Entities;
 
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class Collections {
+public class Collections implements Parcelable {
+
+	public static final String TAG = Collections.class.getSimpleName ();
+
+	public static final String PARCELABLE_KEY = TAG + ":" + "ParcelableKey";
 
 	private List<Collection> collections;
+
+	private Collections (Parcel in) {
+		collections = new ArrayList<> ();
+		in.readList (collections, null);
+	}
 
 	public List<Collection> getCollections () {
 		return collections;
@@ -30,4 +44,43 @@ public class Collections {
 	public void setCollections (List<Collection> collections) {
 		this.collections = collections;
 	}
+
+	@Override
+	public int describeContents () {
+		return 0;
+	}
+
+	public static Collections getParcelable (Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			return savedInstanceState.getParcelable (PARCELABLE_KEY);
+		} else {
+			throw new IllegalArgumentException (TAG + ": \'getParcelable\' Method has null argument: savedInstanceState.");
+		}
+	}
+
+	public static void putParcelable (Bundle savedInstanceState, Collections collections) {
+		if (savedInstanceState != null && collections != null) {
+			savedInstanceState.putParcelable (PARCELABLE_KEY, collections);
+		}
+	}
+
+	@Override
+	public void writeToParcel (Parcel parcel, int i) {
+		parcel.writeList (collections);
+	}
+
+	public static Creator<Collections> getCREATOR () {
+		return CREATOR;
+	}
+
+	public static final Creator<Collections> CREATOR = new Parcelable
+			.Creator<Collections> () {
+		public Collections createFromParcel (Parcel in) {
+			return new Collections (in);
+		}
+
+		public Collections[] newArray (int size) {
+			return new Collections[size];
+		}
+	};
 }

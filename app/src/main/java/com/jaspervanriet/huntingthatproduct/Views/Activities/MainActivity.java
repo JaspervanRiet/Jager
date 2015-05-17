@@ -77,7 +77,7 @@ public class MainActivity extends DrawerActivity
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
-		initFabric ();
+//		initFabric ();
 		setContentView (R.layout.activity_main);
 		ButterKnife.inject (this);
 
@@ -88,6 +88,12 @@ public class MainActivity extends DrawerActivity
 
 		mPresenter = new ProductPresenterImpl (this);
 		mPresenter.onActivityCreated (savedInstanceState);
+	}
+
+	@Override
+	public void onSaveInstanceState (Bundle outState) {
+		super.onSaveInstanceState (outState);
+		mPresenter.onSaveInstanceState (outState);
 	}
 
 	@Override

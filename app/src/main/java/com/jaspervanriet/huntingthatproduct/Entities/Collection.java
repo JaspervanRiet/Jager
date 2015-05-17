@@ -22,6 +22,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Collection implements Parcelable {
@@ -46,6 +47,7 @@ public class Collection implements Parcelable {
 		out.writeString (title);
 		out.writeString (backgroundImageUrl);
 		out.writeString (collectionUrl);
+		out.writeList (posts);
 	}
 
 	public static final Creator<Collection> CREATOR = new Parcelable
@@ -65,6 +67,8 @@ public class Collection implements Parcelable {
 		this.title = in.readString ();
 		this.backgroundImageUrl = in.readString ();
 		this.collectionUrl = in.readString ();
+		posts = new ArrayList<> ();
+		in.readList (posts, null);
 	}
 
 	public int getId () {

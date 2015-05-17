@@ -91,6 +91,12 @@ public class CollectionActivity extends AppCompatActivity
 		mPresenter.onActivityCreated (savedInstanceState);
 	}
 
+	@Override
+	public void onSaveInstanceState (Bundle outState) {
+		super.onSaveInstanceState (outState);
+		mPresenter.onSaveInstanceState (outState);
+	}
+
 	private void goBack () {
 		mBackPressed = true;
 		mCollectionLayout.animate ()

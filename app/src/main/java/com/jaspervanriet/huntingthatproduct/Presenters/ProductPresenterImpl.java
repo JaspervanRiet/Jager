@@ -39,9 +39,10 @@ import com.jaspervanriet.huntingthatproduct.Views.ProductView;
 
 import java.util.Calendar;
 
-import rx.Observer;
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class ProductPresenterImpl implements ProductPresenter {
@@ -56,6 +57,15 @@ public class ProductPresenterImpl implements ProductPresenter {
 	private String mDate;
 	private Posts mPosts;
 	private int mCollectionId;
+	private Observable<Posts> mPostsObservable;
+	private Observable<Collection> mCollectionObservable;
+	private Action1<Posts> mPostsAction = this::showPosts;
+
+	private Action1<Collection> mCollectionAction = collection -> {
+		Posts posts = new Posts ();
+		posts.setPosts (collection.getPosts ());
+		showPosts (posts);
+	};
 
 	public ProductPresenterImpl (ProductView productView) {
 		this.mProductView = productView;
@@ -69,65 +79,39 @@ public class ProductPresenterImpl implements ProductPresenter {
 	@Override
 	public void onActivityCreated (Bundle savedInstanceState) {
 		mProductView.initializeRecyclerView ();
-		mProductView.showRefreshingIndicator ();
 
+		boolean isMainActivity = mProductView.getActivity () == ACTIVITY_MAIN;
 		if (savedInstanceState == null) {
-			if (mProductView.getActivity () == ACTIVITY_MAIN) {
+			mProductView.showRefreshingIndicator ();
+			if (isMainActivity) {
 				getPosts ();
 			} else {
 				getCollectionPosts ();
 			}
+		} else {
+			restoreInstanceState (savedInstanceState);
+			getCache (isMainActivity);
 		}
 	}
 
 	private void getPosts () {
 		mPHService = new PHService (new Authentication (Constants.CLIENT_ID,
 				Constants.CLIENT_SECRET, Constants.GRANT_TYPE));
-		mSubscription = mPHService.askForToken ().flatMap (token -> mPHService.getPosts
+		mPostsObservable = mPHService.askForToken ().flatMap (token -> mPHService.getPosts
 				(token, mDate)
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn (AndroidSchedulers.mainThread ()))
-				.subscribe (new Observer<Posts> () {
-					@Override
-					public void onCompleted () {
-					}
-
-					@Override
-					public void onError (Throwable e) {
-						e.printStackTrace ();
-					}
-
-					@Override
-					public void onNext (Posts posts) {
-						showPosts (posts);
-					}
-				});
+				.observeOn (AndroidSchedulers.mainThread ()));
+		mSubscription = mPostsObservable.subscribe (mPostsAction);
 	}
 
 	private void getCollectionPosts () {
 		mPHService = new PHService (new Authentication (Constants.CLIENT_ID,
 				Constants.CLIENT_SECRET, Constants.GRANT_TYPE));
-		mSubscription = mPHService.askForToken ().flatMap (token -> mPHService
+		mCollectionObservable = mPHService.askForToken ().flatMap (token -> mPHService
 				.getCollectionPosts (token, mCollectionId)
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn (AndroidSchedulers.mainThread ()))
-				.subscribe (new Observer<Collection> () {
-					@Override
-					public void onCompleted () {
-					}
-
-					@Override
-					public void onError (Throwable e) {
-						e.printStackTrace ();
-					}
-
-					@Override
-					public void onNext (Collection collection) {
-						Posts posts = new Posts ();
-						posts.setPosts (collection.getPosts ());
-						showPosts (posts);
-					}
-				});
+				.observeOn (AndroidSchedulers.mainThread ()));
+		mSubscription = mCollectionObservable.subscribe (mCollectionAction);
 	}
 
 	private void showPosts (Posts posts) {
@@ -142,6 +126,32 @@ public class ProductPresenterImpl implements ProductPresenter {
 		}
 	}
 
+	private void getCache (boolean isMainActivity) {
+		if (mSubscription != null) {
+			mSubscription.unsubscribe ();
+			mSubscription = null;
+		}
+		if (isMainActivity) {
+			if (mPostsObservable != null) {
+				mProductView.showRefreshingIndicator ();
+				mSubscription = mPostsObservable.subscribe (mPostsAction);
+			}
+		} else {
+			if (mCollectionObservable != null) {
+				mProductView.showRefreshingIndicator ();
+				mSubscription = mCollectionObservable.subscribe (mCollectionAction);
+			}
+		}
+	}
+
+	private void restoreInstanceState (Bundle savedInstanceState) {
+		mPosts = Posts.getParcelable (savedInstanceState);
+		mAdapter = new ProductListAdapter (mProductView.getContext (),
+				mPosts.getPosts ());
+		mAdapter.setOnProductClickListener (mProductView.getProductClickListener ());
+		mProductView.setAdapterForRecyclerView (mAdapter);
+	}
+
 	@Override
 	public void onResume () {
 
@@ -154,7 +164,7 @@ public class ProductPresenterImpl implements ProductPresenter {
 
 	@Override
 	public void onSaveInstanceState (Bundle outState) {
-
+		Posts.putParcelable (outState, mPosts);
 	}
 
 	@Override

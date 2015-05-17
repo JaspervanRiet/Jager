@@ -55,6 +55,12 @@ public class CollectionsListActivity extends DrawerActivity implements
 	}
 
 	@Override
+	public void onSaveInstanceState (Bundle outState) {
+		super.onSaveInstanceState (outState);
+		mPresenter.onSaveInstanceState (outState);
+	}
+
+	@Override
 	protected int getSelfNavDrawerItem () {
 		return NAVDRAWER_ITEM_COLLECTIONS;
 	}
