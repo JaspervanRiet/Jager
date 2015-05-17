@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
 import com.jaspervanriet.huntingthatproduct.Data.Http.PHService;
 import com.jaspervanriet.huntingthatproduct.Entities.Authentication;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
@@ -32,9 +33,9 @@ import com.jaspervanriet.huntingthatproduct.Views.Adapters.CollectionListAdapter
 import com.jaspervanriet.huntingthatproduct.Views.CollectionView;
 
 import rx.Observable;
+import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class CollectionPresenterImpl implements
@@ -46,9 +47,19 @@ public class CollectionPresenterImpl implements
 	private Collections mCollections;
 	private Subscription mSubscription;
 	private Observable<Collections> mCollectionsObservable;
-	private Action1<Collections> mCollectionsAction = new Action1<Collections> () {
+	private Observer<Collections> mCollectionsObserver = new Observer<Collections> () {
 		@Override
-		public void call (Collections collections) {
+		public void onCompleted () {
+
+		}
+
+		@Override
+		public void onError (Throwable e) {
+			Crashlytics.logException (e);
+		}
+
+		@Override
+		public void onNext (Collections collections) {
 			mCollections = collections;
 			mAdapter = new CollectionListAdapter (mCollectionView
 					.getContext (), mCollections);
@@ -66,6 +77,7 @@ public class CollectionPresenterImpl implements
 	@Override
 	public void onActivityCreated (Bundle savedInstanceState) {
 		mCollectionView.initializeRecyclerView ();
+		initializeAdapter ();
 
 		if (savedInstanceState == null) {
 			mCollectionView.showRefreshIndicator ();
@@ -84,7 +96,7 @@ public class CollectionPresenterImpl implements
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn (AndroidSchedulers.mainThread ())
 				.cache ());
-		mSubscription = mCollectionsObservable.subscribe (mCollectionsAction);
+		mSubscription = mCollectionsObservable.subscribe (mCollectionsObserver);
 	}
 
 	private void getCache () {
@@ -94,13 +106,19 @@ public class CollectionPresenterImpl implements
 		}
 		if (mCollectionsObservable != null) {
 			mCollectionView.showRefreshIndicator ();
-			mSubscription = mCollectionsObservable.subscribe (mCollectionsAction);
+			mSubscription = mCollectionsObservable.subscribe (mCollectionsObserver);
 		}
 	}
 
 	private void restoreInstanceState (Bundle savedInstanceState) {
 		mCollections = Collections.getParcelable (savedInstanceState);
 
+		mAdapter = new CollectionListAdapter (mCollectionView.getContext (), mCollections);
+		mCollectionView.setAdapterForRecyclerView (mAdapter);
+	}
+
+	private void initializeAdapter () {
+		mCollections = new Collections ();
 		mAdapter = new CollectionListAdapter (mCollectionView.getContext (), mCollections);
 		mCollectionView.setAdapterForRecyclerView (mAdapter);
 	}

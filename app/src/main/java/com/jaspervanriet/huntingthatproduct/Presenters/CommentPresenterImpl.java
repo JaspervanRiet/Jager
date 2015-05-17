@@ -56,6 +56,7 @@ public class CommentPresenterImpl implements CommentPresenter {
 		mCommentsView.initializeToolBar ();
 		mCommentsView.setToolbarTitle (mProduct.getName ());
 		mCommentsView.initializeRecyclerView ();
+		initializeAdapter ();
 
 		mCommentsView.showRefreshIndicator ();
 
@@ -101,6 +102,13 @@ public class CommentPresenterImpl implements CommentPresenter {
 				processComment (childComments.get (i), level);
 			}
 		}
+	}
+
+	private void initializeAdapter () {
+		mComments = new ArrayList<> ();
+		mAdapter = new CommentListAdapter (mCommentsView.getContext (),
+				mComments);
+		mCommentsView.setAdapterForRecyclerView (mAdapter);
 	}
 
 	@Override

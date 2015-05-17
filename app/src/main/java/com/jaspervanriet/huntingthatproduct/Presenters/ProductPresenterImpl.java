@@ -24,6 +24,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
 import com.jaspervanriet.huntingthatproduct.Data.Http.PHService;
 import com.jaspervanriet.huntingthatproduct.Data.Settings.AppSettings;
 import com.jaspervanriet.huntingthatproduct.Entities.Authentication;
@@ -41,9 +42,9 @@ import com.jaspervanriet.huntingthatproduct.Views.ProductView;
 import java.util.Calendar;
 
 import rx.Observable;
+import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class ProductPresenterImpl implements ProductPresenter {
@@ -60,12 +61,41 @@ public class ProductPresenterImpl implements ProductPresenter {
 	private int mCollectionId;
 	private Observable<Posts> mPostsObservable;
 	private Observable<Collection> mCollectionObservable;
-	private Action1<Posts> mPostsAction = this::showPosts;
+	private Observer<Posts> mPostsObserver = new Observer<Posts> () {
+		@Override
+		public void onCompleted () {
 
-	private Action1<Collection> mCollectionAction = collection -> {
-		Posts posts = new Posts ();
-		posts.setPosts (collection.getPosts ());
-		showPosts (posts);
+		}
+
+		@Override
+		public void onError (Throwable e) {
+			Crashlytics.logException (e);
+			e.printStackTrace ();
+		}
+
+		@Override
+		public void onNext (Posts posts) {
+			showPosts (posts);
+		}
+	};
+
+	private Observer<Collection> mCollectionObserver = new Observer<Collection> () {
+		@Override
+		public void onCompleted () {
+
+		}
+
+		@Override
+		public void onError (Throwable e) {
+
+		}
+
+		@Override
+		public void onNext (Collection collection) {
+			Posts posts = new Posts ();
+			posts.setPosts (collection.getPosts ());
+			showPosts (posts);
+		}
 	};
 
 	public ProductPresenterImpl (ProductView productView) {
@@ -80,6 +110,7 @@ public class ProductPresenterImpl implements ProductPresenter {
 	@Override
 	public void onActivityCreated (Bundle savedInstanceState) {
 		mProductView.initializeRecyclerView ();
+		initializeAdapter ();
 
 		if (!NetworkUtils.hasInternetAccess (mProductView.getContext ())) {
 			mProductView.showEmptyView ();
@@ -100,6 +131,14 @@ public class ProductPresenterImpl implements ProductPresenter {
 		}
 	}
 
+	private void initializeAdapter () {
+		mPosts = new Posts ();
+		mAdapter = new ProductListAdapter (mProductView.getContext (),
+				mPosts.getPosts ());
+		mAdapter.setOnProductClickListener (mProductView.getProductClickListener ());
+		mProductView.setAdapterForRecyclerView (mAdapter);
+	}
+
 	private void getPosts () {
 		mPHService = new PHService (new Authentication (Constants.CLIENT_ID,
 				Constants.CLIENT_SECRET, Constants.GRANT_TYPE));
@@ -107,7 +146,7 @@ public class ProductPresenterImpl implements ProductPresenter {
 				(token, mDate)
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn (AndroidSchedulers.mainThread ()));
-		mSubscription = mPostsObservable.subscribe (mPostsAction);
+		mSubscription = mPostsObservable.subscribe (mPostsObserver);
 	}
 
 	private void getCollectionPosts () {
@@ -117,7 +156,7 @@ public class ProductPresenterImpl implements ProductPresenter {
 				.getCollectionPosts (token, mCollectionId)
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn (AndroidSchedulers.mainThread ()));
-		mSubscription = mCollectionObservable.subscribe (mCollectionAction);
+		mSubscription = mCollectionObservable.subscribe (mCollectionObserver);
 	}
 
 	private void showPosts (Posts posts) {
@@ -126,6 +165,7 @@ public class ProductPresenterImpl implements ProductPresenter {
 				mPosts.getPosts ());
 		mAdapter.setOnProductClickListener (mProductView.getProductClickListener ());
 		mProductView.setAdapterForRecyclerView (mAdapter);
+//		mAdapter.notifyDataSetChanged ();
 		mProductView.hideRefreshingIndicator ();
 		if (mAdapter.getItemCount () == 0) {
 			mProductView.showEmptyView ();
@@ -140,12 +180,12 @@ public class ProductPresenterImpl implements ProductPresenter {
 		if (isMainActivity) {
 			if (mPostsObservable != null) {
 				mProductView.showRefreshingIndicator ();
-				mSubscription = mPostsObservable.subscribe (mPostsAction);
+				mSubscription = mPostsObservable.subscribe (mPostsObserver);
 			}
 		} else {
 			if (mCollectionObservable != null) {
 				mProductView.showRefreshingIndicator ();
-				mSubscription = mCollectionObservable.subscribe (mCollectionAction);
+				mSubscription = mCollectionObservable.subscribe (mCollectionObserver);
 			}
 		}
 	}

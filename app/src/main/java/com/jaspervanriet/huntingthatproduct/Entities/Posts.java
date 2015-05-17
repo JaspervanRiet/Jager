@@ -33,7 +33,7 @@ public class Posts implements Parcelable {
 	private List<Product> posts;
 
 	public Posts () {
-
+		posts = new ArrayList<> ();
 	}
 
 	public Posts (Parcel in) {
