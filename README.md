@@ -19,10 +19,12 @@ apiKey=yourapikey
 ```
 
 ### Libraries
+* [Retrofit] - Type-safe REST client for Android and Java by Square, Inc
+* [Rxjava] - RxJava – Reactive Extensions for the JVM – a library for composing asynchronous and event-based programs using observable sequences for the Java VM.
+* [RxAndroid] - RxJava bindings for Android
+* [Retrolambda] - A gradle plugin for getting java lambda support in java 6, 7 and android
 * [Picasso] - A powerful image downloading and caching library for Android
-* [Ion] - Android Asynchronous Networking and Image Loading
 * [Realm] - Realm is a mobile database: a replacement for SQLite & ORMs
-* [NanoTasks] - Extremely light way to execute code in the background on Android. Alternative to AsyncTask.
 * [Android-RobotoTextView] - Implementation of a TextView and all its direct/indirect subclasses with native support for the Roboto fonts, includes the brand new Roboto Slab fonts.
 * [Butterknife] - View "injection" library for Android
 * [LicensesDialog] - LicensesDialog is an open source library to display licenses of third-party libraries in an Android app.
@@ -51,10 +53,12 @@ License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+[Retrofit]:https://github.com/square/retrofit
+[Rxjava]:https://github.com/ReactiveX/RxJava
+[RxAndroid]:https://github.com/ReactiveX/RxAndroid
+[Retrolambda]:https://github.com/evant/gradle-retrolambda
 [Picasso]:http://square.github.io/picasso/
-[Ion]:https://github.com/koush/ion
 [Realm]:https://github.com/realm/realm-java
-[NanoTasks]:https://github.com/fabiendevos/nanotasks
 [Butterknife]:jakewharton.github.io/butterknife/
 [LicensesDialog]:https://github.com/PSDev/LicensesDialog
 [Materialish-Progress]:https://github.com/pnikosis/materialish-progress
