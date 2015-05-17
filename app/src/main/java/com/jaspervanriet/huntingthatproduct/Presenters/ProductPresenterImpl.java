@@ -32,6 +32,7 @@ import com.jaspervanriet.huntingthatproduct.Entities.Posts;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.Utils.Constants;
 import com.jaspervanriet.huntingthatproduct.Utils.DateUtils;
+import com.jaspervanriet.huntingthatproduct.Utils.NetworkUtils;
 import com.jaspervanriet.huntingthatproduct.Views.Activities.CommentsActivity;
 import com.jaspervanriet.huntingthatproduct.Views.Activities.WebActivity;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.ProductListAdapter;
@@ -80,17 +81,22 @@ public class ProductPresenterImpl implements ProductPresenter {
 	public void onActivityCreated (Bundle savedInstanceState) {
 		mProductView.initializeRecyclerView ();
 
-		boolean isMainActivity = mProductView.getActivity () == ACTIVITY_MAIN;
-		if (savedInstanceState == null) {
-			mProductView.showRefreshingIndicator ();
-			if (isMainActivity) {
-				getPosts ();
-			} else {
-				getCollectionPosts ();
-			}
+		if (!NetworkUtils.hasInternetAccess (mProductView.getContext ())) {
+			mProductView.showEmptyView ();
+			mProductView.showNoNetworkError ();
 		} else {
-			restoreInstanceState (savedInstanceState);
-			getCache (isMainActivity);
+			boolean isMainActivity = mProductView.getActivity () == ACTIVITY_MAIN;
+			if (savedInstanceState == null) {
+				mProductView.showRefreshingIndicator ();
+				if (isMainActivity) {
+					getPosts ();
+				} else {
+					getCollectionPosts ();
+				}
+			} else {
+				restoreInstanceState (savedInstanceState);
+				getCache (isMainActivity);
+			}
 		}
 	}
 
