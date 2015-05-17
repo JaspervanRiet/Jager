@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Adapters;
+package com.jaspervanriet.huntingthatproduct.Views.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
-import com.jaspervanriet.huntingthatproduct.Activities.Settings.SettingsActivity;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
@@ -35,7 +34,7 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -46,15 +45,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 	private final static int ANIM_LIST_ENTER_DURATION = 700;
 	private static final int ANIMATED_ITEMS_COUNT = 3;
 
-	private ArrayList<Product> mProducts;
+	private List<Product> mProducts;
 	private Context mContext;
 	private OnProductClickListener mOnProductClickListener;
 	private int lastAnimatedPosition = -1;
-	private boolean showAsRead;
 
-	public ProductListAdapter (Context context, ArrayList<Product> mProducts) {
+	public ProductListAdapter (Context context, List<Product> products) {
 		this.mContext = context;
-		this.mProducts = mProducts;
+		this.mProducts = products;
 	}
 
 	@Override
@@ -72,26 +70,19 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		Picasso.with (mContext).load (R.drawable.ic_comment).into (holder.commentsIcon);
 		loadCardText (holder);
 		loadImage (holder);
-
-		if (showAsRead) {
-			if (mProducts.get (position).isRead ()) {
-				holder.itemView.setAlpha (0.6f);
-			} else {
-				holder.itemView.setAlpha (1f);
-			}
-		}
 	}
 
 	private void loadCardText (ProductViewHolder holder) {
 		Product product = mProducts.get (holder.getLayoutPosition ());
-		holder.title.setText (product.getTitle ());
+		holder.title.setText (product.getName ());
 		holder.description.setText (product.getTagline ());
-		holder.votes.setText (String.valueOf (product.getVotes ()));
-		holder.comments.setText (String.valueOf (product.getNumberOfComments ()));
+		holder.votes.setText (String.valueOf (product.getVotesCount ()));
+		holder.comments.setText (String.valueOf (product.getCommentsCount ()));
 	}
 
 	private void loadImage (final ProductViewHolder holder) {
-		String imgUrl = mProducts.get (holder.getLayoutPosition ()).getSmallImgUrl ();
+		String imgUrl = mProducts.get (holder.getLayoutPosition ())
+				.getScreenshotUrl ().getSmallImgUrl ();
 		holder.progressWheel.setVisibility (View.VISIBLE);
 		holder.progressWheel.spin ();
 		Picasso.with (mContext).load (imgUrl)
@@ -106,6 +97,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
 					@Override
 					public void onError () {
+						// TODO: Error view
 					}
 				});
 	}
@@ -116,7 +108,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 				from (viewGroup.getContext ()).
 				inflate (R.layout.item_product_card, viewGroup, false);
 
-		showAsRead = SettingsActivity.getShowAsReadPref (mContext);
 		ProductViewHolder holder = new ProductViewHolder (itemView);
 		holder.screenshotRipple.setOnClickListener (this);
 		holder.viewComments.setOnClickListener (this);
@@ -186,10 +177,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 	}
 
 	public interface OnProductClickListener {
-		public void onImageClick (View v, int position);
+		void onImageClick (View v, int position);
 
-		public void onCommentsClick (View v, Product product);
+		void onCommentsClick (View v, Product product);
 
-		public void onContextClick (View v, int position);
+		void onContextClick (View v, int position);
 	}
 }

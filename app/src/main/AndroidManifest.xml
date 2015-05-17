@@ -28,7 +28,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".Views.Activities.MainActivity"
             android:label="@string/app_name"
             android:configChanges="orientation|keyboardHidden">
         <intent-filter>
@@ -39,29 +39,29 @@
         </activity>
 
         <activity
-            android:name=".Activities.CommentsActivity"
+            android:name=".Views.Activities.CommentsActivity"
             android:theme="@style/AppTheme.ChildActivity"
             />
 
         <activity
-            android:name=".Activities.WebActivity"
+            android:name=".Views.Activities.WebActivity"
             android:theme="@style/AppTheme.ChildActivity"
             />
 
-        <activity android:name=".Activities.CollectionsListActivity"
+        <activity android:name=".Views.Activities.CollectionsListActivity"
             />
 
         <activity
-            android:name=".Activities.CollectionActivity"
+            android:name=".Views.Activities.CollectionActivity"
             android:theme="@style/AppTheme.ChildActivity"
             />
 
         <activity
-            android:name=".Activities.Settings.SettingsActivity"
+            android:name=".Views.Activities.Settings.SettingsActivity"
             />
 
         <activity
-            android:name=".Activities.AboutActivity"
+            android:name=".Views.Activities.AboutActivity"
             />
     </application>
 

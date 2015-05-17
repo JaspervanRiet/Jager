@@ -17,35 +17,82 @@
 
 package com.jaspervanriet.huntingthatproduct.Entities;
 
-import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
 
 public class User {
 
-	public int id;
-	public String name;
-	public String headline;
-	public String username;
-	public String smallImgUrl;
-	public String largeImgUrl;
+	private int id;
+	private String name;
+	private String headline;
+	private String username;
+	@SerializedName ("image_url")
+	private ImageUrl imageUrl;
 
-	public User (int id, String name, String headline,
-				 String username, String smallImgUrl, String largeImgUrl) {
-		this.id = id;
-		this.name = name;
-		this.headline = headline;
-		this.username = username;
-		this.smallImgUrl = smallImgUrl;
-		this.largeImgUrl = largeImgUrl;
+	public class ImageUrl {
+		@SerializedName ("48px")
+		private String smallImgUrl;
+		@SerializedName ("73px")
+		private String largeImgUrl;
+
+		public ImageUrl (String smallImgUrl, String largeImgUrl) {
+			this.smallImgUrl = smallImgUrl;
+			this.largeImgUrl = largeImgUrl;
+		}
+
+		public String getSmallImgUrl () {
+			return smallImgUrl;
+		}
+
+		public void setSmallImgUrl (String smallImgUrl) {
+			this.smallImgUrl = smallImgUrl;
+		}
+
+		public String getLargeImgUrl () {
+			return largeImgUrl;
+		}
+
+		public void setLargeImgUrl (String largeImgUrl) {
+			this.largeImgUrl = largeImgUrl;
+		}
 	}
 
-	public User (JsonObject object) {
-		this (object.get ("id").getAsInt (),
-				object.get ("name").isJsonNull ()
-						? "" : object.get ("name").getAsString (),
-				object.get ("headline").isJsonNull ()
-						? "" : object.get ("headline").getAsString (),
-				object.get ("username").getAsString (),
-				object.get ("image_url").getAsJsonObject ().get ("48px").getAsString (),
-				object.get ("image_url").getAsJsonObject ().get ("73px").getAsString ());
+	public int getId () {
+		return id;
+	}
+
+	public void setId (int id) {
+		this.id = id;
+	}
+
+	public String getName () {
+		return name;
+	}
+
+	public void setName (String name) {
+		this.name = name;
+	}
+
+	public String getHeadline () {
+		return headline;
+	}
+
+	public void setHeadline (String headline) {
+		this.headline = headline;
+	}
+
+	public String getUsername () {
+		return username;
+	}
+
+	public void setUsername (String username) {
+		this.username = username;
+	}
+
+	public ImageUrl getImageUrl () {
+		return imageUrl;
+	}
+
+	public void setImageUrl (ImageUrl imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }

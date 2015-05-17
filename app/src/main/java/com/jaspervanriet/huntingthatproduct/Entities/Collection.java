@@ -20,35 +20,19 @@ package com.jaspervanriet.huntingthatproduct.Entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class Collection implements Parcelable {
-	public int id;
-	public String name;
-	public String title;
-	public String backgroundImageUrl;
-	public String collectionUrl;
-
-	public Collection (int id, String name, String title,
-					   String backgroundImageUrl, String collectionUrl) {
-		this.id = id;
-		this.name = name;
-		this.title = title;
-		this.backgroundImageUrl = backgroundImageUrl;
-		this.collectionUrl = collectionUrl;
-	}
-
-	public Collection (JsonObject object) {
-		this (object.get ("id").getAsInt (),
-				object.get ("name").isJsonNull ()
-						? "" : object.get ("name").getAsString (),
-				object.get ("title").isJsonNull ()
-						? "" : object.get ("title").getAsString (),
-				object.get ("background_image_url").isJsonNull ()
-						? "" : object.get ("background_image_url")
-						.getAsString (),
-				object.get ("collection_url").getAsString ());
-	}
+	private int id;
+	private String name;
+	private String title;
+	@SerializedName ("background_image_url")
+	private String backgroundImageUrl;
+	@SerializedName ("collection_url")
+	private String collectionUrl;
+	private List<Product> posts;
 
 	@Override
 	public int describeContents () {
@@ -81,5 +65,57 @@ public class Collection implements Parcelable {
 		this.title = in.readString ();
 		this.backgroundImageUrl = in.readString ();
 		this.collectionUrl = in.readString ();
+	}
+
+	public int getId () {
+		return id;
+	}
+
+	public void setId (int id) {
+		this.id = id;
+	}
+
+	public String getName () {
+		return name;
+	}
+
+	public void setName (String name) {
+		this.name = name;
+	}
+
+	public String getTitle () {
+		return title;
+	}
+
+	public void setTitle (String title) {
+		this.title = title;
+	}
+
+	public String getBackgroundImageUrl () {
+		return backgroundImageUrl;
+	}
+
+	public void setBackgroundImageUrl (String backgroundImageUrl) {
+		this.backgroundImageUrl = backgroundImageUrl;
+	}
+
+	public String getCollectionUrl () {
+		return collectionUrl;
+	}
+
+	public void setCollectionUrl (String collectionUrl) {
+		this.collectionUrl = collectionUrl;
+	}
+
+	public List<Product> getPosts () {
+		return posts;
+	}
+
+	public void setPosts (List<Product> posts) {
+		this.posts = posts;
+	}
+
+	public static Creator<Collection> getCREATOR () {
+		return CREATOR;
 	}
 }

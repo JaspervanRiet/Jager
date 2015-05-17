@@ -17,81 +17,92 @@
 
 package com.jaspervanriet.huntingthatproduct.Entities;
 
-import com.google.gson.JsonObject;
-import com.jaspervanriet.huntingthatproduct.Utils.DateUtils;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import com.google.gson.annotations.SerializedName;
 
-public class Product extends RealmObject {
-
-	@PrimaryKey
+public class Product implements Parcelable {
 	private int id;
-
-	private String title;
+	private String name;
 	private String tagline;
+	@SerializedName ("comments_count")
+	private int commentsCount;
+	@SerializedName ("votes_count")
+	private int votesCount;
+	@SerializedName ("discussion_url")
 	private String discussionUrl;
+	@SerializedName ("redirect_url")
 	private String productUrl;
-	private int votes;
-	private int numberOfComments;
-	private String smallImgUrl;
-	private String date;
-	private boolean read;
-	private int rank;
+	@SerializedName ("screenshot_url")
+	private ScreenshotUrl screenshotUrl;
 
-	/* Not currently in use */
-	private boolean seen;
+	public class ScreenshotUrl {
+		@SerializedName ("300px")
+		private String smallImgUrl;
+		@SerializedName ("850px")
+		private String largeImgUrl;
 
-	/* No arguments constructor needed for Realm */
-	public Product () {
-		this.id = 0;
-		this.title = "";
-		this.tagline = "";
-		this.discussionUrl = "";
-		this.productUrl = "";
-		this.votes = 0;
-		this.numberOfComments = 0;
-		this.smallImgUrl = "";
-		this.date = "";
-		this.read = false;
-		this.rank = 0;
+		public ScreenshotUrl (String smallImgUrl, String largeImgUrl) {
+			this.smallImgUrl = smallImgUrl;
+			this.largeImgUrl = largeImgUrl;
+		}
+
+		public String getSmallImgUrl () {
+			return smallImgUrl;
+		}
+
+		public void setSmallImgUrl (String smallImgUrl) {
+			this.smallImgUrl = smallImgUrl;
+		}
+
+		public String getLargeImgUrl () {
+			return largeImgUrl;
+		}
+
+		public void setLargeImgUrl (String largeImgUrl) {
+			this.largeImgUrl = largeImgUrl;
+		}
 	}
 
-	public Product (int id,
-	                String title,
-	                String tagline,
-	                String discussionUrl,
-	                String productUrl,
-	                int votes,
-	                int numberOfComments,
-	                String smallImgUrl,
-	                String day) {
-		this.id = id;
-		this.title = title;
-		this.tagline = tagline;
-		this.discussionUrl = discussionUrl;
-		this.productUrl = productUrl;
-		this.votes = votes;
-		this.numberOfComments = numberOfComments;
-		this.smallImgUrl = smallImgUrl;
-		this.date = day;
-		this.read = false;
+	@Override
+	public int describeContents () {
+		return 0;
 	}
 
-	public Product (JsonObject object) {
-		this (object.get ("id").getAsInt (),
-				object.get ("name").getAsString (),
-				object.get ("tagline").getAsString (),
-				object.get ("discussion_url").getAsString (),
-				object.get ("redirect_url").getAsString (),
-				object.get ("votes_count").getAsInt (),
-				object.get ("comments_count").getAsInt (),
-				object.get ("screenshot_url").getAsJsonObject ().get ("300px").getAsString (),
-				object.get ("day").isJsonNull () ?
-						DateUtils.getTodaysDate () : object.get ("day").getAsString ());
+	@Override
+	public void writeToParcel (Parcel out, int flags) {
+		out.writeInt (id);
+		out.writeString (name);
+		out.writeString (tagline);
+		out.writeString (discussionUrl);
+		out.writeString (productUrl);
+		out.writeInt (votesCount);
+		out.writeInt (commentsCount);
+		out.writeString (screenshotUrl.getSmallImgUrl ());
+		out.writeString (screenshotUrl.getLargeImgUrl ());
 	}
 
-	/* Getters & setters */
+	public static final Creator<Product> CREATOR = new Parcelable.Creator<Product> () {
+		public Product createFromParcel (Parcel in) {
+			return new Product (in);
+		}
+
+		public Product[] newArray (int size) {
+			return new Product[size];
+		}
+	};
+
+	private Product (Parcel in) {
+		this.id = in.readInt ();
+		this.name = in.readString ();
+		this.tagline = in.readString ();
+		this.discussionUrl = in.readString ();
+		this.productUrl = in.readString ();
+		this.votesCount = in.readInt ();
+		this.commentsCount = in.readInt ();
+		this.screenshotUrl = new ScreenshotUrl (in.readString (), in.readString ());
+	}
 
 	public int getId () {
 		return id;
@@ -101,12 +112,12 @@ public class Product extends RealmObject {
 		this.id = id;
 	}
 
-	public String getTitle () {
-		return title;
+	public String getName () {
+		return name;
 	}
 
-	public void setTitle (String title) {
-		this.title = title;
+	public void setName (String name) {
+		this.name = name;
 	}
 
 	public String getTagline () {
@@ -115,6 +126,22 @@ public class Product extends RealmObject {
 
 	public void setTagline (String tagline) {
 		this.tagline = tagline;
+	}
+
+	public int getCommentsCount () {
+		return commentsCount;
+	}
+
+	public void setCommentsCount (int commentsCount) {
+		this.commentsCount = commentsCount;
+	}
+
+	public int getVotesCount () {
+		return votesCount;
+	}
+
+	public void setVotesCount (int votesCount) {
+		this.votesCount = votesCount;
 	}
 
 	public String getDiscussionUrl () {
@@ -133,59 +160,11 @@ public class Product extends RealmObject {
 		this.productUrl = productUrl;
 	}
 
-	public int getVotes () {
-		return votes;
+	public ScreenshotUrl getScreenshotUrl () {
+		return screenshotUrl;
 	}
 
-	public void setVotes (int votes) {
-		this.votes = votes;
-	}
-
-	public int getNumberOfComments () {
-		return numberOfComments;
-	}
-
-	public void setNumberOfComments (int numberOfComments) {
-		this.numberOfComments = numberOfComments;
-	}
-
-	public String getSmallImgUrl () {
-		return smallImgUrl;
-	}
-
-	public void setSmallImgUrl (String smallImgUrl) {
-		this.smallImgUrl = smallImgUrl;
-	}
-
-	public String getDate () {
-		return date;
-	}
-
-	public void setDate (String date) {
-		this.date = date;
-	}
-
-	public boolean isRead () {
-		return read;
-	}
-
-	public void setRead (boolean read) {
-		this.read = read;
-	}
-
-	public int getRank () {
-		return rank;
-	}
-
-	public void setRank (int rank) {
-		this.rank = rank;
-	}
-
-	public boolean isSeen () {
-		return seen;
-	}
-
-	public void setSeen (boolean seen) {
-		this.seen = seen;
+	public void setScreenshotUrl (ScreenshotUrl screenshotUrl) {
+		this.screenshotUrl = screenshotUrl;
 	}
 }

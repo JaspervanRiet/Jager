@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Adapters;
+package com.jaspervanriet.huntingthatproduct.Views.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -28,12 +28,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jaspervanriet.huntingthatproduct.Entities.Comment;
+import com.jaspervanriet.huntingthatproduct.Entities.User;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.CircleTransform;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -41,10 +42,10 @@ import butterknife.InjectView;
 public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter
 		.CommentsViewHolder> {
 
-	private ArrayList<Comment> mComments;
+	private List<Comment> mComments;
 	private Context mContext;
 
-	public CommentListAdapter (Context context, ArrayList<Comment> comments) {
+	public CommentListAdapter (Context context, List<Comment> comments) {
 		this.mContext = context;
 		this.mComments = comments;
 	}
@@ -67,26 +68,28 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter
 		Comment comment = mComments.get (position);
 		LinearLayout.MarginLayoutParams params = (LinearLayout.MarginLayoutParams) holder
 				.commentLayout.getLayoutParams ();
-		params.setMargins (comment.level * 30, 0, 0, 0);
+		params.setMargins (comment.getLevel () * 30, 0, 0, 0);
 		holder.commentLayout.setLayoutParams (params);
 		loadComment (holder, position);
 	}
 
 	private void loadComment (CommentsViewHolder holder, int position) {
-		holder.comment.setText (Html.fromHtml (mComments.get (position).text));
-		holder.name.setText (
-				Html.fromHtml (mComments.get (position).user.name) + " -  @"
-						+ Html.fromHtml (mComments.get (position).user.username));
-		if (mComments.get (position).isMaker) {
+		Comment comment = mComments.get (position);
+		User user = comment.getUser ();
+		holder.comment.setText (Html.fromHtml (comment.getBody ()));
+		holder.name.setText (Html.fromHtml (user.getName ()) + " -  @"
+				+ Html.fromHtml (user.getUsername ()));
+		if (comment.isMaker ()) {
 			holder.name.setTextColor (mContext.getResources ()
 					.getColor (R.color.text_indicator_maker));
 		} else {
 			holder.name.setTextColor (mContext.getResources ().getColor
 					(R.color.text_default));
 		}
-
-		holder.headline.setText (Html.fromHtml (mComments.get (position).user.headline));
-		Picasso.with (mContext).load (mComments.get (position).user.largeImgUrl)
+		if (user.getHeadline () != null) {
+			holder.headline.setText (Html.fromHtml (user.getHeadline ()));
+		}
+		Picasso.with (mContext).load (user.getImageUrl ().getLargeImgUrl ())
 				.resize (ViewUtils.dpToPx (56), ViewUtils.dpToPx (56))
 				.centerCrop ()
 				.transform (new CircleTransform ())

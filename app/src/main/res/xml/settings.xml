@@ -25,13 +25,6 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="preference_show_as_read"
-            android:title="@string/settings_show_as_read"
-            android:summary="@string/settings_show_as_read_summary"
-            />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="preference_open_link_in_browser"
             android:title="@string/settings_open_link_in_browser"
             android:summary="@string/settings_open_link_in_browser"

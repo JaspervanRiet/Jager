@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Activities.Settings;
+package com.jaspervanriet.huntingthatproduct.Views.Activities.Settings;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,13 +32,12 @@ import de.psdev.licensesdialog.LicensesDialog;
 
 public class SettingsFragment extends PreferenceFragment {
 
-	private static final String EMAIL_DEVELOPER = "jaspervanriet@gmail.com";
+	private static final String EMAIL_DEVELOPER = "hello@jaspervanriet.com";
 
 	@Override
 	public void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 		addPreferencesFromResource (R.xml.settings);
-		setupShowAsReadPref ();
 		setupOpenInBrowserPref ();
 		setupCrashDataPref ();
 		setupOpenSourceLicenses ();
@@ -48,12 +47,9 @@ public class SettingsFragment extends PreferenceFragment {
 	private void setupFeedbackPref () {
 		Preference feedback = getPreferenceScreen ()
 				.findPreference (SettingsActivity.KEY_SEND_FEEDBACK);
-		feedback.setOnPreferenceClickListener (new Preference.OnPreferenceClickListener () {
-			@Override
-			public boolean onPreferenceClick (Preference preference) {
-				createEmail ();
-				return true;
-			}
+		feedback.setOnPreferenceClickListener (preference -> {
+			createEmail ();
+			return true;
 		});
 	}
 
@@ -69,12 +65,9 @@ public class SettingsFragment extends PreferenceFragment {
 	private void setupOpenSourceLicenses () {
 		Preference openSource = getPreferenceScreen ()
 				.findPreference (SettingsActivity.KEY_OPEN_SOURCE_LICENSES);
-		openSource.setOnPreferenceClickListener (new Preference.OnPreferenceClickListener () {
-			@Override
-			public boolean onPreferenceClick (Preference preference) {
-				createLicensesDialog ();
-				return true;
-			}
+		openSource.setOnPreferenceClickListener (preference -> {
+			createLicensesDialog ();
+			return true;
 		});
 	}
 
@@ -84,44 +77,16 @@ public class SettingsFragment extends PreferenceFragment {
 				.show ();
 	}
 
-	private void setupShowAsReadPref () {
-		CheckBoxPreference markAsRead = (CheckBoxPreference)
-				getPreferenceScreen ().findPreference (
-						SettingsActivity.KEY_SHOW_READ);
-		markAsRead.setOnPreferenceChangeListener (new Preference.OnPreferenceChangeListener
-				() {
-			@Override
-			public boolean onPreferenceChange (Preference preference, Object newValue) {
-				if (newValue instanceof Boolean) {
-					boolean bool = (boolean) newValue;
-					setShowAsReadPref (bool);
-				}
-				return true;
-			}
-		});
-	}
-
-	private void setShowAsReadPref (boolean bool) {
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences (getActivity ());
-		sharedPrefs.edit ().putBoolean (SettingsActivity.KEY_SHOW_READ,
-				bool).apply ();
-	}
-
 	private void setupOpenInBrowserPref () {
 		CheckBoxPreference markAsRead = (CheckBoxPreference)
 				getPreferenceScreen ().findPreference (
 						SettingsActivity.KEY_OPEN_SYSTEM_BROWSER);
-		markAsRead.setOnPreferenceChangeListener (new Preference.OnPreferenceChangeListener
-				() {
-			@Override
-			public boolean onPreferenceChange (Preference preference, Object newValue) {
-				if (newValue instanceof Boolean) {
-					boolean bool = (boolean) newValue;
-					setOpenInBrowserPref (bool);
-				}
-				return true;
+		markAsRead.setOnPreferenceChangeListener ((preference, newValue) -> {
+			if (newValue instanceof Boolean) {
+				boolean bool = (boolean) newValue;
+				setOpenInBrowserPref (bool);
 			}
+			return true;
 		});
 	}
 
@@ -136,15 +101,12 @@ public class SettingsFragment extends PreferenceFragment {
 		CheckBoxPreference crashData = (CheckBoxPreference)
 				getPreferenceScreen ().findPreference (
 						SettingsActivity.KEY_CRASH_DATA);
-		crashData.setOnPreferenceChangeListener (new Preference.OnPreferenceChangeListener () {
-			@Override
-			public boolean onPreferenceChange (Preference preference, Object newValue) {
-				if (newValue instanceof Boolean) {
-					boolean bool = (boolean) newValue;
-					setCrashDataPref (bool);
-				}
-				return true;
+		crashData.setOnPreferenceChangeListener ((preference, newValue) -> {
+			if (newValue instanceof Boolean) {
+				boolean bool = (boolean) newValue;
+				setCrashDataPref (bool);
 			}
+			return true;
 		});
 	}
 

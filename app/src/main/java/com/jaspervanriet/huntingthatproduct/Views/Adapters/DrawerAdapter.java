@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Adapters;
+package com.jaspervanriet.huntingthatproduct.Views.Adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
