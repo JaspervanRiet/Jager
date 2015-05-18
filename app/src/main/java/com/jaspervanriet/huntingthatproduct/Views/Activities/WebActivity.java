@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -147,7 +148,9 @@ public class WebActivity extends CustomSwipeBackActivity {
 		mWebView.loadUrl (mProduct.getProductUrl ());
 		mWebView.getSettings ().setBuiltInZoomControls (true);
 		mWebView.getSettings ().setDisplayZoomControls (false);
-		mWebView.getSettings ().setJavaScriptEnabled (true);
+		WebSettings webSettings = mWebView.getSettings ();
+		webSettings.setCacheMode (WebSettings.LOAD_NO_CACHE);
+		webSettings.setJavaScriptEnabled (true);
 	}
 
 	private void redirectToPlayStore (String url) {
@@ -160,10 +163,6 @@ public class WebActivity extends CustomSwipeBackActivity {
 	private boolean isPlayStoreLink (String url) {
 		return url.contains (URL_PLAY_STORE_SCHEME);
 	}
-
-	/*
-	 * Intro animations
-	 */
 
 	private void expandAnimation (Bundle savedInstanceState) {
 		mDrawingStartLocation = getIntent ().getIntExtra (ARG_DRAWING_START_LOCATION, 0);
