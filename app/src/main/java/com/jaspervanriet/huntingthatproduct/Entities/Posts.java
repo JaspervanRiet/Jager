@@ -38,7 +38,7 @@ public class Posts implements Parcelable {
 
 	public Posts (Parcel in) {
 		posts = new ArrayList<> ();
-		in.readList (posts, null);
+		in.readList (posts, getClass ().getClassLoader ());
 	}
 
 	public List<Product> getPosts () {

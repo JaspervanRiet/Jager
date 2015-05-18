@@ -68,7 +68,7 @@ public class Collection implements Parcelable {
 		this.backgroundImageUrl = in.readString ();
 		this.collectionUrl = in.readString ();
 		posts = new ArrayList<> ();
-		in.readList (posts, null);
+		in.readList (posts, getClass ().getClassLoader ());
 	}
 
 	public int getId () {

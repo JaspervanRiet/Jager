@@ -38,7 +38,7 @@ public class Collections implements Parcelable {
 
 	private Collections (Parcel in) {
 		collections = new ArrayList<> ();
-		in.readList (collections, null);
+		in.readList (collections, getClass ().getClassLoader ());
 	}
 
 	public List<Collection> getCollections () {
