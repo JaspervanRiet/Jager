@@ -36,7 +36,6 @@ import android.widget.LinearLayout;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.Presenters.CommentPresenterImpl;
 import com.jaspervanriet.huntingthatproduct.R;
-import com.jaspervanriet.huntingthatproduct.Utils.CustomSwipeBackActivity;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.CommentListAdapter;
 import com.jaspervanriet.huntingthatproduct.Views.CommentsView;

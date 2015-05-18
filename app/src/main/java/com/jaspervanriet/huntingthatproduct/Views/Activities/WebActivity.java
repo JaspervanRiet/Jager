@@ -38,7 +38,6 @@ import android.widget.Toast;
 
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.R;
-import com.jaspervanriet.huntingthatproduct.Utils.CustomSwipeBackActivity;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 
 import butterknife.ButterKnife;

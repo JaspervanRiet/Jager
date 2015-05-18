@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Utils;
+package com.jaspervanriet.huntingthatproduct.Views.Activities;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -26,7 +26,7 @@ import me.imid.swipebacklayout.lib.Utils;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 
-public class CustomSwipeBackActivity extends ActionBarActivity implements SwipeBackActivityBase {
+public class CustomSwipeBackActivity extends AppCompatActivity implements SwipeBackActivityBase {
 	private SwipeBackActivityHelper mHelper;
 
 	@Override

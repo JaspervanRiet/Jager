@@ -24,14 +24,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.jaspervanriet.huntingthatproduct.Data.Settings.AppSettings;
@@ -47,7 +45,7 @@ import butterknife.InjectView;
 /**
  * Activity that handles common tasks for activities in the drawer
  */
-public class DrawerActivity extends ActionBarActivity {
+public class DrawerActivity extends AppCompatActivity {
 
 	public static final int NAVDRAWER_ITEM_TODAYS_PRODUCTS = 0;
 	public static final int NAVDRAWER_ITEM_SETTINGS = 2;
@@ -98,23 +96,14 @@ public class DrawerActivity extends ActionBarActivity {
 		DrawerAdapter drawerAdapter = new DrawerAdapter (this,
 				mDrawerData, getSelfNavDrawerItem ());
 		mDrawerList.setAdapter (drawerAdapter);
-		mDrawerList.setOnItemClickListener (new AdapterView.OnItemClickListener () {
-			@Override
-			public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-				onDrawerItemClicked (position);
-			}
-		});
+		mDrawerList.setOnItemClickListener ((parent, view, position, id) -> onDrawerItemClicked
+				(position));
 	}
 
 	private void onDrawerItemClicked (final int item) {
 		if (!(item == getSelfNavDrawerItem ())) {
 			// Wait for drawer to close before starting activity
-			mHandler.postDelayed (new Runnable () {
-				@Override
-				public void run () {
-					goToNavDrawerItem (item);
-				}
-			}, NAVDRAWER_LAUNCH_DELAY);
+			mHandler.postDelayed (() -> goToNavDrawerItem (item), NAVDRAWER_LAUNCH_DELAY);
 		}
 		closeNavDrawer ();
 	}
