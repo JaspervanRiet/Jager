@@ -25,4 +25,5 @@
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:minHeight="?attr/actionBarSize"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     />

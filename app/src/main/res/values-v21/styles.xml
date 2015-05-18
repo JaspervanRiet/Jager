@@ -28,6 +28,7 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
         <item name="android:datePickerDialogTheme">@style/DatePickerDialogTheme</item>
+        <item name="android:textColor">@color/text_default</item>
     </style>
 
     <style name="AppTheme.ChildActivity" parent="AppTheme">
