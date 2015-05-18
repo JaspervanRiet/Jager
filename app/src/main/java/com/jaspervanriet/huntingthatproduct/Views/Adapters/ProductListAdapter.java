@@ -86,7 +86,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		holder.progressWheel.setVisibility (View.VISIBLE);
 		holder.progressWheel.spin ();
 		Picasso.with (mContext).load (imgUrl)
-				.resize (380, 250) // Without resizing, screenshots will have a border
+				.fit ()
 				.centerCrop ()
 				.into (holder.screenshot, new Callback () {
 					@Override

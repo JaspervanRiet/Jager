@@ -74,7 +74,7 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
 		if (!backgroundImageUrl.equals ("")) {
 			Picasso.with (mContext)
 					.load (backgroundImageUrl)
-					.resize (380, 150)
+					.fit ()
 					.centerCrop ()
 					.into (holder.image);
 		}
