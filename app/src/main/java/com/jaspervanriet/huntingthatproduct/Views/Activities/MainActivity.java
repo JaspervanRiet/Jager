@@ -213,7 +213,7 @@ public class MainActivity extends DrawerActivity
 		mRecyclerView.setHasFixedSize (true);
 		mRecyclerView.setItemAnimator (new DefaultItemAnimator ());
 		mRecyclerView.setLayoutManager (getLayoutManager ());
-		mRecyclerView.setOnScrollListener (new RecyclerView.OnScrollListener () {
+		mRecyclerView.addOnScrollListener (new RecyclerView.OnScrollListener () {
 			@Override
 			public void onScrolled (RecyclerView recyclerView, int dx, int dy) {
 				FeedContextMenuManager.getInstance ().onScrolled (recyclerView, dx, dy);
