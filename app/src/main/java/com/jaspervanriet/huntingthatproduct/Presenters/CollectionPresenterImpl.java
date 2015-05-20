@@ -126,6 +126,8 @@ public class CollectionPresenterImpl implements
 	private void initializeAdapter () {
 		mCollections = new Collections ();
 		mAdapter = new CollectionListAdapter (mCollectionView.getContext (), mCollections);
+		mAdapter.setOnCollectionClickListener (
+				mCollectionView.getCollectionClickListener ());
 		mCollectionView.setAdapterForRecyclerView (mAdapter);
 	}
 
