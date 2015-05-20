@@ -120,6 +120,8 @@ public class CollectionPresenterImpl implements
 		mCollections = Collections.getParcelable (savedInstanceState);
 
 		mAdapter = new CollectionListAdapter (mCollectionView.getContext (), mCollections);
+		mAdapter.setOnCollectionClickListener (
+				mCollectionView.getCollectionClickListener ());
 		mCollectionView.setAdapterForRecyclerView (mAdapter);
 	}
 
