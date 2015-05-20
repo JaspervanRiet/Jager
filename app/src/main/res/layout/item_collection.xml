@@ -30,12 +30,12 @@
 
     <ImageView
         android:id="@+id/card_collection_image"
-        android:layout_width="380dp"
-        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         />
 
     <RelativeLayout
-        android:layout_width="380dp"
+        android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:background="@color/bg_card_collection_text"
