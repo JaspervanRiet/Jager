@@ -49,19 +49,22 @@ public class PHService {
 
 	public Observable<Comments> getComments (int productId) {
 		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL);
-		return api.getComments (productId);
+		return api.getComments (productId).retryWhen (new RetryWithSessionRefresh
+				(sessionService, accessTokenProvider));
 	}
 
 	public Observable<Collections> getCollections () {
 		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL);
-		return api.getCollections ();
+		return api.getCollections ().retryWhen (new RetryWithSessionRefresh
+				(sessionService, accessTokenProvider));
 	}
 
 	public Observable<Collection> getCollectionPosts (int collectionId) {
 		Gson gson = new GsonBuilder ().registerTypeAdapter (Collection.class, new
 				CollectionDeserializer ()).create ();
 		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL, gson);
-		return api.getCollectionPosts (collectionId);
+		return api.getCollectionPosts (collectionId).retryWhen (new RetryWithSessionRefresh
+				(sessionService, accessTokenProvider));
 	}
 
 }
