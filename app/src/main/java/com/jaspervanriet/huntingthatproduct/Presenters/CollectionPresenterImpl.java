@@ -40,18 +40,17 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class CollectionPresenterImpl implements
-									 CollectionPresenter {
+		CollectionPresenter {
 
 	private CollectionView mCollectionView;
 	private CollectionListAdapter mAdapter;
-	private PHService mPHService;
 	private Collections mCollections;
 	private Subscription mSubscription;
 	private Observable<Collections> mCollectionsObservable;
 	private Observer<Collections> mCollectionsObserver = new Observer<Collections> () {
 		@Override
 		public void onCompleted () {
-
+			mCollectionView.hideRefreshIndicator ();
 		}
 
 		@Override
@@ -70,7 +69,6 @@ public class CollectionPresenterImpl implements
 			mAdapter.setOnCollectionClickListener (
 					mCollectionView.getCollectionClickListener ());
 			mCollectionView.setAdapterForRecyclerView (mAdapter);
-			mCollectionView.hideRefreshIndicator ();
 		}
 	};
 
@@ -93,8 +91,8 @@ public class CollectionPresenterImpl implements
 	}
 
 	private void getCollections () {
-		mPHService = new PHService ();
-		mCollectionsObservable = mPHService
+		PHService phService = new PHService ();
+		mCollectionsObservable = phService
 				.getCollections ()
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn (AndroidSchedulers.mainThread ())

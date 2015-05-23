@@ -63,15 +63,13 @@ public class ProductPresenterImpl implements ProductPresenter {
 	private Observer<Posts> mPostsObserver = new Observer<Posts> () {
 		@Override
 		public void onCompleted () {
-
+			onCompleteNetworkRequest ();
 		}
 
 		@Override
 		public void onError (Throwable e) {
 			Crashlytics.logException (e);
-			mProductView.showNoNetworkError ();
-			mProductView.hideRefreshingIndicator ();
-			mProductView.showEmptyView ();
+			onNetworkError ();
 		}
 
 		@Override
@@ -83,12 +81,13 @@ public class ProductPresenterImpl implements ProductPresenter {
 	private Observer<Collection> mCollectionObserver = new Observer<Collection> () {
 		@Override
 		public void onCompleted () {
-
+			onCompleteNetworkRequest ();
 		}
 
 		@Override
 		public void onError (Throwable e) {
-
+			Crashlytics.logException (e);
+			onNetworkError ();
 		}
 
 		@Override
@@ -98,6 +97,13 @@ public class ProductPresenterImpl implements ProductPresenter {
 			showPosts (posts);
 		}
 	};
+
+	private void onCompleteNetworkRequest () {
+		mProductView.hideRefreshingIndicator ();
+		if (mAdapter.getItemCount () == 0) {
+			mProductView.showEmptyView ();
+		}
+	}
 
 	public ProductPresenterImpl (ProductView productView) {
 		this.mProductView = productView;
@@ -162,10 +168,6 @@ public class ProductPresenterImpl implements ProductPresenter {
 				posts.getPosts ());
 		mAdapter.setOnProductClickListener (mProductView.getProductClickListener ());
 		mProductView.setAdapterForRecyclerView (mAdapter);
-		mProductView.hideRefreshingIndicator ();
-		if (mAdapter.getItemCount () == 0) {
-			mProductView.showEmptyView ();
-		}
 	}
 
 	private void getCache (boolean isMainActivity) {
@@ -184,6 +186,12 @@ public class ProductPresenterImpl implements ProductPresenter {
 				mSubscription = mCollectionObservable.subscribe (mCollectionObserver);
 			}
 		}
+	}
+
+	private void onNetworkError () {
+		mProductView.showNoNetworkError ();
+		mProductView.hideRefreshingIndicator ();
+		mProductView.showEmptyView ();
 	}
 
 	private void restoreInstanceState (Bundle savedInstanceState) {
