@@ -18,7 +18,6 @@
 package com.jaspervanriet.huntingthatproduct.Data.Http;
 
 import com.google.gson.Gson;
-import com.jaspervanriet.huntingthatproduct.Entities.AccessToken;
 
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
@@ -28,40 +27,24 @@ public class ServiceGenerator {
 	private ServiceGenerator () {
 	}
 
-	public static <S> S createService (Class<S> serviceClass, String baseUrl) {
-		RestAdapter restAdapter = new RestAdapter.Builder ()
-				.setEndpoint (baseUrl)
-				.build ();
-
-		return restAdapter.create (serviceClass);
-	}
-
 	public static <S> S createService (Class<S> serviceClass,
-	                                   String baseUrl,
-	                                   final AccessToken accessToken) {
+	                                   String baseUrl) {
+		AccessTokenProvider accessTokenProvider = new AccessTokenProvider ();
 		RestAdapter restAdapter = new RestAdapter.Builder ()
 				.setEndpoint (baseUrl)
-				.setRequestInterceptor (requestFacade -> {
-					requestFacade.addHeader ("Accept", "application/json");
-					requestFacade.addHeader ("Authorization",
-							"Bearer " + accessToken.getAccessToken ());
-				})
+				.setRequestInterceptor (accessTokenProvider)
 				.build ();
 		return restAdapter.create (serviceClass);
 	}
 
 	public static <S> S createService (Class<S> serviceClass,
 	                                   String baseUrl,
-	                                   final AccessToken accessToken,
 	                                   Gson gson) {
+		AccessTokenProvider accessTokenProvider = new AccessTokenProvider ();
 		RestAdapter restAdapter = new RestAdapter.Builder ()
 				.setEndpoint (baseUrl)
 				.setConverter (new GsonConverter (gson))
-				.setRequestInterceptor (requestFacade -> {
-					requestFacade.addHeader ("Accept", "application/json");
-					requestFacade.addHeader ("Authorization",
-							"Bearer " + accessToken.getAccessToken ());
-				})
+				.setRequestInterceptor (accessTokenProvider)
 				.build ();
 		return restAdapter.create (serviceClass);
 	}

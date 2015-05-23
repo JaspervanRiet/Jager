@@ -27,11 +27,9 @@ import android.view.View;
 import com.crashlytics.android.Crashlytics;
 import com.jaspervanriet.huntingthatproduct.Data.Http.PHService;
 import com.jaspervanriet.huntingthatproduct.Data.Settings.AppSettings;
-import com.jaspervanriet.huntingthatproduct.Entities.Authentication;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.Entities.Posts;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
-import com.jaspervanriet.huntingthatproduct.Utils.Constants;
 import com.jaspervanriet.huntingthatproduct.Utils.DateUtils;
 import com.jaspervanriet.huntingthatproduct.Utils.NetworkUtils;
 import com.jaspervanriet.huntingthatproduct.Views.Activities.CommentsActivity;
@@ -54,6 +52,7 @@ public class ProductPresenterImpl implements ProductPresenter {
 
 	private Subscription mSubscription;
 	private ProductView mProductView;
+
 	private PHService mPHService;
 	private ProductListAdapter mAdapter;
 	private String mDate;
@@ -72,6 +71,7 @@ public class ProductPresenterImpl implements ProductPresenter {
 			Crashlytics.logException (e);
 			mProductView.showNoNetworkError ();
 			mProductView.hideRefreshingIndicator ();
+			mProductView.showEmptyView ();
 		}
 
 		@Override
@@ -141,22 +141,18 @@ public class ProductPresenterImpl implements ProductPresenter {
 	}
 
 	private void getPosts () {
-		mPHService = new PHService (new Authentication (Constants.CLIENT_ID,
-				Constants.CLIENT_SECRET, Constants.GRANT_TYPE));
-		mPostsObservable = mPHService.askForToken ().flatMap (token -> mPHService.getPosts
-				(token, mDate)
+		mPHService = new PHService ();
+		mPostsObservable = mPHService.getPosts (mDate)
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn (AndroidSchedulers.mainThread ()));
+				.observeOn (AndroidSchedulers.mainThread ());
 		mSubscription = mPostsObservable.subscribe (mPostsObserver);
 	}
 
 	private void getCollectionPosts () {
-		mPHService = new PHService (new Authentication (Constants.CLIENT_ID,
-				Constants.CLIENT_SECRET, Constants.GRANT_TYPE));
-		mCollectionObservable = mPHService.askForToken ().flatMap (token -> mPHService
-				.getCollectionPosts (token, mCollectionId)
+		mPHService = new PHService ();
+		mCollectionObservable = mPHService.getCollectionPosts (mCollectionId)
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn (AndroidSchedulers.mainThread ()));
+				.observeOn (AndroidSchedulers.mainThread ());
 		mSubscription = mCollectionObservable.subscribe (mCollectionObserver);
 	}
 

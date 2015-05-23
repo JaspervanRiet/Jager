@@ -22,10 +22,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.jaspervanriet.huntingthatproduct.Data.Http.PHService;
-import com.jaspervanriet.huntingthatproduct.Entities.Authentication;
 import com.jaspervanriet.huntingthatproduct.Entities.Comment;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
-import com.jaspervanriet.huntingthatproduct.Utils.Constants;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.CommentListAdapter;
 import com.jaspervanriet.huntingthatproduct.Views.CommentsView;
 
@@ -38,7 +36,6 @@ import rx.schedulers.Schedulers;
 
 public class CommentPresenterImpl implements CommentPresenter {
 
-	private PHService mPHService;
 	private CommentsView mCommentsView;
 	private List<Comment> mComments = new ArrayList<> ();
 	private CommentListAdapter mAdapter;
@@ -66,13 +63,10 @@ public class CommentPresenterImpl implements CommentPresenter {
 	}
 
 	private void getComments (int productId) {
-		mPHService = new PHService (new Authentication (Constants.CLIENT_ID,
-				Constants.CLIENT_SECRET, Constants.GRANT_TYPE));
-		mSubscription = mPHService.askForToken ().flatMap (token -> mPHService
-				.getComments (token,
-						productId)
+		PHService phService = new PHService ();
+		mSubscription = phService.getComments (productId)
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn (AndroidSchedulers.mainThread ()))
+				.observeOn (AndroidSchedulers.mainThread ())
 				.subscribe (comments -> {
 					if (comments.getCount () == 0) {
 						mCommentsView.showEmptyView ();

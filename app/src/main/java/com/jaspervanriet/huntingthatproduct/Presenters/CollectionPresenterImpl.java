@@ -26,11 +26,9 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.jaspervanriet.huntingthatproduct.Data.Http.PHService;
-import com.jaspervanriet.huntingthatproduct.Entities.Authentication;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.Entities.Collections;
 import com.jaspervanriet.huntingthatproduct.R;
-import com.jaspervanriet.huntingthatproduct.Utils.Constants;
 import com.jaspervanriet.huntingthatproduct.Views.Activities.CollectionActivity;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.CollectionListAdapter;
 import com.jaspervanriet.huntingthatproduct.Views.CollectionView;
@@ -95,13 +93,12 @@ public class CollectionPresenterImpl implements
 	}
 
 	private void getCollections () {
-		mPHService = new PHService (new Authentication (Constants.CLIENT_ID,
-				Constants.CLIENT_SECRET, Constants.GRANT_TYPE));
-		mCollectionsObservable = mPHService.askForToken ().flatMap (token -> mPHService
-				.getCollections (token)
+		mPHService = new PHService ();
+		mCollectionsObservable = mPHService
+				.getCollections ()
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn (AndroidSchedulers.mainThread ())
-				.cache ());
+				.cache ();
 		mSubscription = mCollectionsObservable.subscribe (mCollectionsObserver);
 	}
 

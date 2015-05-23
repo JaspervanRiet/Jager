@@ -197,7 +197,7 @@ public class MainActivity extends DrawerActivity
 		public void run () {
 			try {
 				if (mIsRefreshing) {
-					mHandler.postDelayed (this, 1000);
+					mHandler.postDelayed (this, 500);
 				} else {
 					mProgressWheel.stopSpinning ();
 					mProgressWheel.setVisibility (View.GONE);

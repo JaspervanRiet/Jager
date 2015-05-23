@@ -19,8 +19,6 @@ package com.jaspervanriet.huntingthatproduct.Data.Http;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jaspervanriet.huntingthatproduct.Entities.AccessToken;
-import com.jaspervanriet.huntingthatproduct.Entities.Authentication;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.Entities.Collections;
 import com.jaspervanriet.huntingthatproduct.Entities.Comments;
@@ -32,44 +30,37 @@ import rx.Observable;
 
 public class PHService {
 
-	private Authentication mAuthentication;
+	private static final SessionService sessionService = new SessionService ();
+	private static final AccessTokenProvider accessTokenProvider = new AccessTokenProvider ();
 
-	public PHService (Authentication authentication) {
-		mAuthentication = authentication;
+	public PHService () {
 	}
 
-	public Observable<AccessToken> askForToken () {
+	public Observable<Posts> getPosts (String date) {
 		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL);
-		return api.getAccessToken (mAuthentication);
-	}
-
-	public Observable<Posts> getPosts (AccessToken token, String date) {
-		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL,
-				token);
 		if (date == null) {
-			return api.getPosts ();
+			return api.getPosts ().retryWhen (new RetryWithSessionRefresh
+					(sessionService, accessTokenProvider));
 		} else {
-			return api.getPostsByDate (date);
+			return api.getPostsByDate (date).retryWhen (new RetryWithSessionRefresh
+					(sessionService, accessTokenProvider));
 		}
 	}
 
-	public Observable<Comments> getComments (AccessToken token, int productId) {
-		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL,
-				token);
+	public Observable<Comments> getComments (int productId) {
+		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL);
 		return api.getComments (productId);
 	}
 
-	public Observable<Collections> getCollections (AccessToken token) {
-		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL,
-				token);
+	public Observable<Collections> getCollections () {
+		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL);
 		return api.getCollections ();
 	}
 
-	public Observable<Collection> getCollectionPosts (AccessToken token, int collectionId) {
+	public Observable<Collection> getCollectionPosts (int collectionId) {
 		Gson gson = new GsonBuilder ().registerTypeAdapter (Collection.class, new
 				CollectionDeserializer ()).create ();
-		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL,
-				token, gson);
+		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL, gson);
 		return api.getCollectionPosts (collectionId);
 	}
 
