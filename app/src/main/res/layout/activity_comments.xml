@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/comments_layout"
-        android:background="@color/comments_background">
+        android:background="@color/bg_comments">
 
         <com.pnikosis.materialishprogress.ProgressWheel
             android:id="@+id/comments_list_progress_wheel"

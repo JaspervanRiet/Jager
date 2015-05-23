@@ -17,8 +17,8 @@
   -->
 
 <resources>
-
-<color name="primary_color">#FF5722</color>
+    
+    <color name="primary_color">#FF5722</color>
     <color name="primary_dark">#E64A19</color>
     <color name="primary_accent">#3F51B5</color>
 
@@ -35,7 +35,7 @@
     <color name="btn_context_menu_pressed">#40000000</color>
     <color name="btn_context_menu_text_red">#ffff0000</color>
 
-    <color name="comments_background">#FFFFFF</color>
+    <color name="bg_comments">#FFFFFF</color>
 
     <!--Needed for MaterialDateTimePicker -->
     <color name="mdtp_accent_color">#3F51B5</color>
