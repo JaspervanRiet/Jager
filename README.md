@@ -23,7 +23,7 @@ See [libraries].
 
 ### Thanks to
 * [frogermcs/InstaMaterial] - Fantastic introduction to some of the new animation API's in Android Lollipop
-* [so_retrofit_session] - Implementation of Retrofit for session based services.
+* [Retrofit/Rxjava and session-based services][so_retrofit_session] - Implementation of Retrofit for session based services.
 
 License
 ----
