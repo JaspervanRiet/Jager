@@ -17,20 +17,17 @@
 
 package com.jaspervanriet.huntingthatproduct.Views.Activities;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -40,13 +37,15 @@ import com.jaspervanriet.huntingthatproduct.Presenters.ProductPresenterImpl;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.ProductListAdapter;
-import com.jaspervanriet.huntingthatproduct.Views.DatePickerFragment;
 import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenu;
 import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenuManager;
 import com.jaspervanriet.huntingthatproduct.Views.ProductView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.PicassoTools;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import java.util.Calendar;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -110,8 +109,8 @@ public class MainActivity extends DrawerActivity
 	}
 
 	@Override
-	public void onDateSet (DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-		mPresenter.onDateSet (year, monthOfYear, dayOfMonth);
+	public void onDateSet (DatePickerDialog view, int year, int month, int day) {
+		mPresenter.onDateSet (year, month, day);
 	}
 
 	@Override
@@ -189,8 +188,15 @@ public class MainActivity extends DrawerActivity
 	}
 
 	private void showDatePickerDialog () {
-		DialogFragment dialogFragment = new DatePickerFragment ();
-		dialogFragment.show (getSupportFragmentManager (), "datePicker");
+		Calendar calendar = Calendar.getInstance ();
+		DatePickerDialog dialog = DatePickerDialog.newInstance (
+				MainActivity.this,
+				calendar.get (Calendar.YEAR),
+				calendar.get (Calendar.MONTH),
+				calendar.get (Calendar.DAY_OF_MONTH)
+		);
+		dialog.setMaxDate (calendar);
+		dialog.show (getFragmentManager (), "Datepickerdialog");
 	}
 
 	private final Runnable refreshingContent = new Runnable () {
