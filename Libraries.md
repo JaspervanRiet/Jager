@@ -10,6 +10,9 @@
 * [LicensesDialog] - LicensesDialog is an open source library to display licenses of third-party libraries in an Android app.
 * [Materialish-Progress] - A material style progress wheel compatible with 2.3.
 * [SwipeBackLayout] - An Android library that help you to build app with swipe back gesture.
+* [Snackbar] - Android Library that implements Snackbars from Google's Material Design documentation.
+* [MaterialDateTimePicker] - Pick a date or time on Android in style
+
 
 [Retrofit]:https://github.com/square/retrofit
 [Rxjava]:https://github.com/ReactiveX/RxJava
@@ -22,3 +25,5 @@
 [Materialish-Progress]:https://github.com/pnikosis/materialish-progress
 [Android-RobotoTextView]:https://github.com/johnkil/Android-RobotoTextView
 [SwipeBackLayout]:https://github.com/ikew0ng/SwipeBackLayout
+[Snackbar]:https://github.com/nispok/snackbar
+[MaterialDateTimePicker]:https://github.com/wdullaer/MaterialDateTimePicker
