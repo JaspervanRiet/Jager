@@ -91,4 +91,16 @@
         <copyright>Copyright (C) 2013 Issac Wong</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
+    <notice>
+        <name>Snackbar</name>
+        <url>https://github.com/nispok/snackbar</url>
+        <copyright>Copyright (C) 2015 William Mora</copyright>
+        <license>MIT License</license>
+    </notice>
+    <notice>
+        <name>MaterialDateTimePicker</name>
+        <url>https://github.com/wdullaer/MaterialDateTimePicker</url>
+        <copyright>Copyright (C) 2015 Wouter Dullaert</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
 </notices>
