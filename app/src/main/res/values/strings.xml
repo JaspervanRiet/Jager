@@ -47,6 +47,7 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
 
     <string name="error_connection">Error in connecting to Product Hunt</string>
     <string name="error_ssl">SSL error: this website is not safe</string>

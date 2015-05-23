@@ -29,7 +29,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
@@ -40,6 +39,8 @@ import com.jaspervanriet.huntingthatproduct.Views.Adapters.ProductListAdapter;
 import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenu;
 import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenuManager;
 import com.jaspervanriet.huntingthatproduct.Views.ProductView;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.PicassoTools;
@@ -257,8 +258,13 @@ public class MainActivity extends DrawerActivity
 
 	@Override
 	public void showNoNetworkError () {
-		Toast.makeText (this, getResources ().getString (R.string.error_connection),
-				Toast.LENGTH_SHORT).show ();
+		SnackbarManager.show (
+				Snackbar.with (getApplicationContext ())
+						.text (getString (R.string.error_connection))
+						.actionLabel (getString (R.string.retry))
+						.actionColor (getResources ().getColor (R.color.primary_color))
+						.duration (Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+						.actionListener (snackbar -> mPresenter.onRefresh ()), this);
 	}
 
 	@Override
