@@ -41,8 +41,8 @@ import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 
 public class WebActivity extends CustomSwipeBackActivity {
@@ -53,9 +53,9 @@ public class WebActivity extends CustomSwipeBackActivity {
 			".com/store/apps/details?";
 	private static final String URL_DEVICE_PLAY_STORE_SCHEME = "market://details?";
 
-	@InjectView (R.id.toolbar)
+	@BindView (R.id.toolbar)
 	Toolbar mToolBar;
-	@InjectView (R.id.web_webview)
+	@BindView (R.id.web_webview)
 	WebView mWebView;
 
 	private int mDrawingStartLocation;
@@ -66,7 +66,7 @@ public class WebActivity extends CustomSwipeBackActivity {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 		setContentView (R.layout.activity_web);
-		ButterKnife.inject (this);
+		ButterKnife.bind (this);
 
 		SwipeBackLayout swipeBackLayout = getSwipeBackLayout ();
 		swipeBackLayout.setEdgeTrackingEnabled (SwipeBackLayout.EDGE_LEFT);

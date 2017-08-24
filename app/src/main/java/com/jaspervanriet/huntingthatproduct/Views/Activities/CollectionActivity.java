@@ -50,8 +50,8 @@ import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenuManager;
 import com.jaspervanriet.huntingthatproduct.Views.ProductView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class CollectionActivity extends AppCompatActivity
 		implements ProductListAdapter.OnProductClickListener,
@@ -61,15 +61,15 @@ public class CollectionActivity extends AppCompatActivity
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 	private static final int ANIM_LAYOUT_INTRO_DURATION = 250;
 
-	@InjectView (R.id.toolbar)
+	@BindView (R.id.toolbar)
 	Toolbar mToolBar;
-	@InjectView (R.id.collection_layout)
+	@BindView (R.id.collection_layout)
 	FrameLayout mCollectionLayout;
-	@InjectView (android.R.id.list)
+	@BindView (android.R.id.list)
 	RecyclerView mRecyclerView;
-	@InjectView (R.id.list_progress_wheel)
+	@BindView (R.id.list_progress_wheel)
 	ProgressWheel mProgressWheel;
-	@InjectView (R.id.products_empty_view)
+	@BindView (R.id.products_empty_view)
 	LinearLayout mEmptyView;
 
 	private int mDrawingStartLocation;
@@ -81,7 +81,7 @@ public class CollectionActivity extends AppCompatActivity
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 		setContentView (R.layout.activity_collection);
-		ButterKnife.inject (this);
+		ButterKnife.bind (this);
 		mCollection = getIntent ().getParcelableExtra ("collection");
 		setupToolBar ();
 		expandAnimation (savedInstanceState);

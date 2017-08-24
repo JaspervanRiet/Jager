@@ -48,8 +48,8 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends DrawerActivity
@@ -67,11 +67,11 @@ public class MainActivity extends DrawerActivity
 	private Boolean mStartIntroAnimation = true;
 	private ProductPresenterImpl mPresenter;
 
-	@InjectView (android.R.id.list)
+	@BindView (android.R.id.list)
 	RecyclerView mRecyclerView;
-	@InjectView (R.id.list_progress_wheel)
+	@BindView (R.id.list_progress_wheel)
 	ProgressWheel mProgressWheel;
-	@InjectView (R.id.products_empty_view)
+	@BindView (R.id.products_empty_view)
 	LinearLayout mEmptyView;
 
 	@Override
@@ -79,7 +79,7 @@ public class MainActivity extends DrawerActivity
 		super.onCreate (savedInstanceState);
 		initFabric ();
 		setContentView (R.layout.activity_main);
-		ButterKnife.inject (this);
+		ButterKnife.bind (this);
 
 		boolean toolbarAnimation = getIntent ().getBooleanExtra
 				("toolbar_animation", true);

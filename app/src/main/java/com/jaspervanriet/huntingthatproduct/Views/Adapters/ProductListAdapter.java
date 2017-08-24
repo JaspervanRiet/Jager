@@ -36,8 +36,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductViewHolder>
 		implements View.OnClickListener {
@@ -145,34 +145,34 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		this.mOnProductClickListener = onProductClickListener;
 	}
 
-	public static class ProductViewHolder extends RecyclerView.ViewHolder {
+	static class ProductViewHolder extends RecyclerView.ViewHolder {
 
-		@InjectView (R.id.card_product_title)
+		@BindView (R.id.card_product_title)
 		RobotoTextView title;
-		@InjectView (R.id.card_product_description)
+		@BindView (R.id.card_product_description)
 		TextView description;
-		@InjectView (R.id.card_product_image)
+		@BindView (R.id.card_product_image)
 		ImageView screenshot;
-		@InjectView (R.id.card_product_image_ripple)
+		@BindView (R.id.card_product_image_ripple)
 		View screenshotRipple;
-		@InjectView (R.id.card_product_upvotes)
+		@BindView (R.id.card_product_upvotes)
 		TextView votes;
-		@InjectView (R.id.card_product_comments_total)
+		@BindView (R.id.card_product_comments_total)
 		TextView comments;
-		@InjectView (R.id.card_product_progress_wheel)
+		@BindView (R.id.card_product_progress_wheel)
 		ProgressWheel progressWheel;
-		@InjectView (R.id.card_product_view_comments)
+		@BindView (R.id.card_product_view_comments)
 		RobotoTextView viewComments;
-		@InjectView (R.id.card_product_context)
+		@BindView (R.id.card_product_context)
 		ImageView context;
-		@InjectView (R.id.card_product_comments_icon)
+		@BindView (R.id.card_product_comments_icon)
 		ImageView commentsIcon;
-		@InjectView (R.id.card_product_votes_icon)
+		@BindView (R.id.card_product_votes_icon)
 		ImageView votesIcon;
 
-		public ProductViewHolder (View view) {
+		ProductViewHolder (View view) {
 			super (view);
-			ButterKnife.inject (this, view);
+			ButterKnife.bind (this, view);
 		}
 	}
 

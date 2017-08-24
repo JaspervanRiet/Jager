@@ -41,8 +41,8 @@ import com.jaspervanriet.huntingthatproduct.Views.Adapters.CommentListAdapter;
 import com.jaspervanriet.huntingthatproduct.Views.CommentsView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 
 public class CommentsActivity extends CustomSwipeBackActivity implements CommentsView {
@@ -50,15 +50,15 @@ public class CommentsActivity extends CustomSwipeBackActivity implements Comment
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 	private static final int ANIM_LAYOUT_INTRO_DURATION = 250;
 
-	@InjectView (R.id.toolbar)
+	@BindView (R.id.toolbar)
 	Toolbar mToolBar;
-	@InjectView (android.R.id.list)
+	@BindView (android.R.id.list)
 	RecyclerView mRecyclerView;
-	@InjectView (R.id.comments_layout)
+	@BindView (R.id.comments_layout)
 	FrameLayout mCommentsLayout;
-	@InjectView (R.id.comments_list_progress_wheel)
+	@BindView (R.id.comments_list_progress_wheel)
 	ProgressWheel mListProgressWheel;
-	@InjectView (R.id.comments_empty_view)
+	@BindView (R.id.comments_empty_view)
 	LinearLayout mEmptyView;
 
 	private int mDrawingStartLocation;
@@ -69,7 +69,7 @@ public class CommentsActivity extends CustomSwipeBackActivity implements Comment
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 		setContentView (R.layout.activity_comments);
-		ButterKnife.inject (this);
+		ButterKnife.bind (this);
 		expandAnimation (savedInstanceState);
 		Product product = getIntent ().getParcelableExtra ("product");
 		mPresenter = new CommentPresenterImpl (this, product);

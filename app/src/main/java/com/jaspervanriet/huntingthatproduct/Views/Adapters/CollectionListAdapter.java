@@ -35,8 +35,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAdapter
 		.CollectionsViewHolder> implements View.OnClickListener {
@@ -110,20 +110,20 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
 		this.mOnCollectionClickListener = onCollectionClickListener;
 	}
 
-	public static class CollectionsViewHolder extends RecyclerView.ViewHolder {
+	static class CollectionsViewHolder extends RecyclerView.ViewHolder {
 
-		@InjectView (R.id.card_collection)
+		@BindView (R.id.card_collection)
 		CardView card;
-		@InjectView (R.id.card_collection_image)
+		@BindView (R.id.card_collection_image)
 		ImageView image;
-		@InjectView (R.id.card_collection_name)
+		@BindView (R.id.card_collection_name)
 		RobotoTextView name;
-		@InjectView (R.id.card_collection_title)
+		@BindView (R.id.card_collection_title)
 		RobotoTextView title;
 
-		public CollectionsViewHolder (View itemView) {
+		CollectionsViewHolder (View itemView) {
 			super (itemView);
-			ButterKnife.inject (this, itemView);
+			ButterKnife.bind (this, itemView);
 		}
 	}
 

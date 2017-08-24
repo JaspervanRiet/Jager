@@ -39,8 +39,8 @@ import com.jaspervanriet.huntingthatproduct.Views.Adapters.DrawerAdapter;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.PicassoTools;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Activity that handles common tasks for activities in the drawer
@@ -58,17 +58,17 @@ public class DrawerActivity extends AppCompatActivity {
 	private ActionBarDrawerToggle mDrawerToggle;
 	private Handler mHandler;
 
-	@InjectView (R.id.drawer_layout)
+	@BindView (R.id.drawer_layout)
 	DrawerLayout mDrawer;
-	@InjectView (R.id.toolbar)
+	@BindView (R.id.toolbar)
 	Toolbar mToolBar;
-	@InjectView (R.id.drawer_list)
+	@BindView (R.id.drawer_list)
 	ListView mDrawerList;
 
 	@Override
 	public void setContentView (int layoutResID) {
 		super.setContentView (layoutResID);
-		ButterKnife.inject (this);
+		ButterKnife.bind (this);
 		setToolBar ();
 		setupDrawer ();
 		mHandler = new Handler ();

@@ -23,19 +23,19 @@ import android.widget.TextView;
 
 import com.jaspervanriet.huntingthatproduct.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class AboutActivity extends DrawerActivity {
 
-	@InjectView (R.id.about_name)
+	@BindView (R.id.about_name)
 	TextView name;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 		setContentView (R.layout.activity_about);
-		ButterKnife.inject (this);
+		ButterKnife.bind (this);
 
 		setToolBar ();
 		name.setTypeface (Typeface

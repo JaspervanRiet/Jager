@@ -29,15 +29,15 @@ import com.jaspervanriet.huntingthatproduct.Views.Adapters.CollectionListAdapter
 import com.jaspervanriet.huntingthatproduct.Views.CollectionView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class CollectionsListActivity extends DrawerActivity implements
 		CollectionListAdapter.OnCollectionClickListener, CollectionView {
 
-	@InjectView (android.R.id.list)
+	@BindView (android.R.id.list)
 	RecyclerView mRecyclerView;
-	@InjectView (R.id.collections_list_progress_wheel)
+	@BindView (R.id.collections_list_progress_wheel)
 	ProgressWheel progressWheel;
 
 	private CollectionPresenterImpl mPresenter;
@@ -46,7 +46,7 @@ public class CollectionsListActivity extends DrawerActivity implements
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 		setContentView (R.layout.activity_collections_list);
-		ButterKnife.inject (this);
+		ButterKnife.bind (this);
 		setToolBar ();
 		progressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
 

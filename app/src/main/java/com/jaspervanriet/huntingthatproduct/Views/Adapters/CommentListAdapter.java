@@ -36,8 +36,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter
 		.CommentsViewHolder> {
@@ -96,22 +96,22 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter
 				.into (holder.avatar);
 	}
 
-	public static class CommentsViewHolder extends RecyclerView.ViewHolder {
+	static class CommentsViewHolder extends RecyclerView.ViewHolder {
 
-		@InjectView (R.id.comment_text)
+		@BindView (R.id.comment_text)
 		TextView comment;
-		@InjectView (R.id.comment_avatar)
+		@BindView (R.id.comment_avatar)
 		ImageView avatar;
-		@InjectView (R.id.comment_layout)
+		@BindView (R.id.comment_layout)
 		LinearLayout commentLayout;
-		@InjectView (R.id.comment_name)
+		@BindView (R.id.comment_name)
 		TextView name;
-		@InjectView (R.id.comment_headline)
+		@BindView (R.id.comment_headline)
 		TextView headline;
 
 		public CommentsViewHolder (View itemView) {
 			super (itemView);
-			ButterKnife.inject (this, itemView);
+			ButterKnife.bind (this, itemView);
 		}
 	}
 }
