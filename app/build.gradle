@@ -22,7 +22,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.21.6'
+        classpath 'io.fabric.tools:gradle:1.22.1'
         classpath 'me.tatarka:gradle-retrolambda:3.1.0'
     }
 }
@@ -54,9 +54,9 @@ android {
 
     defaultConfig {
         applicationId "com.jaspervanriet.huntingthatproduct"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
-        versionCode 19
+        versionCode 20
         versionName "2.0"
     }
     buildTypes {
@@ -80,7 +80,7 @@ dependencies {
         exclude module: 'support-v4'
     }
     compile('com.crashlytics.sdk.android:crashlytics:2.2.1@aar') {
-        transitive = true;
+        transitive = true
     }
     compile 'io.realm:realm-android:0.87.5'
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
