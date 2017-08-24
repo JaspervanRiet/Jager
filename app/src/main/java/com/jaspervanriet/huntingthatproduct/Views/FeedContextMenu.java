@@ -55,7 +55,7 @@ public class FeedContextMenu extends LinearLayout {
 	@Override
 	protected void onAttachedToWindow () {
 		super.onAttachedToWindow ();
-		ButterKnife.inject (this);
+		ButterKnife.bind (this);
 	}
 
 	public void dismiss () {
