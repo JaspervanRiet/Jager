@@ -18,17 +18,16 @@
   -->
 
 <android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:wheel="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="8dp"
-    card_view:cardCornerRadius="4dp"
-    >
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:card_view="http://schemas.android.com/apk/res-auto"
+	xmlns:wheel="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginLeft="8dp"
+	android:layout_marginRight="8dp"
+	android:layout_marginTop="8dp"
+	card_view:cardCornerRadius="4dp"
+	>
 
     <RelativeLayout
         android:id="@+id/card_product_layout"
@@ -49,20 +48,20 @@
                 android:contentDescription="@string/screenshot_description"
                 />
 
-            <com.devspark.robototextview.widget.RobotoTextView
-                android:id="@+id/card_product_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="@color/bg_card_product_title"
-                android:paddingBottom="10dp"
-                android:paddingRight="16dp"
-                android:paddingLeft="16dp"
-                android:paddingTop="10dp"
-                android:singleLine="true"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                app:typeface="roboto_light"/>
+			<TextView
+				android:id="@+id/card_product_title"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="bottom"
+				android:background="@color/bg_card_product_title"
+				android:paddingBottom="10dp"
+				android:paddingRight="16dp"
+				android:paddingLeft="16dp"
+				android:paddingTop="10dp"
+				android:singleLine="true"
+				android:textColor="@android:color/white"
+				android:textSize="24sp"
+				android:fontFamily="sans-serif-light"/>
 
             <com.pnikosis.materialishprogress.ProgressWheel
                 android:id="@+id/card_product_progress_wheel"
@@ -160,23 +159,23 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
 
-            <com.devspark.robototextview.widget.RobotoTextView
-                android:id="@+id/card_product_view_comments"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:background="@drawable/bg_ripple_mask"
-                android:gravity="center_vertical"
-                android:paddingBottom="18dp"
-                android:paddingEnd="10dp"
-                android:paddingStart="10dp"
-                android:paddingTop="18dp"
-                android:singleLine="true"
-                android:text="@string/card_product_comments"
-                android:textColor="@color/primary_dark"
-                android:textSize="15sp"
-                android:textAllCaps="true"
-                app:typeface="roboto_medium"
+			<TextView
+				android:id="@+id/card_product_view_comments"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_gravity="end"
+				android:background="@drawable/bg_ripple_mask"
+				android:gravity="center_vertical"
+				android:paddingBottom="18dp"
+				android:paddingEnd="10dp"
+				android:paddingStart="10dp"
+				android:paddingTop="18dp"
+				android:singleLine="true"
+				android:text="@string/card_product_comments"
+				android:textColor="@color/primary_dark"
+				android:textSize="15sp"
+				android:textAllCaps="true"
+				android:fontFamily="sans-serif-medium"
                 />
 
             <ImageView
