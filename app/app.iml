@@ -97,6 +97,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 26 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="cardview-v7-26.0.1" level="project" />
     <orderEntry type="library" exported="" name="answers-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-26.0.1" level="project" />
     <orderEntry type="library" exported="" name="okio-1.6.0" level="project" />
