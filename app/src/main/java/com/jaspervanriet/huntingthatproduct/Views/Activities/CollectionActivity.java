@@ -43,6 +43,7 @@ import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.Presenters.ProductPresenterImpl;
 import com.jaspervanriet.huntingthatproduct.R;
+import com.jaspervanriet.huntingthatproduct.R2;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.ProductListAdapter;
 import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenu;
@@ -61,15 +62,15 @@ public class CollectionActivity extends AppCompatActivity
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 	private static final int ANIM_LAYOUT_INTRO_DURATION = 250;
 
-	@BindView (R.id.toolbar)
+	@BindView (R2.id.toolbar)
 	Toolbar mToolBar;
-	@BindView (R.id.collection_layout)
+	@BindView (R2.id.collection_layout)
 	FrameLayout mCollectionLayout;
 	@BindView (android.R.id.list)
 	RecyclerView mRecyclerView;
-	@BindView (R.id.list_progress_wheel)
+	@BindView (R2.id.list_progress_wheel)
 	ProgressWheel mProgressWheel;
-	@BindView (R.id.products_empty_view)
+	@BindView (R2.id.products_empty_view)
 	LinearLayout mEmptyView;
 
 	private int mDrawingStartLocation;

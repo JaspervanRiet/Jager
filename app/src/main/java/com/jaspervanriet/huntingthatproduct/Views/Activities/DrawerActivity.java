@@ -34,6 +34,7 @@ import android.widget.ListView;
 
 import com.jaspervanriet.huntingthatproduct.Data.Settings.AppSettings;
 import com.jaspervanriet.huntingthatproduct.R;
+import com.jaspervanriet.huntingthatproduct.R2;
 import com.jaspervanriet.huntingthatproduct.Views.Activities.Settings.SettingsActivity;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.DrawerAdapter;
 import com.squareup.picasso.Picasso;
@@ -58,11 +59,11 @@ public class DrawerActivity extends AppCompatActivity {
 	private ActionBarDrawerToggle mDrawerToggle;
 	private Handler mHandler;
 
-	@BindView (R.id.drawer_layout)
+	@BindView (R2.id.drawer_layout)
 	DrawerLayout mDrawer;
-	@BindView (R.id.toolbar)
+	@BindView (R2.id.toolbar)
 	Toolbar mToolBar;
-	@BindView (R.id.drawer_list)
+	@BindView (R2.id.drawer_list)
 	ListView mDrawerList;
 
 	@Override

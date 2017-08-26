@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.R;
+import com.jaspervanriet.huntingthatproduct.R2;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 
 import butterknife.BindView;
@@ -53,9 +54,9 @@ public class WebActivity extends CustomSwipeBackActivity {
 			".com/store/apps/details?";
 	private static final String URL_DEVICE_PLAY_STORE_SCHEME = "market://details?";
 
-	@BindView (R.id.toolbar)
+	@BindView (R2.id.toolbar)
 	Toolbar mToolBar;
-	@BindView (R.id.web_webview)
+	@BindView (R2.id.web_webview)
 	WebView mWebView;
 
 	private int mDrawingStartLocation;

@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.devspark.robototextview.widget.RobotoTextView;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.R;
+import com.jaspervanriet.huntingthatproduct.R2;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.squareup.picasso.Callback;
@@ -147,27 +148,27 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
 	static class ProductViewHolder extends RecyclerView.ViewHolder {
 
-		@BindView (R.id.card_product_title)
+		@BindView (R2.id.card_product_title)
 		RobotoTextView title;
-		@BindView (R.id.card_product_description)
+		@BindView (R2.id.card_product_description)
 		TextView description;
-		@BindView (R.id.card_product_image)
+		@BindView (R2.id.card_product_image)
 		ImageView screenshot;
-		@BindView (R.id.card_product_image_ripple)
+		@BindView (R2.id.card_product_image_ripple)
 		View screenshotRipple;
-		@BindView (R.id.card_product_upvotes)
+		@BindView (R2.id.card_product_upvotes)
 		TextView votes;
-		@BindView (R.id.card_product_comments_total)
+		@BindView (R2.id.card_product_comments_total)
 		TextView comments;
-		@BindView (R.id.card_product_progress_wheel)
+		@BindView (R2.id.card_product_progress_wheel)
 		ProgressWheel progressWheel;
-		@BindView (R.id.card_product_view_comments)
+		@BindView (R2.id.card_product_view_comments)
 		RobotoTextView viewComments;
-		@BindView (R.id.card_product_context)
+		@BindView (R2.id.card_product_context)
 		ImageView context;
-		@BindView (R.id.card_product_comments_icon)
+		@BindView (R2.id.card_product_comments_icon)
 		ImageView commentsIcon;
-		@BindView (R.id.card_product_votes_icon)
+		@BindView (R2.id.card_product_votes_icon)
 		ImageView votesIcon;
 
 		ProductViewHolder (View view) {

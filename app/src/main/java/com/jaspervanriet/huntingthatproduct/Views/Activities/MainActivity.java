@@ -34,6 +34,7 @@ import com.crashlytics.android.Crashlytics;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.Presenters.ProductPresenterImpl;
 import com.jaspervanriet.huntingthatproduct.R;
+import com.jaspervanriet.huntingthatproduct.R2;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.ProductListAdapter;
 import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenu;
@@ -69,9 +70,9 @@ public class MainActivity extends DrawerActivity
 
 	@BindView (android.R.id.list)
 	RecyclerView mRecyclerView;
-	@BindView (R.id.list_progress_wheel)
+	@BindView (R2.id.list_progress_wheel)
 	ProgressWheel mProgressWheel;
-	@BindView (R.id.products_empty_view)
+	@BindView (R2.id.products_empty_view)
 	LinearLayout mEmptyView;
 
 	@Override

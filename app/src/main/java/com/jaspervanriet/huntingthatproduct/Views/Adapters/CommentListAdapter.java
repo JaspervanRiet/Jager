@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.jaspervanriet.huntingthatproduct.Entities.Comment;
 import com.jaspervanriet.huntingthatproduct.Entities.User;
 import com.jaspervanriet.huntingthatproduct.R;
+import com.jaspervanriet.huntingthatproduct.R2;
 import com.jaspervanriet.huntingthatproduct.Utils.CircleTransform;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.squareup.picasso.Picasso;
@@ -98,15 +99,15 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter
 
 	static class CommentsViewHolder extends RecyclerView.ViewHolder {
 
-		@BindView (R.id.comment_text)
+		@BindView (R2.id.comment_text)
 		TextView comment;
-		@BindView (R.id.comment_avatar)
+		@BindView (R2.id.comment_avatar)
 		ImageView avatar;
-		@BindView (R.id.comment_layout)
+		@BindView (R2.id.comment_layout)
 		LinearLayout commentLayout;
-		@BindView (R.id.comment_name)
+		@BindView (R2.id.comment_name)
 		TextView name;
-		@BindView (R.id.comment_headline)
+		@BindView (R2.id.comment_headline)
 		TextView headline;
 
 		public CommentsViewHolder (View itemView) {

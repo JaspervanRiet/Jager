@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.Presenters.CommentPresenterImpl;
 import com.jaspervanriet.huntingthatproduct.R;
+import com.jaspervanriet.huntingthatproduct.R2;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.CommentListAdapter;
 import com.jaspervanriet.huntingthatproduct.Views.CommentsView;
@@ -50,15 +51,15 @@ public class CommentsActivity extends CustomSwipeBackActivity implements Comment
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 	private static final int ANIM_LAYOUT_INTRO_DURATION = 250;
 
-	@BindView (R.id.toolbar)
+	@BindView (R2.id.toolbar)
 	Toolbar mToolBar;
 	@BindView (android.R.id.list)
 	RecyclerView mRecyclerView;
-	@BindView (R.id.comments_layout)
+	@BindView (R2.id.comments_layout)
 	FrameLayout mCommentsLayout;
-	@BindView (R.id.comments_list_progress_wheel)
+	@BindView (R2.id.comments_list_progress_wheel)
 	ProgressWheel mListProgressWheel;
-	@BindView (R.id.comments_empty_view)
+	@BindView (R2.id.comments_empty_view)
 	LinearLayout mEmptyView;
 
 	private int mDrawingStartLocation;

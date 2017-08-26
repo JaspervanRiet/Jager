@@ -30,6 +30,7 @@ import com.devspark.robototextview.widget.RobotoTextView;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.Entities.Collections;
 import com.jaspervanriet.huntingthatproduct.R;
+import com.jaspervanriet.huntingthatproduct.R2;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.squareup.picasso.Picasso;
 
@@ -112,13 +113,13 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
 
 	static class CollectionsViewHolder extends RecyclerView.ViewHolder {
 
-		@BindView (R.id.card_collection)
+		@BindView (R2.id.card_collection)
 		CardView card;
-		@BindView (R.id.card_collection_image)
+		@BindView (R2.id.card_collection_image)
 		ImageView image;
-		@BindView (R.id.card_collection_name)
+		@BindView (R2.id.card_collection_name)
 		RobotoTextView name;
-		@BindView (R.id.card_collection_title)
+		@BindView (R2.id.card_collection_title)
 		RobotoTextView title;
 
 		CollectionsViewHolder (View itemView) {

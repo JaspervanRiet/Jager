@@ -26,6 +26,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jaspervanriet.huntingthatproduct.R;
+import com.jaspervanriet.huntingthatproduct.R2;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,10 +86,10 @@ public class DrawerAdapter extends BaseAdapter {
 	}
 
 	static class ViewHolder {
-		@BindView (R.id.main_drawer_item)
+		@BindView (R2.id.main_drawer_item)
 		TextView item;
 
-		public ViewHolder (View view) {
+		ViewHolder (View view) {
 			ButterKnife.bind (this, view);
 		}
 	}

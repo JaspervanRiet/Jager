@@ -25,6 +25,7 @@ import android.view.View;
 
 import com.jaspervanriet.huntingthatproduct.Presenters.CollectionPresenterImpl;
 import com.jaspervanriet.huntingthatproduct.R;
+import com.jaspervanriet.huntingthatproduct.R2;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.CollectionListAdapter;
 import com.jaspervanriet.huntingthatproduct.Views.CollectionView;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -37,7 +38,7 @@ public class CollectionsListActivity extends DrawerActivity implements
 
 	@BindView (android.R.id.list)
 	RecyclerView mRecyclerView;
-	@BindView (R.id.collections_list_progress_wheel)
+	@BindView (R2.id.collections_list_progress_wheel)
 	ProgressWheel progressWheel;
 
 	private CollectionPresenterImpl mPresenter;

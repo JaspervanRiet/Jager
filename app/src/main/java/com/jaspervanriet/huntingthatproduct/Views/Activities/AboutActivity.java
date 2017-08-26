@@ -22,13 +22,14 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.jaspervanriet.huntingthatproduct.R;
+import com.jaspervanriet.huntingthatproduct.R2;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AboutActivity extends DrawerActivity {
 
-	@BindView (R.id.about_name)
+	@BindView (R2.id.about_name)
 	TextView name;
 
 	@Override
