@@ -32,7 +32,7 @@ import de.psdev.licensesdialog.LicensesDialog;
 
 public class SettingsFragment extends PreferenceFragment {
 
-	private static final String EMAIL_DEVELOPER = "hello@jaspervanriet.com";
+	private static final String EMAIL_DEVELOPER = "jaspervanriet@gmail.com";
 
 	@Override
 	public void onCreate (Bundle savedInstanceState) {
