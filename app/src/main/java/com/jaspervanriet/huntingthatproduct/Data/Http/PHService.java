@@ -17,6 +17,7 @@
 
 package com.jaspervanriet.huntingthatproduct.Data.Http;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
@@ -40,23 +41,23 @@ public class PHService {
 		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL);
 		if (date == null) {
 			return api.getPosts ().retryWhen (new RetryWithSessionRefresh
-					(sessionService, accessTokenProvider));
+					(sessionService, accessTokenProvider)).doOnError (Crashlytics::logException);
 		} else {
 			return api.getPostsByDate (date).retryWhen (new RetryWithSessionRefresh
-					(sessionService, accessTokenProvider));
+					(sessionService, accessTokenProvider)).doOnError (Crashlytics::logException);
 		}
 	}
 
 	public Observable<Comments> getComments (int productId) {
 		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL);
 		return api.getComments (productId).retryWhen (new RetryWithSessionRefresh
-				(sessionService, accessTokenProvider));
+				(sessionService, accessTokenProvider)).doOnError (Crashlytics::logException);
 	}
 
 	public Observable<Collections> getCollections () {
 		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL);
 		return api.getCollections ().retryWhen (new RetryWithSessionRefresh
-				(sessionService, accessTokenProvider));
+				(sessionService, accessTokenProvider)).doOnError (Crashlytics::logException);
 	}
 
 	public Observable<Collection> getCollectionPosts (int collectionId) {
@@ -64,7 +65,7 @@ public class PHService {
 				CollectionDeserializer ()).create ();
 		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL, gson);
 		return api.getCollectionPosts (collectionId).retryWhen (new RetryWithSessionRefresh
-				(sessionService, accessTokenProvider));
+				(sessionService, accessTokenProvider)).doOnError (Crashlytics::logException);
 	}
 
 }
