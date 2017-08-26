@@ -17,31 +17,19 @@
 
 package com.jaspervanriet.huntingthatproduct.Views.Activities;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import com.jaspervanriet.huntingthatproduct.R;
-import com.jaspervanriet.huntingthatproduct.R2;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class AboutActivity extends DrawerActivity {
-
-	@BindView (R2.id.about_name)
-	TextView name;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate (savedInstanceState);
 		setContentView (R.layout.activity_about);
-		ButterKnife.bind (this);
 
 		setToolBar ();
-		name.setTypeface (Typeface
-				.createFromAsset (getAssets (),
-						"fonts/Roboto-Light.ttf"));
 	}
 
 	@Override
