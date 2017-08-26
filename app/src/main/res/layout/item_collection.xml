@@ -42,7 +42,7 @@
         android:padding="16dp"
         >
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/card_collection_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,11 +52,11 @@
             android:paddingRight="5dp"
             android:textSize="24sp"
             android:gravity="center"
-            android:singleLine="true"
+            android:maxLines="1"
             android:layout_centerHorizontal="true"
             />
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/card_collection_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

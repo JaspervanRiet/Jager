@@ -25,8 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.devspark.robototextview.widget.RobotoTextView;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.Entities.Collections;
 import com.jaspervanriet.huntingthatproduct.R;
@@ -118,9 +118,9 @@ public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAd
 		@BindView (R2.id.card_collection_image)
 		ImageView image;
 		@BindView (R2.id.card_collection_name)
-		RobotoTextView name;
+		TextView name;
 		@BindView (R2.id.card_collection_title)
-		RobotoTextView title;
+		TextView title;
 
 		CollectionsViewHolder (View itemView) {
 			super (itemView);

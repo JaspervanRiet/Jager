@@ -26,7 +26,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.devspark.robototextview.widget.RobotoTextView;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.R2;
@@ -149,7 +148,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 	static class ProductViewHolder extends RecyclerView.ViewHolder {
 
 		@BindView (R2.id.card_product_title)
-		RobotoTextView title;
+		TextView title;
 		@BindView (R2.id.card_product_description)
 		TextView description;
 		@BindView (R2.id.card_product_image)
@@ -163,7 +162,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 		@BindView (R2.id.card_product_progress_wheel)
 		ProgressWheel progressWheel;
 		@BindView (R2.id.card_product_view_comments)
-		RobotoTextView viewComments;
+		TextView viewComments;
 		@BindView (R2.id.card_product_context)
 		ImageView context;
 		@BindView (R2.id.card_product_comments_icon)

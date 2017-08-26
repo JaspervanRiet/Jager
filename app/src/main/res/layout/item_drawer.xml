@@ -25,7 +25,7 @@
     android:textSize="20sp"
     android:textColor="@color/drawer_item"
     android:padding="16dp"
-    android:singleLine="true"
+    android:maxLines="1"
     android:layout_gravity="center"
     android:background="@drawable/selector_product_image"
     >

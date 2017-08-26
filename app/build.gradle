@@ -78,7 +78,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.pnikosis:materialish-progress:1.7'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.johnkil.android-robototextview:robototextview:4.0.0'
     compile('de.psdev.licensesdialog:licensesdialog:+') {
         exclude module: 'support-v4'
     }
