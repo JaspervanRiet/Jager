@@ -22,6 +22,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,9 +45,8 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.imid.swipebacklayout.lib.SwipeBackLayout;
 
-public class CommentsActivity extends CustomSwipeBackActivity implements CommentsView {
+public class CommentsActivity extends AppCompatActivity implements CommentsView {
 
 	public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
 	private static final int ANIM_LAYOUT_INTRO_DURATION = 250;
@@ -140,12 +140,6 @@ public class CommentsActivity extends CustomSwipeBackActivity implements Comment
 			mActionBar.setElevation (5);
 			mActionBar.setDisplayHomeAsUpEnabled (true);
 		}
-	}
-
-	@Override
-	public void initializeSwipeBackLayout () {
-		SwipeBackLayout swipeBackLayout = getSwipeBackLayout ();
-		swipeBackLayout.setEdgeTrackingEnabled (SwipeBackLayout.EDGE_LEFT);
 	}
 
 	@Override

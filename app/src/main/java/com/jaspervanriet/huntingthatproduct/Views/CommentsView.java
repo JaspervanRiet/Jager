@@ -27,8 +27,6 @@ public interface CommentsView {
 
 	void initializeToolBar ();
 
-	void initializeSwipeBackLayout ();
-
 	void setAdapterForRecyclerView (CommentListAdapter adapter);
 
 	void goBack ();

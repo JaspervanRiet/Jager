@@ -127,7 +127,6 @@
     <orderEntry type="library" name="support-core-utils-26.0.1" level="project" />
     <orderEntry type="library" name="crashlytics-core-2.3.17" level="project" />
     <orderEntry type="library" name="transition-26.0.1" level="project" />
-    <orderEntry type="library" name="library-1.0.0" level="project" />
     <orderEntry type="library" name="butterknife-annotations-8.8.1" level="project" />
     <orderEntry type="library" name="customtabs-26.0.1" level="project" />
     <orderEntry type="library" name="snackbar-2.11.0" level="project" />
