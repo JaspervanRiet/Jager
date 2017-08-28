@@ -19,6 +19,7 @@ package com.jaspervanriet.huntingthatproduct.Data.Http;
 
 import com.jaspervanriet.huntingthatproduct.Entities.AccessToken;
 import com.jaspervanriet.huntingthatproduct.Entities.Authentication;
+import com.jaspervanriet.huntingthatproduct.Entities.Categories;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.Entities.Collections;
 import com.jaspervanriet.huntingthatproduct.Entities.Comments;
@@ -36,11 +37,15 @@ public interface PHApi {
 	@POST ("/oauth/token")
 	Observable<AccessToken> getAccessToken (@Body Authentication auth);
 
-	@GET ("/posts")
-	Observable<Posts> getPosts ();
+	@GET ("/categories")
+	Observable<Categories> getCategories ();
 
-	@GET ("/posts")
-	Observable<Posts> getPostsByDate (@Query ("day") String date);
+	@GET ("/categories/{category}/posts")
+	Observable<Posts> getPosts (@Path ("category") String category);
+
+	@GET ("/categories/{category}/posts")
+	Observable<Posts> getPostsByDate (@Path ("category") String category,
+									  @Query ("day") String date);
 
 	@GET ("/posts/{product-id}/comments")
 	Observable<Comments> getComments (@Path ("product-id") int productId);

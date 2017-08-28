@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Jasper van Riet
+ * Copyright (C) 2017 Jasper van Riet
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,30 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.jaspervanriet.huntingthatproduct.Presenters;
+package com.jaspervanriet.huntingthatproduct.Views;
 
-import android.os.Bundle;
-import android.view.View;
+public interface ProductTabsView {
 
-import com.jaspervanriet.huntingthatproduct.Entities.Product;
-
-public interface ProductPresenter {
-
-	void onActivityCreated (Bundle savedInstanceState);
-
-	void onSaveInstanceState (Bundle outState);
-
-	void onDestroy ();
-
-	void onRefresh ();
-
-	void onDateSet (int year, int monthOfYear, int dayOfMonth);
-
-	void onShareClick (int feedItem);
-
-	void onImageClick (View v, int feedItem);
-
-	void onCommentsClick (View v, Product product);
-
-	void onTabClick (String tabName);
+	void initializeTabLayout (String[] categoryNames);
 }

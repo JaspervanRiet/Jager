@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -31,6 +32,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
+import com.jaspervanriet.huntingthatproduct.BuildConfig;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
 import com.jaspervanriet.huntingthatproduct.Presenters.ProductPresenterImpl;
 import com.jaspervanriet.huntingthatproduct.R;
@@ -39,6 +42,7 @@ import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.ProductListAdapter;
 import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenu;
 import com.jaspervanriet.huntingthatproduct.Views.FeedContextMenuManager;
+import com.jaspervanriet.huntingthatproduct.Views.ProductTabsView;
 import com.jaspervanriet.huntingthatproduct.Views.ProductView;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
@@ -55,9 +59,9 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends DrawerActivity
 		implements ProductListAdapter.OnProductClickListener,
-		DatePickerDialog.OnDateSetListener,
-		FeedContextMenu.OnFeedContextMenuItemClickListener,
-		ProductView {
+				   DatePickerDialog.OnDateSetListener,
+				   FeedContextMenu.OnFeedContextMenuItemClickListener,
+				   ProductView, ProductTabsView {
 
 	private final static int ANIM_TOOLBAR_INTRO_DURATION = 350;
 	private final static String URL_PLAY_STORE = "market://details?id=com.jaspervanriet" +
@@ -74,6 +78,8 @@ public class MainActivity extends DrawerActivity
 	ProgressWheel mProgressWheel;
 	@BindView (R2.id.products_empty_view)
 	LinearLayout mEmptyView;
+	@BindView (R2.id.tabLayout)
+	TabLayout mTabLayout;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -87,7 +93,7 @@ public class MainActivity extends DrawerActivity
 		mStartIntroAnimation = (savedInstanceState == null) && toolbarAnimation;
 		mProgressWheel.setBarColor (getResources ().getColor (R.color.primary_accent));
 
-		mPresenter = new ProductPresenterImpl (this);
+		mPresenter = new ProductPresenterImpl (this, this);
 		mPresenter.onActivityCreated (savedInstanceState);
 	}
 
@@ -106,7 +112,10 @@ public class MainActivity extends DrawerActivity
 
 	private void initFabric () {
 		if (sendCrashData ()) {
-			Fabric.with (this, new Crashlytics ());
+			Crashlytics crashlyticsKit = new Crashlytics.Builder ()
+					.core (new CrashlyticsCore.Builder ().disabled (BuildConfig.DEBUG).build ())
+					.build ();
+			Fabric.with (this, crashlyticsKit);
 		}
 	}
 
@@ -225,6 +234,30 @@ public class MainActivity extends DrawerActivity
 			@Override
 			public void onScrolled (RecyclerView recyclerView, int dx, int dy) {
 				FeedContextMenuManager.getInstance ().onScrolled (recyclerView, dx, dy);
+			}
+		});
+	}
+
+	@Override
+	public void initializeTabLayout (String[] categoryNames) {
+		for (int i = 0; i < categoryNames.length; ++i) {
+			mTabLayout.addTab (mTabLayout.newTab ().setText (categoryNames[i]));
+		}
+		mTabLayout.addOnTabSelectedListener (new TabLayout.OnTabSelectedListener () {
+			@Override
+			public void onTabSelected (TabLayout.Tab tab) {
+				String name = (String) tab.getText ();
+				mPresenter.onTabClick (name);
+			}
+
+			@Override
+			public void onTabUnselected (TabLayout.Tab tab) {
+
+			}
+
+			@Override
+			public void onTabReselected (TabLayout.Tab tab) {
+
 			}
 		});
 	}

@@ -27,6 +27,7 @@ import android.view.View;
 import com.crashlytics.android.Crashlytics;
 import com.jaspervanriet.huntingthatproduct.Data.Http.PHService;
 import com.jaspervanriet.huntingthatproduct.Data.Settings.AppSettings;
+import com.jaspervanriet.huntingthatproduct.Entities.Categories;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.Entities.Posts;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
@@ -35,6 +36,7 @@ import com.jaspervanriet.huntingthatproduct.Utils.NetworkUtils;
 import com.jaspervanriet.huntingthatproduct.Views.Activities.CommentsActivity;
 import com.jaspervanriet.huntingthatproduct.Views.Activities.WebActivity;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.ProductListAdapter;
+import com.jaspervanriet.huntingthatproduct.Views.ProductTabsView;
 import com.jaspervanriet.huntingthatproduct.Views.ProductView;
 
 import java.util.Calendar;
@@ -52,14 +54,36 @@ public class ProductPresenterImpl implements ProductPresenter {
 
 	private Subscription mSubscription;
 	private ProductView mProductView;
+	private ProductTabsView mProductTabsView;
 
 	private PHService mPHService;
 	private ProductListAdapter mAdapter;
 	private String mDate;
 	private Posts mPosts;
+	private String mCategory = "Tech";
+	private Categories mCategories;
 	private int mCollectionId;
+	private Observable<Categories> mCategoriesObservable;
 	private Observable<Posts> mPostsObservable;
 	private Observable<Collection> mCollectionObservable;
+	private Observer<Categories> mCategoriesObserver = new Observer<Categories> () {
+		@Override
+		public void onCompleted () {
+		}
+
+		@Override
+		public void onError (Throwable e) {
+			Crashlytics.logException (e);
+			onNetworkError ();
+		}
+
+		@Override
+		public void onNext (Categories categories) {
+			mCategories = categories;
+			setCategoriesToTabs (categories);
+			getPosts ();
+		}
+	};
 	private Observer<Posts> mPostsObserver = new Observer<Posts> () {
 		@Override
 		public void onCompleted () {
@@ -105,8 +129,9 @@ public class ProductPresenterImpl implements ProductPresenter {
 		}
 	}
 
-	public ProductPresenterImpl (ProductView productView) {
+	public ProductPresenterImpl (ProductView productView, ProductTabsView productTabsView) {
 		this.mProductView = productView;
+		this.mProductTabsView = productTabsView;
 	}
 
 	public ProductPresenterImpl (ProductView productView, int collectionId) {
@@ -127,7 +152,7 @@ public class ProductPresenterImpl implements ProductPresenter {
 			if (savedInstanceState == null) {
 				mProductView.showRefreshingIndicator ();
 				if (isMainActivity) {
-					getPosts ();
+					getCategories ();
 				} else {
 					getCollectionPosts ();
 				}
@@ -146,9 +171,27 @@ public class ProductPresenterImpl implements ProductPresenter {
 		mProductView.setAdapterForRecyclerView (mAdapter);
 	}
 
-	private void getPosts () {
+	private void setCategoriesToTabs (Categories categories) {
+		String[] names = new String[categories.size ()];
+		for (int i = 0; i < categories.size (); ++i) {
+			names[i] = categories.getCategories ().get (i).getName ();
+		}
+		mProductTabsView.initializeTabLayout (names);
+	}
+
+	private void getCategories () {
 		mPHService = new PHService ();
-		mPostsObservable = mPHService.getPosts (mDate)
+		mCategoriesObservable = mPHService.getCategories ()
+				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
+				.observeOn (AndroidSchedulers.mainThread ());
+		mSubscription = mCategoriesObservable.subscribe (mCategoriesObserver);
+	}
+
+	private void getPosts () {
+		if (mPHService == null) {
+			mPHService = new PHService ();
+		}
+		mPostsObservable = mPHService.getPosts (mCategory, mDate)
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn (AndroidSchedulers.mainThread ());
 		mSubscription = mPostsObservable.subscribe (mPostsObserver);
@@ -196,6 +239,8 @@ public class ProductPresenterImpl implements ProductPresenter {
 
 	private void restoreInstanceState (Bundle savedInstanceState) {
 		mPosts = Posts.getParcelable (savedInstanceState);
+		mCategories = Categories.getParcelable (savedInstanceState);
+		setCategoriesToTabs (mCategories);
 		mAdapter = new ProductListAdapter (mProductView.getContext (),
 				mPosts.getPosts ());
 		mAdapter.setOnProductClickListener (mProductView.getProductClickListener ());
@@ -205,6 +250,7 @@ public class ProductPresenterImpl implements ProductPresenter {
 	@Override
 	public void onSaveInstanceState (Bundle outState) {
 		Posts.putParcelable (outState, mPosts);
+		Categories.putParcelable (outState, mCategories);
 	}
 
 	@Override
@@ -271,6 +317,12 @@ public class ProductPresenterImpl implements ProductPresenter {
 	public void onCommentsClick (View v, Product product) {
 		Intent i = new Intent (mProductView.getContext (), CommentsActivity.class);
 		showExitAnimation (v, product, i);
+	}
+
+	@Override
+	public void onTabClick (String tabName) {
+		mCategory = tabName;
+		onRefresh ();
 	}
 
 	private void showExitAnimation (View v, Product product, Intent intent) {
