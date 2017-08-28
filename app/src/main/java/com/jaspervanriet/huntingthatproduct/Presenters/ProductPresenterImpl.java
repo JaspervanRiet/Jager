@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
@@ -31,10 +33,10 @@ import com.jaspervanriet.huntingthatproduct.Entities.Categories;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.Entities.Posts;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
+import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.DateUtils;
 import com.jaspervanriet.huntingthatproduct.Utils.NetworkUtils;
 import com.jaspervanriet.huntingthatproduct.Views.Activities.CommentsActivity;
-import com.jaspervanriet.huntingthatproduct.Views.Activities.WebActivity;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.ProductListAdapter;
 import com.jaspervanriet.huntingthatproduct.Views.ProductTabsView;
 import com.jaspervanriet.huntingthatproduct.Views.ProductView;
@@ -308,8 +310,14 @@ public class ProductPresenterImpl implements ProductPresenter {
 					.parse (product.getProductUrl ()));
 			context.startActivity (intent);
 		} else {
-			Intent openUrl = new Intent (context, WebActivity.class);
-			showExitAnimation (v, product, openUrl);
+			CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder ();
+			builder.setToolbarColor (ContextCompat.getColor (
+					mProductView.getContext (),
+					R.color.primary_color));
+			builder.addDefaultShareMenuItem ();
+			CustomTabsIntent customTabsIntent = builder.build ();
+			customTabsIntent.launchUrl (mProductView.getContext (), Uri.parse (product
+					.getProductUrl ()));
 		}
 	}
 
@@ -334,5 +342,4 @@ public class ProductPresenterImpl implements ProductPresenter {
 		mProductView.getContext ().startActivity (intent);
 		mProductView.hideActivityTransition ();
 	}
-
 }

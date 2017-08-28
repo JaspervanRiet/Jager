@@ -46,11 +46,6 @@
             android:theme="@style/AppTheme.ChildActivity"
             />
 
-        <activity
-            android:name=".Views.Activities.WebActivity"
-            android:theme="@style/AppTheme.ChildActivity"
-            />
-
         <activity android:name=".Views.Activities.CollectionsListActivity"
             />
 
