@@ -20,7 +20,6 @@ package com.jaspervanriet.huntingthatproduct.Data.Http;
 import com.google.gson.Gson;
 
 import retrofit.RestAdapter;
-import retrofit.android.AndroidLog;
 import retrofit.converter.GsonConverter;
 
 public class ServiceGenerator {
@@ -34,7 +33,6 @@ public class ServiceGenerator {
 		RestAdapter restAdapter = new RestAdapter.Builder ()
 				.setEndpoint (baseUrl)
 				.setRequestInterceptor (accessTokenProvider)
-				.setLogLevel (RestAdapter.LogLevel.FULL).setLog (new AndroidLog ("Retrofit"))
 				.build ();
 		return restAdapter.create (serviceClass);
 	}
