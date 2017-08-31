@@ -60,8 +60,8 @@ android {
         applicationId "com.jaspervanriet.huntingthatproduct"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 23
-        versionName "3.0"
+        versionCode 24
+        versionName "3.0.1"
     }
     buildTypes {
         debug {
