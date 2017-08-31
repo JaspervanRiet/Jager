@@ -17,11 +17,20 @@
 
 package com.jaspervanriet.huntingthatproduct.Entities;
 
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Comment {
+public class Comment implements Parcelable {
+
+	public static final String TAG = Comment.class.getSimpleName ();
+
+	public static final String PARCELABLE_KEY = TAG + ":" + "ParcelableKey";
+
 	private int id;
 	private String body;
 	@SerializedName ("parent_comment_id")
@@ -34,6 +43,34 @@ public class Comment {
 	private int level;
 	@SerializedName ("child_comments")
 	private List<Comment> childComments;
+
+	private Comment (Parcel in) {
+		this.id = in.readInt ();
+		this.body = in.readString ();
+		this.parentComment = in.readInt ();
+		this.childCommentCount = in.readInt ();
+		this.isMaker = in.readByte () != 0;
+		this.user = in.readParcelable (User.class.getClassLoader ());
+		this.level = in.readInt ();
+		in.readList (childComments, getClass ().getClassLoader ());
+	}
+
+	@Override
+	public int describeContents () {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel (Parcel out, int flags) {
+		out.writeInt (id);
+		out.writeString (body);
+		out.writeInt (parentComment);
+		out.writeInt (childCommentCount);
+		out.writeByte ((byte) (isMaker ? 1 : 0));
+		out.writeParcelable (user, flags);
+		out.writeInt (level);
+		out.writeList (childComments);
+	}
 
 	public int getId () {
 		return id;
@@ -102,4 +139,35 @@ public class Comment {
 	public int getChildCommentsCount () {
 		return childComments.size ();
 	}
+
+	public static Comment getParcelable (Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			return savedInstanceState.getParcelable (PARCELABLE_KEY);
+		} else {
+			throw new IllegalArgumentException (
+					TAG + ": \'getParcelable\' Method has null argument: savedInstanceState.");
+		}
+	}
+
+	public static void putParcelable (Bundle savedInstanceState, Comment comment) {
+		if (savedInstanceState != null && comment != null) {
+			savedInstanceState.putParcelable (PARCELABLE_KEY, comment);
+		}
+	}
+
+	public static Parcelable.Creator<Comment> getCREATOR () {
+		return CREATOR;
+	}
+
+	public static final Parcelable.Creator<Comment> CREATOR = new Parcelable
+			.Creator<Comment> () {
+		public Comment createFromParcel (Parcel in) {
+			return new Comment (in);
+		}
+
+		public Comment[] newArray (int size) {
+			return new Comment[size];
+		}
+	};
+
 }

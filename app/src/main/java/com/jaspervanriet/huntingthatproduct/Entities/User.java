@@ -17,9 +17,12 @@
 
 package com.jaspervanriet.huntingthatproduct.Entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class User implements Parcelable {
 
 	private int id;
 	private String name;
@@ -27,6 +30,30 @@ public class User {
 	private String username;
 	@SerializedName ("image_url")
 	private ImageUrl imageUrl;
+
+	private User (Parcel in) {
+		this.id = in.readInt ();
+		this.name = in.readString ();
+		this.headline = in.readString ();
+		this.username = in.readString ();
+		this.imageUrl = new ImageUrl (in.readString (), in.readString ());
+	}
+
+	@Override
+	public int describeContents () {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel (Parcel out, int flags) {
+		out.writeInt (id);
+		out.writeString (name);
+		out.writeString (headline);
+		out.writeString (username);
+		out.writeString (name);
+		out.writeString (imageUrl.getSmallImgUrl ());
+		out.writeString (imageUrl.getLargeImgUrl ());
+	}
 
 	public class ImageUrl {
 		@SerializedName ("48px")
@@ -95,4 +122,15 @@ public class User {
 	public void setImageUrl (ImageUrl imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+
+	public static final Creator<User> CREATOR = new Parcelable.Creator<User> () {
+		public User createFromParcel (Parcel in) {
+			return new User (in);
+		}
+
+		public User[] newArray (int size) {
+			return new User[size];
+		}
+	};
+
 }
