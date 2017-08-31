@@ -51,6 +51,7 @@
 
     <string name="error_connection">Error in connecting to Product Hunt</string>
     <string name="error_ssl">SSL error: this website is not safe</string>
+    <string name="error_play_store">Google Play Store not found on your device</string>
 
     <string name="settings_category_general">General</string>
     <string name="settings_category_misc">Other</string>

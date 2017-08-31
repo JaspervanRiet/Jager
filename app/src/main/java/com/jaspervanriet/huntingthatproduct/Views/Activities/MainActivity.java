@@ -17,6 +17,7 @@
 
 package com.jaspervanriet.huntingthatproduct.Views.Activities;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -30,6 +31,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
@@ -181,7 +183,22 @@ public class MainActivity extends DrawerActivity
 	private void goToPlayStorePage () {
 		Intent intent = new Intent (Intent.ACTION_VIEW).setData (Uri
 				.parse (URL_PLAY_STORE));
-		startActivity (intent);
+		try {
+			startActivity (intent);
+		}
+		catch (ActivityNotFoundException e) {
+			Toast.makeText (this, this.getString (R.string.error_play_store), Toast.LENGTH_LONG)
+					.show ();
+			viewInBrowser (this, "https://play.google.com/store/apps/details?id=" +
+					this.getPackageName ());
+		}
+	}
+
+	public static void viewInBrowser (Context context, String url) {
+		Intent intent = new Intent (Intent.ACTION_VIEW, Uri.parse (url));
+		if (null != intent.resolveActivity (context.getPackageManager ())) {
+			context.startActivity (intent);
+		}
 	}
 
 	@Override
