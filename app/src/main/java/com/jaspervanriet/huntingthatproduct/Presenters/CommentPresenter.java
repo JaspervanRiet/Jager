@@ -28,6 +28,8 @@ public interface CommentPresenter {
 
 	void onDestroy ();
 
+	void onRefresh ();
+
 	boolean onOptionsItemSelected (MenuItem item);
 
 	void onBackPressed ();

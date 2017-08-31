@@ -41,6 +41,8 @@ import com.jaspervanriet.huntingthatproduct.R2;
 import com.jaspervanriet.huntingthatproduct.Utils.ViewUtils;
 import com.jaspervanriet.huntingthatproduct.Views.Adapters.CommentListAdapter;
 import com.jaspervanriet.huntingthatproduct.Views.CommentsView;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import butterknife.BindView;
@@ -76,6 +78,12 @@ public class CommentsActivity extends AppCompatActivity implements CommentsView 
 		mPresenter = new CommentPresenterImpl (this, product);
 		mPresenter.onActivityCreated (savedInstanceState);
 
+	}
+
+	@Override
+	public void onSaveInstanceState (Bundle outState) {
+		super.onSaveInstanceState (outState);
+		mPresenter.onSaveInstanceState (outState);
 	}
 
 	@Override
@@ -188,6 +196,17 @@ public class CommentsActivity extends AppCompatActivity implements CommentsView 
 	@Override
 	public void hideEmptyView () {
 		mEmptyView.setVisibility (View.GONE);
+	}
+
+	@Override
+	public void showError () {
+		SnackbarManager.show (
+				Snackbar.with (getApplicationContext ())
+						.text (getString (R.string.error_connection))
+						.actionLabel (getString (R.string.retry))
+						.actionColor (getResources ().getColor (R.color.primary_color))
+						.duration (Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+						.actionListener (snackbar -> mPresenter.onRefresh ()), this);
 	}
 
 	@Override

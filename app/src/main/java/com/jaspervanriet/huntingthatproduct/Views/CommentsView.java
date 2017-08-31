@@ -41,6 +41,8 @@ public interface CommentsView {
 
 	void hideEmptyView ();
 
+	void showError ();
+
 	Context getContext ();
 
 }
