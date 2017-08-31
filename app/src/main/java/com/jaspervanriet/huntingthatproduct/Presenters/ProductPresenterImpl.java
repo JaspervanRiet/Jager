@@ -241,8 +241,10 @@ public class ProductPresenterImpl implements ProductPresenter {
 
 	private void restoreInstanceState (Bundle savedInstanceState) {
 		mPosts = Posts.getParcelable (savedInstanceState);
-		mCategories = Categories.getParcelable (savedInstanceState);
-		setCategoriesToTabs (mCategories);
+		if (mProductView.getActivity () == ACTIVITY_MAIN) {
+			mCategories = Categories.getParcelable (savedInstanceState);
+			setCategoriesToTabs (mCategories);
+		}
 		mAdapter = new ProductListAdapter (mProductView.getContext (),
 				mPosts.getPosts ());
 		mAdapter.setOnProductClickListener (mProductView.getProductClickListener ());
