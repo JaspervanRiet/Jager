@@ -29,10 +29,10 @@ import android.view.View;
 import com.crashlytics.android.Crashlytics;
 import com.jaspervanriet.huntingthatproduct.Data.Http.PHService;
 import com.jaspervanriet.huntingthatproduct.Data.Settings.AppSettings;
-import com.jaspervanriet.huntingthatproduct.Entities.Categories;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.Entities.Posts;
 import com.jaspervanriet.huntingthatproduct.Entities.Product;
+import com.jaspervanriet.huntingthatproduct.Entities.Topics;
 import com.jaspervanriet.huntingthatproduct.R;
 import com.jaspervanriet.huntingthatproduct.Utils.DateUtils;
 import com.jaspervanriet.huntingthatproduct.Utils.NetworkUtils;
@@ -62,13 +62,13 @@ public class ProductPresenterImpl implements ProductPresenter {
 	private ProductListAdapter mAdapter;
 	private String mDate;
 	private Posts mPosts;
-	private String mCategory = "Tech";
-	private Categories mCategories;
+	private String mTopic = null;
+	private Topics mTopics;
 	private int mCollectionId;
-	private Observable<Categories> mCategoriesObservable;
+	private Observable<Topics> mCategoriesObservable;
 	private Observable<Posts> mPostsObservable;
 	private Observable<Collection> mCollectionObservable;
-	private Observer<Categories> mCategoriesObserver = new Observer<Categories> () {
+	private Observer<Topics> mCategoriesObserver = new Observer<Topics> () {
 		@Override
 		public void onCompleted () {
 		}
@@ -80,9 +80,9 @@ public class ProductPresenterImpl implements ProductPresenter {
 		}
 
 		@Override
-		public void onNext (Categories categories) {
-			mCategories = categories;
-			setCategoriesToTabs (categories);
+		public void onNext (Topics topics) {
+			mTopics = topics;
+			setCategoriesToTabs (topics);
 			getPosts ();
 		}
 	};
@@ -173,17 +173,22 @@ public class ProductPresenterImpl implements ProductPresenter {
 		mProductView.setAdapterForRecyclerView (mAdapter);
 	}
 
-	private void setCategoriesToTabs (Categories categories) {
-		String[] names = new String[categories.size ()];
-		for (int i = 0; i < categories.size (); ++i) {
-			names[i] = categories.getCategories ().get (i).getName ();
+	/*
+		The results returned by the API for topics don't actually seem to match simply a simple
+		request to /posts. No idea why.
+	 */
+	private void setCategoriesToTabs (Topics topics) {
+		String[] names = new String[topics.size ()];
+		names[0] = "Home";
+		for (int i = 1; i < topics.size (); ++i) {
+			names[i] = topics.getTopics ().get (i).getName ();
 		}
 		mProductTabsView.initializeTabLayout (names);
 	}
 
 	private void getCategories () {
 		mPHService = new PHService ();
-		mCategoriesObservable = mPHService.getCategories ()
+		mCategoriesObservable = mPHService.getTopics ()
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn (AndroidSchedulers.mainThread ());
 		mSubscription = mCategoriesObservable.subscribe (mCategoriesObserver);
@@ -193,7 +198,7 @@ public class ProductPresenterImpl implements ProductPresenter {
 		if (mPHService == null) {
 			mPHService = new PHService ();
 		}
-		mPostsObservable = mPHService.getPosts (mCategory, mDate)
+		mPostsObservable = mPHService.getPosts (mTopic, mDate)
 				.subscribeOn (Schedulers.from (AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn (AndroidSchedulers.mainThread ());
 		mSubscription = mPostsObservable.subscribe (mPostsObserver);
@@ -242,8 +247,8 @@ public class ProductPresenterImpl implements ProductPresenter {
 	private void restoreInstanceState (Bundle savedInstanceState) {
 		mPosts = Posts.getParcelable (savedInstanceState);
 		if (mProductView.getActivity () == ACTIVITY_MAIN) {
-			mCategories = Categories.getParcelable (savedInstanceState);
-			setCategoriesToTabs (mCategories);
+			mTopics = Topics.getParcelable (savedInstanceState);
+			setCategoriesToTabs (mTopics);
 		}
 		mAdapter = new ProductListAdapter (mProductView.getContext (),
 				mPosts.getPosts ());
@@ -254,7 +259,7 @@ public class ProductPresenterImpl implements ProductPresenter {
 	@Override
 	public void onSaveInstanceState (Bundle outState) {
 		Posts.putParcelable (outState, mPosts);
-		Categories.putParcelable (outState, mCategories);
+		Topics.putParcelable (outState, mTopics);
 	}
 
 	@Override
@@ -331,7 +336,10 @@ public class ProductPresenterImpl implements ProductPresenter {
 
 	@Override
 	public void onTabClick (String tabName) {
-		mCategory = tabName;
+		if (tabName.contains (" ")) {
+			tabName = tabName.replaceAll (" ", "-");
+		}
+		mTopic = tabName;
 		onRefresh ();
 	}
 

@@ -20,11 +20,11 @@ package com.jaspervanriet.huntingthatproduct.Data.Http;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jaspervanriet.huntingthatproduct.Entities.Categories;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.Entities.Collections;
 import com.jaspervanriet.huntingthatproduct.Entities.Comments;
 import com.jaspervanriet.huntingthatproduct.Entities.Posts;
+import com.jaspervanriet.huntingthatproduct.Entities.Topics;
 import com.jaspervanriet.huntingthatproduct.Utils.CollectionDeserializer;
 import com.jaspervanriet.huntingthatproduct.Utils.Constants;
 
@@ -38,21 +38,30 @@ public class PHService {
 	public PHService () {
 	}
 
-	public Observable<Posts> getPosts (String category, String date) {
+	public Observable<Posts> getPosts (String topic, String date) {
 		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL);
 		if (date == null) {
-			return api.getPosts (category.toLowerCase ()).retryWhen (new RetryWithSessionRefresh
-					(sessionService, accessTokenProvider)).doOnError (Crashlytics::logException);
+			if (topic == null) {
+
+				return api.getPosts ().retryWhen (new RetryWithSessionRefresh
+						(sessionService, accessTokenProvider)).doOnError
+						(Crashlytics::logException);
+			} else {
+				return api.getPostsByTopic (topic.toLowerCase ()).retryWhen (new
+						RetryWithSessionRefresh
+						(sessionService, accessTokenProvider)).doOnError
+						(Crashlytics::logException);
+			}
 		} else {
-			return api.getPostsByDate (category.toLowerCase (), date).retryWhen (new
+			return api.getPostsByDate (topic.toLowerCase (), date).retryWhen (new
 					RetryWithSessionRefresh
 					(sessionService, accessTokenProvider)).doOnError (Crashlytics::logException);
 		}
 	}
 
-	public Observable<Categories> getCategories () {
+	public Observable<Topics> getTopics () {
 		PHApi api = ServiceGenerator.createService (PHApi.class, Constants.API_URL);
-		return api.getCategories ().retryWhen (new RetryWithSessionRefresh (sessionService,
+		return api.getTopics ().retryWhen (new RetryWithSessionRefresh (sessionService,
 				accessTokenProvider)).doOnError (Crashlytics::logException);
 	}
 

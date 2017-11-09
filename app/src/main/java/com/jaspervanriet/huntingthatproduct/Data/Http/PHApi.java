@@ -19,11 +19,11 @@ package com.jaspervanriet.huntingthatproduct.Data.Http;
 
 import com.jaspervanriet.huntingthatproduct.Entities.AccessToken;
 import com.jaspervanriet.huntingthatproduct.Entities.Authentication;
-import com.jaspervanriet.huntingthatproduct.Entities.Categories;
 import com.jaspervanriet.huntingthatproduct.Entities.Collection;
 import com.jaspervanriet.huntingthatproduct.Entities.Collections;
 import com.jaspervanriet.huntingthatproduct.Entities.Comments;
 import com.jaspervanriet.huntingthatproduct.Entities.Posts;
+import com.jaspervanriet.huntingthatproduct.Entities.Topics;
 
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -37,14 +37,17 @@ public interface PHApi {
 	@POST ("/oauth/token")
 	Observable<AccessToken> getAccessToken (@Body Authentication auth);
 
-	@GET ("/categories")
-	Observable<Categories> getCategories ();
+	@GET ("/topics?search[trending]=true")
+	Observable<Topics> getTopics ();
 
-	@GET ("/categories/{category}/posts")
-	Observable<Posts> getPosts (@Path ("category") String category);
+	@GET ("/posts")
+	Observable<Posts> getPosts ();
 
-	@GET ("/categories/{category}/posts")
-	Observable<Posts> getPostsByDate (@Path ("category") String category,
+	@GET ("/categories/{topic}/posts")
+	Observable<Posts> getPostsByTopic (@Path ("topic") String topic);
+
+	@GET ("/categories/{topic}/posts")
+	Observable<Posts> getPostsByDate (@Path ("topic") String topic,
 									  @Query ("day") String date);
 
 	@GET ("/posts/{product-id}/comments")
