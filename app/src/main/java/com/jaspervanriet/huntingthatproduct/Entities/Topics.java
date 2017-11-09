@@ -36,12 +36,12 @@ public class Topics implements Parcelable {
 		topics = new ArrayList<> ();
 	}
 
-	public Topics (Parcel in) {
+	private Topics (Parcel in) {
 		topics = new ArrayList<> ();
 		in.readList (topics, getClass ().getClassLoader ());
 	}
 
-	public List<Topic> gettopics () {
+	public List<Topic> getTopics () {
 		return topics;
 	}
 
