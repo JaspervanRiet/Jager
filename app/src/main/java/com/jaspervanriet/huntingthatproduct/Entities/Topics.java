@@ -24,41 +24,41 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Categories implements Parcelable {
+public class Topics implements Parcelable {
 
-	public static final String TAG = Categories.class.getSimpleName ();
+	public static final String TAG = Topics.class.getSimpleName ();
 
 	public static final String PARCELABLE_KEY = TAG + ":" + "ParcelableKey";
 
-	private List<Category> categories;
+	private List<Topic> topics;
 
-	public Categories () {
-		categories = new ArrayList<> ();
+	public Topics () {
+		topics = new ArrayList<> ();
 	}
 
-	public Categories (Parcel in) {
-		categories = new ArrayList<> ();
-		in.readList (categories, getClass ().getClassLoader ());
+	public Topics (Parcel in) {
+		topics = new ArrayList<> ();
+		in.readList (topics, getClass ().getClassLoader ());
 	}
 
-	public List<Category> getCategories () {
-		return categories;
+	public List<Topic> gettopics () {
+		return topics;
 	}
 
-	public void setCategories (List<Category> categories) {
-		this.categories = categories;
+	public void setTopics (List<Topic> topics) {
+		this.topics = topics;
 	}
 
 	public boolean isEmpty () {
-		return categories.isEmpty ();
+		return topics.isEmpty ();
 	}
 
 	public int size () {
-		return categories.size ();
+		return topics.size ();
 	}
 
 	public void clear () {
-		categories.clear ();
+		topics.clear ();
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class Categories implements Parcelable {
 		return 0;
 	}
 
-	public static Categories getParcelable (Bundle savedInstanceState) {
+	public static Topics getParcelable (Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			return savedInstanceState.getParcelable (PARCELABLE_KEY);
 		} else {
@@ -75,29 +75,29 @@ public class Categories implements Parcelable {
 		}
 	}
 
-	public static void putParcelable (Bundle savedInstanceState, Categories categories) {
-		if (savedInstanceState != null && categories != null) {
-			savedInstanceState.putParcelable (PARCELABLE_KEY, categories);
+	public static void putParcelable (Bundle savedInstanceState, Topics topics) {
+		if (savedInstanceState != null && topics != null) {
+			savedInstanceState.putParcelable (PARCELABLE_KEY, topics);
 		}
 	}
 
 	@Override
 	public void writeToParcel (Parcel parcel, int i) {
-		parcel.writeList (categories);
+		parcel.writeList (topics);
 	}
 
-	public static Parcelable.Creator<Categories> getCREATOR () {
+	public static Parcelable.Creator<Topics> getCREATOR () {
 		return CREATOR;
 	}
 
-	public static final Parcelable.Creator<Categories> CREATOR = new Parcelable
-			.Creator<Categories> () {
-		public Categories createFromParcel (Parcel in) {
-			return new Categories (in);
+	public static final Parcelable.Creator<Topics> CREATOR = new Parcelable
+			.Creator<Topics> () {
+		public Topics createFromParcel (Parcel in) {
+			return new Topics (in);
 		}
 
-		public Categories[] newArray (int size) {
-			return new Categories[size];
+		public Topics[] newArray (int size) {
+			return new Topics[size];
 		}
 	};
 }
